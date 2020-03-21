@@ -2,6 +2,7 @@ package com.e.jatekter
 
 import java.util.*
 
+// konstruktorban a val jelenti a property-t
 class JatekTer(val meretX: Int, val meretY: Int) {
     val MAX_ELEMSZAM = 1000
     private var elemN = 0
@@ -18,17 +19,15 @@ class JatekTer(val meretX: Int, val meretY: Int) {
         elemN--
     }
 
-    @JvmOverloads
     fun MegadottHelyenLevok(x: Int, y: Int, tavolsag: Int = 0): ArrayList<JatekElem> {
         val JatekElemek = ArrayList<JatekElem>()
         for (jatekElem in elemek) {
-            val mertTavolsag =
+            var mertTavolsag =
                 Math.sqrt((jatekElem.x - x) * (jatekElem.x - x) + (jatekElem.y - y) * (jatekElem.y - y).toDouble())
-            if (tavolsag <= mertTavolsag) {
+            if (tavolsag >= mertTavolsag) {
                 JatekElemek.add(jatekElem)
             }
         }
         return JatekElemek
     }
-
 }

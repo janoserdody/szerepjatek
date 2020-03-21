@@ -15,43 +15,14 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TableLayout
+        android:id="@+id/tableLayout1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:stretchColumns="*"
+        android:shrinkColumns="*"
         tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp"
-        android:stretchColumns="*">
+        tools:layout_editor_absoluteY="0dp">
 
-
-        <TableRow>
-
-            <ImageView
-                android:id="@+id/imageView1"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:src="@drawable/monster" />
-            <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:src="@drawable/monster2" />
-        </TableRow>
-
-        <TableRow>
-            <ImageView
-                android:id="@+id/imageView3"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:src="@drawable/monster2" />
-            <ImageView
-                android:id="@+id/imageView4"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:src="@drawable/monster" />
-        </TableRow>
-
-        <TableRow></TableRow>
-
-        <TableRow></TableRow>
     </TableLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

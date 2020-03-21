@@ -1,6 +1,7 @@
 package com.e.jatekter
 
 import java.util.*
+import kotlin.math.sqrt
 
 class JatekTer(val meretX: Int, val meretY: Int) {
     val MAX_ELEMSZAM = 1000
@@ -20,15 +21,15 @@ class JatekTer(val meretX: Int, val meretY: Int) {
 
     @JvmOverloads
     fun MegadottHelyenLevok(x: Int, y: Int, tavolsag: Int = 0): ArrayList<JatekElem> {
-        val JatekElemek = ArrayList<JatekElem>()
+        val jatekElemek = ArrayList<JatekElem>()
         for (jatekElem in elemek) {
             val mertTavolsag =
-                Math.sqrt((jatekElem.x - x) * (jatekElem.x - x) + (jatekElem.y - y) * (jatekElem.y - y).toDouble())
+                sqrt((jatekElem.x - x) * (jatekElem.x - x) + (jatekElem.y - y) * (jatekElem.y - y).toDouble())
             if (tavolsag <= mertTavolsag) {
-                JatekElemek.add(jatekElem)
+                jatekElemek.add(jatekElem)
             }
         }
-        return JatekElemek
+        return jatekElemek
     }
 
 }

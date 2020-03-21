@@ -1,6 +1,6 @@
 package com.e.jatekter
 
-abstract class JatekElem(var x: Int, var y: Int, ter: JatekTer) {
+abstract class JatekElem(var x: Int, var y: Int, ter: JatekTer?) {
     protected var ter: JatekTer
 
     abstract val meret: Double

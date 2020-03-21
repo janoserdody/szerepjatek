@@ -1,4 +1,4 @@
-package com.e.szerepjatek.jatekter
+package com.e.jatekter
 
 import java.util.*
 

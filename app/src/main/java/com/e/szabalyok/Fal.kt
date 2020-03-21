@@ -1,7 +1,7 @@
-package com.e.szerepjatek.szabalyok
+package com.e.szabalyok
 
-import com.e.szerepjatek.jatekter.JatekElem
-import com.e.szerepjatek.jatekter.RogzitettJatekElem
+import com.e.jatekter.JatekElem
+import com.e.jatekter.RogzitettJatekElem
 
 class Fal(x: Int, y: Int) : RogzitettJatekElem(x, y, null) {
     override val meret: Double

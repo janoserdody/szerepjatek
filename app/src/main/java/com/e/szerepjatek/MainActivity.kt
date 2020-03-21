@@ -1,13 +1,10 @@
-package com.e.szerepjatek.UI
+package com.e.szerepjatek
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageView
 import com.e.szerepjatek.R
-import java.io.IOException
 
 class MainActivity : AppCompatActivity() {
 

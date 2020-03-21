@@ -1,4 +1,4 @@
-package com.e.szerepjatek.jatekter
+package com.e.jatekter
 
 abstract class JatekElem(var x: Int, var y: Int, ter: JatekTer) {
     protected var ter: JatekTer

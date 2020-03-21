@@ -2,7 +2,7 @@ package com.e.jatekter
 
 import java.util.*
 
-// konstruktorban a val jelenti a property-t
+// konstruktorban a val jelenti a publikus property-t
 class JatekTer(val meretX: Int, val meretY: Int) {
     val MAX_ELEMSZAM = 1000
     private var elemN = 0

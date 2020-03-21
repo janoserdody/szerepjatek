@@ -1,10 +1,11 @@
 package com.e.jatekter
 
-abstract class JatekElem(var x: Int, var y: Int, ter: JatekTer?) {
+// konstruktorban a val = publikus property
+abstract class JatekElem(val x: Int, val y: Int, ter: JatekTer) {
     protected var ter: JatekTer
 
     abstract val meret: Double
-    abstract fun utkozes(jatekElem: JatekElem?)
+    abstract fun utkozes(jatekElem: JatekElem)
 
     init {
         this.ter = ter

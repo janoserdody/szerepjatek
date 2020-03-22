@@ -11,9 +11,9 @@ class Kincs(x: Int, y: Int, jatekTer: JatekTer) :
         get() = 1.0
 
    override fun utkozes(jatekElem: JatekElem) {
-        //if (jatekElem is Jatekos) {
-        //    jatekElem.pontotSzerez(50)
-        //}
-       // ter.Torles(this)
+        if (jatekElem is Jatekos) {
+            jatekElem.pontotSzerez(50)
+        }
+        ter.Torles(this)
     }
 }

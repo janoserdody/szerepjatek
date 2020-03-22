@@ -4,10 +4,11 @@ import com.e.jatekter.JatekElem
 import com.e.jatekter.JatekTer
 import com.e.jatekter.MozgoJatekElem
 
-class Jatekos(val nev: String, x: Int, y: Int, jatekTer: JatekTer?) :
-    MozgoJatekElem(x, y, jatekTer!!) {
+class Jatekos(_x: Int, _y: Int, _jatekTer: JatekTer) :
+    MozgoJatekElem(_x, _y, _jatekTer) {
+    val nev: String? = null
     private var eletero = 100
-    private val pontszam = 0
+    private var pontszam = 0
 
     override val meret: Double
         get() = 0.2
@@ -21,10 +22,13 @@ class Jatekos(val nev: String, x: Int, y: Int, jatekTer: JatekTer?) :
         } else eletero -= sebzes
     }
 
-    fun Megy(rx: Int, ry: Int) {
+    fun megy(rx: Int, ry: Int) {
         val ujX = x + rx
         val ujY = y + ry
         AtHelyez(ujX, ujY)
     }
 
+    fun pontotSzerez(pont: Int) {
+        pontszam += pont
+    }
 }

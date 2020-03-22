@@ -97,45 +97,25 @@ class ViewModelMain (var mezokX: Int, var mezokY: Int, var context: Context, var
     }
 
     private fun GetMezo(mezoMaxX: Int, mezoMaxY: Int): ImageView {
-        val view = ImageView(context)
-        view.scaleType = ImageView.ScaleType.CENTER_INSIDE
-        view.setImageResource(R.drawable.monster)
-        view.maxWidth = mezoMaxX
-        view.setPadding(0, 0, 0, 0)
-        view.maxHeight = mezoMaxY
-        view.bottom = 0;
-        view.top = 0;
-        return view
+        return GetMezoAltalanos(R.drawable.monster, mezoMaxX, mezoMaxY)
     }
 
     private fun GetFalVertikalis(mezoMaxX: Int, mezoMaxY: Int): ImageView {
-        val view = ImageView(context)
-        view.scaleType = ImageView.ScaleType.CENTER_INSIDE
-        view.setImageResource(R.drawable.wall_v)
-        view.maxWidth = mezoMaxX
-        view.setPadding(0, 0, 0, 0)
-        view.maxHeight = mezoMaxY
-        view.bottom = 0;
-        view.top = 0;
-        return view
+        return GetMezoAltalanos(R.drawable.wall_v, mezoMaxX, mezoMaxY)
     }
 
     private fun GetFalHorizontalis(mezoMaxX: Int, mezoMaxY: Int): ImageView {
-        val view = ImageView(context)
-        view.scaleType = ImageView.ScaleType.CENTER_INSIDE
-        view.setImageResource(R.drawable.wall_h)
-        view.maxWidth = mezoMaxX
-        view.setPadding(0, 0, 0, 0)
-        view.maxHeight = mezoMaxY
-        view.bottom = 0;
-        view.top = 0;
-        return view
+        return GetMezoAltalanos(R.drawable.wall_h, mezoMaxX, mezoMaxY)
     }
 
     private fun GetFalNegyzet(mezoMaxX: Int, mezoMaxY: Int): ImageView {
+        return GetMezoAltalanos(R.drawable.wall_negyzet, mezoMaxX, mezoMaxY)
+    }
+
+    private fun GetMezoAltalanos(kepId: Int, mezoMaxX: Int, mezoMaxY: Int): ImageView {
         val view = ImageView(context)
         view.scaleType = ImageView.ScaleType.CENTER_INSIDE
-        view.setImageResource(R.drawable.wall_negyzet)
+        view.setImageResource(kepId)
         view.maxWidth = mezoMaxX
         view.setPadding(0, 0, 0, 0)
         view.maxHeight = mezoMaxY
@@ -143,9 +123,6 @@ class ViewModelMain (var mezokX: Int, var mezokY: Int, var context: Context, var
         view.top = 0;
         return view
     }
-
-
-
 
     fun SetFal(x: Int, y: Int){
         if(x >= maxFalX || y >= maxFalY){

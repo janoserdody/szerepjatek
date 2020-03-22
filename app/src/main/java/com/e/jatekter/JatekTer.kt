@@ -2,7 +2,7 @@ package com.e.jatekter
 
 import java.util.*
 
-// konstruktorban a val jelenti a publikus property-t
+// konstruktorban a var jelenti a publikus property-t
 // típust a kettőspont után adjuk meg
 class JatekTer(val meretX: Int, val meretY: Int) {
     val MAX_ELEMSZAM = 1000

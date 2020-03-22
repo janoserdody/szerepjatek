@@ -26,7 +26,8 @@ class MainActivity : AppCompatActivity() {
 
         var table = findViewById<TableLayout>(R.id.tableLayout1)
 
-        viewModelMain = ViewModelMain(6, 12, this, table)
+        //  6, 9 paraméterrel jól működik
+        viewModelMain = ViewModelMain(6, 9, this, table)
 
     }
 }

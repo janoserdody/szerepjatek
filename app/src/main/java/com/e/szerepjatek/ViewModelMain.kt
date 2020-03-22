@@ -14,7 +14,7 @@ class ViewModelMain (var mezokX: Int, var mezokY: Int, var context: Context, var
     private val maxX = mezoFalArany * (maxFalX) + 1
     private val maxY = mezoFalArany * (maxFalY + 1) + 1
     private val mezoPixelX = 1080 / maxX
-    private val mezoPixelY = 1920 / maxY
+    private val mezoPixelY = 1800 / (mezoFalArany * (mezokY + 2 + 1 + 1) + 1)
 
     private var mezokReszecske = arrayOf<Array<Mezo>>()
     private var mezokKarakter = arrayOf<Array<Mezo>>()
@@ -51,15 +51,15 @@ class ViewModelMain (var mezokX: Int, var mezokY: Int, var context: Context, var
     fun MakeTableLayout() {
         var mezoMaxX = mezoPixelX * mezoFalArany
         var mezoMaxY = mezoPixelY * mezoFalArany
-        for (i in 0 until mezokY) {
-            val tr = TableRow(context)
-            tr.setLayoutParams(TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT))
-            tr.setPadding(0,0,0,0)
-            tr.top = 0
-            tr.bottom = 0
 
-            var fal = GetFalVertikalis(mezoPixelX, mezoMaxY)
-            tr.addView(fal, TableRow.LayoutParams(mezoPixelX, mezoMaxY))
+        AddFalRow(mezoMaxX, mezoMaxY)
+
+        for (i in 0 until mezokY) {
+            val tr = GetTableRow()
+
+            var fal2 = GetFalVertikalis(mezoPixelX, mezoMaxY)
+            tr.addView(fal2, TableRow.LayoutParams(mezoPixelX, mezoMaxY))
+
             for (j in 0 until mezokX) {
                 var mezo = GetMezo(mezoMaxX, mezoMaxY)
                 tr.addView(mezo, TableRow.LayoutParams(mezoMaxX, mezoMaxY))
@@ -67,8 +67,33 @@ class ViewModelMain (var mezokX: Int, var mezokY: Int, var context: Context, var
                 tr.addView(fal, TableRow.LayoutParams(mezoPixelX, mezoMaxY))
             }
             table.addView(tr)
+
+            AddFalRow(mezoMaxX, mezoMaxY)
         }
         table.invalidate()
+    }
+
+    private fun AddFalRow(mezoMaxX: Int, mezoMaxY: Int) {
+        var trFal = GetTableRow()
+        var falHorizontalisRovid2 = GetFalNegyzet(mezoPixelX , mezoPixelY)
+        trFal.addView(falHorizontalisRovid2, TableRow.LayoutParams(mezoPixelX , mezoPixelY))
+
+        for (j in 0 until mezokX) {
+            var falHorizontalis = GetFalHorizontalis(mezoMaxX , mezoPixelY)
+            trFal.addView(falHorizontalis, TableRow.LayoutParams(mezoMaxX , mezoPixelY))
+            var falHorizontalisRovid = GetFalNegyzet(mezoPixelX , mezoPixelY)
+            trFal.addView(falHorizontalisRovid, TableRow.LayoutParams(mezoPixelX , mezoPixelY))
+        }
+        table.addView(trFal)
+    }
+
+    private fun GetTableRow(): TableRow {
+        var tr = TableRow(context)
+        tr.setLayoutParams(TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT))
+        tr.setPadding(0,0,0,0)
+        tr.top = 0
+        tr.bottom = 0
+        return tr
     }
 
     private fun GetMezo(mezoMaxX: Int, mezoMaxY: Int): ImageView {
@@ -87,6 +112,30 @@ class ViewModelMain (var mezokX: Int, var mezokY: Int, var context: Context, var
         val view = ImageView(context)
         view.scaleType = ImageView.ScaleType.CENTER_INSIDE
         view.setImageResource(R.drawable.wall_v)
+        view.maxWidth = mezoMaxX
+        view.setPadding(0, 0, 0, 0)
+        view.maxHeight = mezoMaxY
+        view.bottom = 0;
+        view.top = 0;
+        return view
+    }
+
+    private fun GetFalHorizontalis(mezoMaxX: Int, mezoMaxY: Int): ImageView {
+        val view = ImageView(context)
+        view.scaleType = ImageView.ScaleType.CENTER_INSIDE
+        view.setImageResource(R.drawable.wall_h)
+        view.maxWidth = mezoMaxX
+        view.setPadding(0, 0, 0, 0)
+        view.maxHeight = mezoMaxY
+        view.bottom = 0;
+        view.top = 0;
+        return view
+    }
+
+    private fun GetFalNegyzet(mezoMaxX: Int, mezoMaxY: Int): ImageView {
+        val view = ImageView(context)
+        view.scaleType = ImageView.ScaleType.CENTER_INSIDE
+        view.setImageResource(R.drawable.wall_negyzet)
         view.maxWidth = mezoMaxX
         view.setPadding(0, 0, 0, 0)
         view.maxHeight = mezoMaxY

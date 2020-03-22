@@ -5,17 +5,16 @@ import android.widget.TableLayout
 import android.widget.TableRow
 import com.e.datalayer.Mezo
 import android.widget.ImageView
-import androidx.core.view.marginTop
 
 class ViewModelMain (var mezokX: Int, var mezokY: Int, var context: Context, var table: TableLayout){
     private val mezoFalArany = 4
     private val mezoFalAranySzorzo = 4 + 1
-    private val mezoPixelX = 1080 / mezokX
-    private val mezoPixelY = 1920 / mezokY
     private val maxFalX = mezokX + 1;
     private val maxFalY = mezokY + 1;
     private val maxX = mezoFalArany * (maxFalX) + 1
     private val maxY = mezoFalArany * (maxFalY + 1) + 1
+    private val mezoPixelX = 1080 / maxX
+    private val mezoPixelY = 1920 / maxY
 
     private var mezokReszecske = arrayOf<Array<Mezo>>()
     private var mezokKarakter = arrayOf<Array<Mezo>>()
@@ -50,32 +49,52 @@ class ViewModelMain (var mezokX: Int, var mezokY: Int, var context: Context, var
     }
 
     fun MakeTableLayout() {
-        var width = 1080 / mezokX
-        var heigth = 1800 / mezokY
-
+        var mezoMaxX = mezoPixelX * mezoFalArany
+        var mezoMaxY = mezoPixelY * mezoFalArany
         for (i in 0 until mezokY) {
             val tr = TableRow(context)
             tr.setLayoutParams(TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT))
-
-            //tr.setLayoutParams(TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT))
             tr.setPadding(0,0,0,0)
-            // padding példa
-            //tr.setPadding(5, 5, 5, 5)
+            tr.top = 0
+            tr.bottom = 0
+
+            var fal = GetFalVertikalis(mezoPixelX, mezoMaxY)
+            tr.addView(fal, TableRow.LayoutParams(mezoPixelX, mezoMaxY))
             for (j in 0 until mezokX) {
-                val view = ImageView(context)
-                view.scaleType = ImageView.ScaleType.CENTER_INSIDE
-                view.setImageResource(R.drawable.monster)
-                view.maxWidth = width
-                view.setPadding(0,0,0,0)
-                // view.minimumWidth = 15
-                view.maxHeight = heigth
-                // view.minimumHeight = 45
-                tr.addView(view, TableRow.LayoutParams(width, heigth))
+                var mezo = GetMezo(mezoMaxX, mezoMaxY)
+                tr.addView(mezo, TableRow.LayoutParams(mezoMaxX, mezoMaxY))
+                var fal = GetFalVertikalis(mezoPixelX, mezoMaxY)
+                tr.addView(fal, TableRow.LayoutParams(mezoPixelX, mezoMaxY))
             }
             table.addView(tr)
-            table.invalidate()
         }
+        table.invalidate()
     }
+
+    private fun GetMezo(mezoMaxX: Int, mezoMaxY: Int): ImageView {
+        val view = ImageView(context)
+        view.scaleType = ImageView.ScaleType.CENTER_INSIDE
+        view.setImageResource(R.drawable.monster)
+        view.maxWidth = mezoMaxX
+        view.setPadding(0, 0, 0, 0)
+        view.maxHeight = mezoMaxY
+        view.bottom = 0;
+        view.top = 0;
+        return view
+    }
+
+    private fun GetFalVertikalis(mezoMaxX: Int, mezoMaxY: Int): ImageView {
+        val view = ImageView(context)
+        view.scaleType = ImageView.ScaleType.CENTER_INSIDE
+        view.setImageResource(R.drawable.wall_v)
+        view.maxWidth = mezoMaxX
+        view.setPadding(0, 0, 0, 0)
+        view.maxHeight = mezoMaxY
+        view.bottom = 0;
+        view.top = 0;
+        return view
+    }
+
 
 
 

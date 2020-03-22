@@ -25,6 +25,7 @@ abstract class MozgoJatekElem(var _x: Int, var _y: Int, _jatekTer: JatekTer)
             }
             osszesMeret += this.meret
 
+            // átmozgatja az új koordináta alapján az új mezőre
             if (osszesMeret <= 1){
                 x = ujX
                 y = ujY

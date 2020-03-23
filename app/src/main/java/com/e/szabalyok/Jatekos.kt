@@ -7,7 +7,7 @@ import com.e.megjelenites.IKirajzolhato
 import com.e.megjelenites.IMegjelenitheto
 
 class Jatekos(_x: Int, _y: Int, _jatekTer: JatekTer) :
-    MozgoJatekElem(_x, _y, _jatekTer), IMegjelenitheto {
+    MozgoJatekElem(_x, _y, _jatekTer), IMegjelenitheto, IKirajzolhato {
     val nev: String? = null
     private var eletero = 100
     private var pontszam = 0
@@ -52,4 +52,12 @@ class Jatekos(_x: Int, _y: Int, _jatekTer: JatekTer) :
         }
         return vissza
     }
+
+    override val alak: Char
+        get() {
+            if (aktiv){
+                return '\u263A'
+            }
+            return '\u263B'
+        }
 }

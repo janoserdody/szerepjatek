@@ -6,7 +6,7 @@ import com.e.jatekter.MozgoJatekElem
 import com.e.megjelenites.IKirajzolhato
 import com.e.megjelenites.IMegjelenitheto
 
-class Jatekos(_x: Int, _y: Int, _jatekTer: JatekTer) :
+open class Jatekos(_x: Int, _y: Int, _jatekTer: JatekTer) :
     MozgoJatekElem(_x, _y, _jatekTer), IMegjelenitheto, IKirajzolhato {
     val nev: String? = null
     private var eletero = 100

@@ -4,9 +4,10 @@ import com.e.jatekter.JatekElem
 import com.e.jatekter.JatekTer
 //import com.e.jatekter.Jatekos
 import com.e.jatekter.RogzitettJatekElem
+import com.e.megjelenites.IKirajzolhato
 
 class Kincs(x: Int, y: Int, jatekTer: JatekTer) :
-    RogzitettJatekElem(x, y, jatekTer) {
+    RogzitettJatekElem(x, y, jatekTer), IKirajzolhato {
     override val meret: Double
         get() = 1.0
 
@@ -16,4 +17,7 @@ class Kincs(x: Int, y: Int, jatekTer: JatekTer) :
         }
         ter.Torles(this)
     }
+
+    override val alak: Char
+        get() = '\u2666'
 }

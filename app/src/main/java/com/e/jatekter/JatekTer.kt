@@ -2,6 +2,7 @@ package com.e.jatekter
 
 import com.e.megjelenites.IKirajzolhato
 import com.e.megjelenites.IMegjelenitheto
+import com.e.datalayer.Mezo
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.math.sqrt
@@ -14,10 +15,25 @@ class JatekTer(val meretX: Int, val meretY: Int): IMegjelenitheto {
     private var elemN = 0
     private val elemek =
         ArrayList<JatekElem>(MAX_ELEMSZAM) //JatekElem[MAX_ELEMSZAM];
+    private var terkep = arrayOf<Array<ArrayList<JatekElem>>>()
+
+    init{
+        for (x in 0 until meretX) {
+            var array = arrayOf<ArrayList<JatekElem>>()
+            for (y in 0 until meretY) {
+                array += ArrayList<JatekElem>()
+            }
+            terkep += array
+        }
+    }
+
 
     fun Felvetel(jatekElem: JatekElem) {
         elemek.add(jatekElem)
+
         elemN++
+
+        terkep[jatekElem.x][jatekElem.y].add(jatekElem)
     }
 
     fun Torles(jatekElem: JatekElem?) {

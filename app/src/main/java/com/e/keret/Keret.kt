@@ -2,18 +2,21 @@ package com.e.keret
 
 import com.e.jatekter.JatekTer
 import com.e.szabalyok.Fal
+import com.e.szabalyok.Jatekos
 import com.e.szabalyok.Kincs
 import kotlin.random.Random
 
-class Keret {
-    constructor(){
-        ter = JatekTer(PALYA_MERET_X, PALYA_MERET_Y)
-        PalyaGeneralas()
-    }
+class Keret() {
     private val PALYA_MERET_X: Int = 21
     private val PALYA_MERET_Y: Int = 11
     private val KINCSEK_SZAMA: Int = 10
-    lateinit private var ter: JatekTer
+    private var ter: JatekTer
+    private var jatekVege: Boolean = false
+
+    init {
+        ter = JatekTer(PALYA_MERET_X, PALYA_MERET_Y)
+        PalyaGeneralas()
+    }
 
     fun PalyaGeneralas(){
         for (x in 0 until PALYA_MERET_X){
@@ -41,5 +44,16 @@ class Keret {
             }
         }
     }
+
+    fun Futtatas(){
+        var jatekos = Jatekos(1, 1, ter)
+
+        do {
+            // TODO
+
+        }while (!jatekVege)
+    }
+
+
 
 }

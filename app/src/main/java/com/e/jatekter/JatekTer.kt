@@ -18,13 +18,14 @@ class JatekTer(val meretX: Int, val meretY: Int): IMegjelenitheto {
     private var terkep = arrayOf<Array<ArrayList<JatekElem>>>()
 
     init{
-        for (x in 0 until meretX) {
-            var array = arrayOf<ArrayList<JatekElem>>()
-            for (y in 0 until meretY) {
-                array += ArrayList<JatekElem>()
-            }
-            terkep += array
-        }
+
+       // for (x in 0 until meretX) {
+      //      var array = arrayOf<ArrayList<JatekElem>>()
+       //     for (y in 0 until meretY) {
+       //         array += ArrayList<JatekElem>()
+       //     }
+       //     terkep += array
+     //   }
     }
 
 
@@ -33,7 +34,7 @@ class JatekTer(val meretX: Int, val meretY: Int): IMegjelenitheto {
 
         elemN++
 
-        terkep[jatekElem.x][jatekElem.y].add(jatekElem)
+     //   terkep[jatekElem.x][jatekElem.y].add(jatekElem)
     }
 
     fun Torles(jatekElem: JatekElem?) {
@@ -55,7 +56,10 @@ class JatekTer(val meretX: Int, val meretY: Int): IMegjelenitheto {
 
     override val megjelenitendoMeret: IntArray?
         get() {
-            return intArrayOf(meretX, meretY)
+            var array = intArrayOf(2)
+            array[0] = meretX
+            array[1] = meretY
+            return array
         }
 
     override fun MegjelenitendoElemek(): ArrayList<IKirajzolhato> {

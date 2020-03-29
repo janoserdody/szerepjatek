@@ -4,17 +4,20 @@ import com.e.jatekter.JatekTer
 import com.e.szabalyok.Fal
 import com.e.szabalyok.Jatekos
 import com.e.szabalyok.Kincs
+import java.lang.Exception
+import java.util.*
 import kotlin.random.Random
 
-class Keret() {
-    private val PALYA_MERET_X: Int = 21
-    private val PALYA_MERET_Y: Int = 11
-    private val KINCSEK_SZAMA: Int = 10
-    private var ter: JatekTer
+class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int): ObservableKotlin() {
+
     private var jatekVege: Boolean = false
+    private val PALYA_MERET_X: Int
+    private val PALYA_MERET_Y: Int
+    var eletero = 10
 
     init {
-        ter = JatekTer(PALYA_MERET_X, PALYA_MERET_Y)
+        PALYA_MERET_X = ter.meretX
+        PALYA_MERET_Y = ter.meretY
         PalyaGeneralas()
     }
 
@@ -45,6 +48,22 @@ class Keret() {
         }
     }
 
+    fun Kattint(x: Int?, y: Int?){
+        if (x == null || y == null){
+            //throw Exception("invalid type, fun Kattint in Keret class")
+            return
+        }
+
+        var args = ArrayList<Int>(2)
+
+        args.add(x)
+        args.add(y)
+
+        eletero--
+
+        notifyObservers(args)
+    }
+
     fun Futtatas(){
         var jatekos = Jatekos(1, 1, ter)
 
@@ -53,7 +72,4 @@ class Keret() {
 
         }while (!jatekVege)
     }
-
-
-
 }

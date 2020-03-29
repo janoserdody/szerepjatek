@@ -26,13 +26,13 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int): ObservableKotlin() {
             var fal = Fal(x, 0, ter)
         }
         for (x in 0 until PALYA_MERET_X) {
-            var fal = Fal(x, PALYA_MERET_Y, ter)
+            var fal = Fal(x, PALYA_MERET_Y - 1, ter)
         }
         for (y in 0 until PALYA_MERET_Y){
             var fal = Fal(0, y, ter)
         }
         for (y in 0 until PALYA_MERET_Y){
-            var fal = Fal(PALYA_MERET_X, y, ter)
+            var fal = Fal(PALYA_MERET_X - 1, y, ter)
         }
         for (i in 0 until KINCSEK_SZAMA) {
             var kincsX = Random.nextInt(0, PALYA_MERET_X)

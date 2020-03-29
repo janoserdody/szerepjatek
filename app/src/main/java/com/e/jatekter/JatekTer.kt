@@ -15,17 +15,17 @@ class JatekTer(val meretX: Int, val meretY: Int): IMegjelenitheto {
     private var elemN = 0
     private val elemek =
         ArrayList<JatekElem>(MAX_ELEMSZAM) //JatekElem[MAX_ELEMSZAM];
-    private var terkep = arrayOf<Array<ArrayList<JatekElem>>>()
+    private var terkep = arrayOf<Array<MutableList<JatekElem>>>()
 
     init{
 
-       // for (x in 0 until meretX) {
-      //      var array = arrayOf<ArrayList<JatekElem>>()
-       //     for (y in 0 until meretY) {
-       //         array += ArrayList<JatekElem>()
-       //     }
-       //     terkep += array
-     //   }
+        for (x in 0 until meretX + 1) {
+            var array = arrayOf<MutableList<JatekElem>>()
+            for (y in 0 until meretY + 1) {
+                array += mutableListOf<JatekElem>()
+            }
+            terkep += array
+        }
     }
 
 
@@ -34,7 +34,7 @@ class JatekTer(val meretX: Int, val meretY: Int): IMegjelenitheto {
 
         elemN++
 
-     //   terkep[jatekElem.x][jatekElem.y].add(jatekElem)
+        terkep[jatekElem.x][jatekElem.y].add(jatekElem)
     }
 
     fun Torles(jatekElem: JatekElem?) {

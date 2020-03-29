@@ -54,12 +54,9 @@ class JatekTer(val meretX: Int, val meretY: Int): IMegjelenitheto {
         return JatekElemek
     }
 
-    override val megjelenitendoMeret: IntArray?
+    override val megjelenitendoMeret: Array<Int>
         get() {
-            var array = intArrayOf(2)
-            array[0] = meretX
-            array[1] = meretY
-            return array
+            return arrayOf(meretX, meretY)
         }
 
     override fun MegjelenitendoElemek(): ArrayList<IKirajzolhato> {

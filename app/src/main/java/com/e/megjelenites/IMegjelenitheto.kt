@@ -1,6 +1,6 @@
 package com.e.megjelenites
 
 interface IMegjelenitheto {
-    val megjelenitendoMeret: IntArray?
+    val megjelenitendoMeret: Array<Int>
     fun MegjelenitendoElemek(): ArrayList<IKirajzolhato>
 }

@@ -5,6 +5,7 @@ import com.e.jatekter.JatekTer
 //import com.e.jatekter.Jatekos
 import com.e.jatekter.RogzitettJatekElem
 import com.e.megjelenites.IKirajzolhato
+import com.e.szerepjatek.R
 
 class Kincs(x: Int, y: Int, jatekTer: JatekTer) :
     RogzitettJatekElem(x, y, jatekTer), IKirajzolhato {
@@ -18,6 +19,6 @@ class Kincs(x: Int, y: Int, jatekTer: JatekTer) :
         ter.Torles(this)
     }
 
-    override val alak: Char
-        get() = '\u2666'
+    override val alak: Int
+        get() = R.drawable.treasure1
 }

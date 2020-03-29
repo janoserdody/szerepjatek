@@ -1,9 +1,9 @@
 package com.e.keret
 
 import com.e.jatekter.JatekTer
-import com.e.szabalyok.Fal
-import com.e.szabalyok.Jatekos
-import com.e.szabalyok.Kincs
+import com.e.megjelenites.GrafikusMegjelenito
+import com.e.megjelenites.IMegjelenitheto
+import com.e.szabalyok.*
 import java.lang.Exception
 import java.util.*
 import kotlin.random.Random
@@ -65,10 +65,18 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int): ObservableKotlin() {
     }
 
     fun Futtatas(){
+        var megjelenito = GrafikusMegjelenito(ter, 0, 0)
         var jatekos = Jatekos(1, 1, ter)
+        var kati = GepiJatekos(5,5, ter)
+        var laci = GonoszGepiJatekos(3,3, ter)
+
 
         do {
-            // TODO
+            laci.mozgas()
+            kati.mozgas()
+            Thread.sleep(3000)
+
+            megjelenito.Megjelenites()
 
         }while (!jatekVege)
     }

@@ -5,6 +5,7 @@ import com.e.jatekter.JatekTer
 import com.e.jatekter.MozgoJatekElem
 import com.e.megjelenites.IKirajzolhato
 import com.e.megjelenites.IMegjelenitheto
+import com.e.szerepjatek.R
 
 open class Jatekos(_x: Int, _y: Int, _jatekTer: JatekTer) :
     MozgoJatekElem(_x, _y, _jatekTer), IMegjelenitheto, IKirajzolhato {
@@ -34,10 +35,10 @@ open class Jatekos(_x: Int, _y: Int, _jatekTer: JatekTer) :
         pontszam += pont
     }
 
-    override val megjelenitendoMeret: IntArray?
+    override val megjelenitendoMeret: Array<Int>
         get() {
             if (megjelenitendoMeret == null){
-                return intArrayOf(ter.meretX, ter.meretY)
+                return arrayOf(ter.meretX, ter.meretY)
             }
             return megjelenitendoMeret
         }
@@ -53,11 +54,11 @@ open class Jatekos(_x: Int, _y: Int, _jatekTer: JatekTer) :
         return vissza
     }
 
-    override val alak: Char
+    override val alak: Int
         get() {
             if (aktiv){
-                return '\u263A'
+                return R.drawable.fighter1
             }
-            return '\u263B'
+            return R.drawable.fighter2
         }
 }

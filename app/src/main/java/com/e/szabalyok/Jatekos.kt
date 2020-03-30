@@ -3,12 +3,16 @@ package com.e.szabalyok
 import com.e.jatekter.JatekElem
 import com.e.jatekter.JatekTer
 import com.e.jatekter.MozgoJatekElem
+import com.e.keret.CommandId
+import com.e.keret.CommandProcessor
 import com.e.megjelenites.IKirajzolhato
 import com.e.megjelenites.IMegjelenitheto
 import com.e.szerepjatek.R
 
-open class Jatekos(_x: Int, _y: Int, _jatekTer: JatekTer) :
-    MozgoJatekElem(_x, _y, _jatekTer), IMegjelenitheto, IKirajzolhato {
+open class Jatekos(_x: Int, _y: Int, _jatekTer: JatekTer,
+                   private val commandProcessor: CommandProcessor) :
+    MozgoJatekElem(_x, _y, _jatekTer), IMegjelenitheto, IKirajzolhato, JatekosValtozasKezelo {
+
     val nev: String? = null
     private var eletero = 100
     private var pontszam = 0
@@ -17,12 +21,19 @@ open class Jatekos(_x: Int, _y: Int, _jatekTer: JatekTer) :
         get() = 0.2
 
     override fun utkozes(jatekElem: JatekElem) {}
+
     fun serul(sebzes: Int) {
         if (eletero == 0) return
         if (eletero - sebzes < 0) {
             eletero = 0
             aktiv = false
         } else eletero -= sebzes
+
+        if (sebzes > 0){
+
+            JatekosValtozas(this, pontszam, eletero)
+
+        }
     }
 
     fun megy(rx: Int, ry: Int) {
@@ -45,7 +56,7 @@ open class Jatekos(_x: Int, _y: Int, _jatekTer: JatekTer) :
 
     override fun MegjelenitendoElemek(): ArrayList<IKirajzolhato> {
         val vissza = ArrayList<IKirajzolhato>()
-        val jatekElemek = ter.MegadottHelyenLevok(_x, _y, 5)
+        val jatekElemek = ter.MegadottHelyenLevok(x, y, 5)
         for (elem in jatekElemek){
             if (elem is IKirajzolhato){
                 vissza.add(elem)
@@ -61,4 +72,12 @@ open class Jatekos(_x: Int, _y: Int, _jatekTer: JatekTer) :
             }
             return R.drawable.fighter2
         }
+
+    override fun JatekosValtozas(jatekos: Jatekos, ujPontszam: Int, ujEletero: Int) {
+        var args = ArrayList<Any>(2)
+        args.add(jatekos)
+        args.add(ujPontszam)
+        args.add(ujEletero)
+        commandProcessor.Execute(CommandId.JatekosValtozas, args)
+    }
 }

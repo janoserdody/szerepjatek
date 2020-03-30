@@ -1,7 +1,5 @@
 package com.e.keret
 
-import android.widget.TableRow
-import java.util.*
 import kotlin.collections.ArrayList
 
 class CommandProcessor() {
@@ -11,8 +9,8 @@ class CommandProcessor() {
         commands.put(commandId, command)
     }
 
-    fun OnKattint(commandId: CommandId, arg:ArrayList<Any>){
-        val command = commands[commandId] as KattintCommand;
+    fun Execute(commandId: CommandId, arg:ArrayList<Any>){
+        val command = commands[commandId] as Command;
 
         if (command == null){
             return

@@ -1,6 +1,9 @@
 package com.e.jatekter
 
-abstract class MozgoJatekElem(var _x: Int, var _y: Int, _jatekTer: JatekTer)
+import com.e.szabalyok.MozgasHalalMiattNemSikerultKivetel
+import com.e.szabalyok.MozgasHelyHianyMiattNemSikerultKivetel
+
+abstract class MozgoJatekElem(_x: Int, _y: Int, _jatekTer: JatekTer)
     : JatekElem(_x, _y, _jatekTer) {
 
     var aktiv: Boolean = true
@@ -14,7 +17,7 @@ abstract class MozgoJatekElem(var _x: Int, var _y: Int, _jatekTer: JatekTer)
                 utkozes(elem)
             }
             if(!this.aktiv){
-                break;
+                throw MozgasHalalMiattNemSikerultKivetel(this, x, y)
             }
         }
         if (this.aktiv) {
@@ -29,6 +32,9 @@ abstract class MozgoJatekElem(var _x: Int, var _y: Int, _jatekTer: JatekTer)
             if (osszesMeret <= 1){
                 x = ujX
                 y = ujY
+            }
+            else{
+                throw MozgasHelyHianyMiattNemSikerultKivetel(this,x, y, jatekElemek)
             }
           }
         }

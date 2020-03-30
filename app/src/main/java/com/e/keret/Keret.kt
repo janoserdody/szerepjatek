@@ -1,15 +1,17 @@
 package com.e.keret
 
+import android.content.Context
 import com.e.jatekter.JatekTer
 import com.e.megjelenites.GrafikusMegjelenito
-import com.e.megjelenites.IMegjelenitheto
 import com.e.szabalyok.*
-import java.lang.Exception
 import java.util.*
 import kotlin.random.Random
 
-class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int): ObservableKotlin() {
 
+class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: CommandProcessor, val context: Context)
+    : ObservableKotlin() {
+
+    private var megtalaltKincsek: Int = 0
     private var jatekVege: Boolean = false
     private val PALYA_MERET_X: Int
     private val PALYA_MERET_Y: Int
@@ -43,7 +45,7 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int): ObservableKotlin() {
                 megadottHelyenLevo += elem.meret
             }
             if (!(kincsX == 1 && kincsY == 1) && megadottHelyenLevo < 1) {
-                var kincs = Kincs(kincsX, kincsY, ter)
+                var kincs = Kincs(kincsX, kincsY, ter, commandProcessor)
             }
         }
     }
@@ -65,19 +67,41 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int): ObservableKotlin() {
     }
 
     fun Futtatas(){
-        var megjelenito = GrafikusMegjelenito(ter, 0, 0)
-        var jatekos = Jatekos(1, 1, ter)
-        var kati = GepiJatekos(5,5, ter)
-        var laci = GonoszGepiJatekos(3,3, ter)
 
 
-        do {
-            laci.mozgas()
-            kati.mozgas()
-            Thread.sleep(3000)
+            var megjelenito = GrafikusMegjelenito(ter, 0, 0)
+            var jatekos = Jatekos(1, 1, ter, commandProcessor)
+            var kati = GepiJatekos(5,5, ter, 1, commandProcessor)
+            var laci = GonoszGepiJatekos(3,3, ter, 1, commandProcessor)
 
-            megjelenito.Megjelenites()
+            do {
+                try {
+                    laci.mozgas()
+                    kati.mozgas()
+                    Thread.sleep(3000)
 
-        }while (!jatekVege)
+                    megjelenito.Megjelenites()
+                }
+                catch (e: MozgasHelyHianyMiattNemSikerultKivetel){
+                    var args = ArrayList<Any>(2)
+                    commandProcessor.Execute(CommandId.PlayBeep, args)
+                }
+            }while (!jatekVege)
+    }
+
+     fun KincsFelvetelTortent(kincs: Kincs, jatekos: Jatekos){
+        megtalaltKincsek++
+
+        if (megtalaltKincsek == KINCSEK_SZAMA)
+        {
+            jatekVege = true
+        }
+    }
+
+    fun JatekosValtozasTortent(jatekos: Jatekos, ujPontszam: Int, ujEletero: Int){
+        // emberjátékos volt?
+        if (eletero == 0 && (jatekos !is GepiJatekos)){
+            jatekVege = true
+        }
     }
 }

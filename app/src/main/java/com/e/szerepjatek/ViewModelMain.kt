@@ -1,15 +1,10 @@
 package com.e.szerepjatek
 
 import android.content.Context
-import android.media.Image
 import android.widget.TableLayout
 import android.widget.TableRow
-import com.e.datalayer.Mezo
 import android.widget.ImageView
-import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import com.e.keret.*
-import java.util.*
 import kotlin.collections.ArrayList
 
 class ViewModelMain (
@@ -126,7 +121,7 @@ class ViewModelMain (
              var args = ArrayList<Any>(2)
              args.add(x)
              args.add(y)
-             commandProcessor.OnKattint(CommandId.Kattint, args)
+             commandProcessor.Execute(CommandId.Kattint, args)
          }
         return mezo
     }

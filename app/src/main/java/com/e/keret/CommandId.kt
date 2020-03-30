@@ -1,5 +1,8 @@
 package com.e.keret
 
 enum class CommandId {
-    Kattint
+    Kattint,
+    KincsFelvetel,
+    JatekosValtozas,
+    PlayBeep
 }

@@ -72,12 +72,5 @@ class AudioPlayer(mainActivity: MainActivity) {
                     soundPool.play(soundIdBeep3, leftVolumn, rightVolumn, 1, 0, 1f)
             }
         }
-
-
-
     }
-
-
-
-
 }

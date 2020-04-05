@@ -4,14 +4,15 @@ import android.content.Context
 import android.widget.TableLayout
 import android.widget.TableRow
 import android.widget.ImageView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.e.jatekter.JatekTer
 import com.e.keret.*
 import com.e.szabalyok.Jatekos
 import kotlin.collections.ArrayList
 
 class ViewModelMain (
-    var mezokX: Int,
-    var mezokY: Int,
+    val mezokX: Int,
+    val mezokY: Int,
     var context: Context,
     var table: TableLayout,
     val commandProcessor: CommandProcessor,
@@ -63,6 +64,29 @@ class ViewModelMain (
     }
 
 
+    private fun RefreshLayout(){
+        var mezoMaxX = mezoPixelX * mezoFalArany
+        var mezoMaxY = mezoPixelY * mezoFalArany
+        var palyaX = mezokX * 2 + 1
+        var palyaY = mezokY * 2 + 1
+
+        var alak = R.drawable.background_1
+
+        for (x in 1 until palyaX step 2){
+            for(y in 1 until palyaY step 2){
+                alak = R.drawable.background_1
+                for (elem in ter.terkep[x][y])
+                {
+                    if (elem is Jatekos){
+                        alak = elem.alak
+                    }
+                }
+                mezokKarakter[x][y]?.setImageResource(alak)
+            }
+        }
+
+
+    }
 
     private fun MakeTableLayout() {
         var mezoMaxX = mezoPixelX * mezoFalArany
@@ -198,6 +222,7 @@ class ViewModelMain (
             return
         }
 
-        mezokKarakter[x][y]?.setImageResource(R.drawable.monster2)
+        //mezokKarakter[x][y]?.setImageResource(R.drawable.monster2)
+        RefreshLayout()
     }
 }

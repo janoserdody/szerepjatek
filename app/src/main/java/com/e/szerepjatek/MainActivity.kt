@@ -55,12 +55,24 @@ class MainActivity : AppCompatActivity(), ObserverKotlin {
         keret.addObserver(this)
 
         audioPlayer = AudioPlayer(this)
+
+        keret.Futtatas()
     }
 
     override fun update(o: ObservableKotlin?, arg: Any?) {
-        val textView = findViewById<TextView>(R.id.textView1)
-        textView?.setText("életerő: " + keret.eletero.toString())
-        textView?.invalidate()
+        var params = arg as ArrayList<Int>
+        if (params == null){
+            return
+        }
+        val x = params[0]
+        val y = params[1]
+
+        val textView1 = findViewById<TextView>(R.id.textView1)
+        textView1?.setText("életerő: " + keret.eletero.toString())
+        val textView2 = findViewById<TextView>(R.id.textView2)
+        textView2?.setText("koordináták: " + x + y)
+        textView1?.invalidate()
+        textView2?.invalidate()
         audioPlayer.play(Music.Beep2)
     }
 

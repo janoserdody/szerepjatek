@@ -14,33 +14,37 @@ open class GepiJatekos(_x: Int, _y: Int, _jatekTer: JatekTer,
         get() = R.drawable.fighter2
 
     fun mozgas() {
-        val iranyok = arrayOf(0,0,0,0)
+        val iranyok = arrayOf(0, 0, 0, 0)
         var random = rnd.nextInt(3)
         iranyok[random] = 1
         var iranyokOsszeg = 0
 
         while (iranyokOsszeg < 4) {
             try {
-                when (random) {
-                    0 -> megy(1, 0)
-                    1 -> megy(-1, 0)
-                    2 -> megy(0, 1)
-                    3 -> megy(0, -1)
-                    else -> {
-                    }
-                }
-            } catch (e: MozgasHelyHianyMiattNemSikerultKivetel) {
+                elmozdul(random)
+                break
+            }
+            catch (e: MozgasHelyHianyMiattNemSikerultKivetel) {
                 iranyokOsszeg = 0
-                for (i in iranyok){
+                for (i in iranyok) {
                     iranyokOsszeg += i
                 }
-                    do {
-                        var random = rnd.nextInt(3)
-                    } while (iranyok[random] == 1 && iranyokOsszeg < 4)
-                    iranyok[random] = 1
+                do {
+                    var random = rnd.nextInt(3)
+                } while (iranyok[random] == 1 && iranyokOsszeg < 4)
+                iranyok[random] = 1
             }
         }
     }
+
+    private fun elmozdul(random: Int) {
+        when (random) {
+            0 -> megy(2, 0)
+            1 -> megy(-2, 0)
+            2 -> megy(0, 2)
+            3 -> megy(0, -2)
+            }
+        }
 
     companion object {
         private val rnd = Random()

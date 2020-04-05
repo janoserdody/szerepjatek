@@ -18,6 +18,7 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
     //private val MAXFAL = 200
     private val FALMAXHOSSZ = 8
     var eletero = 10
+    private lateinit var jatekos: Jatekos
 
 
     init {
@@ -48,9 +49,6 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
         var nemZsakutca = 1
         var maxFal = 0
 
-        //var fal = Fal(Random.nextInt(1, PALYA_MERET_X / 2 - 2) * 2, Random.nextInt(1, PALYA_MERET_Y / 2 - 2) * 2, ter)
-        //falak.add(fal)
-
         var fal: Fal? = Fal(2,2, ter)
         if (fal != null){
             falak.add(fal)
@@ -65,7 +63,6 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
 
         var iranyFal = fal
 
-        // falIndex < falak.count() && maxFal++ < MAXFAL
         while (!falak.isEmpty() ){
 
             if (fal == null){
@@ -115,12 +112,6 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
                 // ha a nemZsakutca = 0, akkor nem talált új irányt
             } while(nemZsakutca > 0 && falMaxHossz > 0)
 
-//            var fal: Fal? = RandomFal()
-//            if (fal != null){
-//                falak.add(fal)
-//            }
-
-            //fal = falak[falIndex++]
             if (!falak.isEmpty()){
                 falIndex = Random.nextInt(0, falak.count())
                 fal = falak[falIndex]
@@ -178,34 +169,50 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
 
         var args = ArrayList<Int>(2)
 
-        args.add(x)
-        args.add(y)
+
+        jatekos.megy(0, 2)
+
+        args.add(jatekos.x)
+        args.add(jatekos.y)
 
         eletero--
 
         notifyObservers(args)
     }
 
+    fun Megjelenites(){
+
+        var args = ArrayList<Int>(2)
+
+        args.add(0)
+        args.add(0)
+
+        //eletero--
+
+        notifyObservers(args)
+    }
+
     fun Futtatas(){
 
-            var megjelenito = GrafikusMegjelenito(ter, 0, 0)
-            var jatekos = Jatekos(1, 1, ter, commandProcessor)
+            //var megjelenito = GrafikusMegjelenito(ter, 0, 0)
+            jatekos = Jatekos(1, 1, ter, commandProcessor)
             var kati = GepiJatekos(5,5, ter, 1, commandProcessor)
             var laci = GonoszGepiJatekos(3,3, ter, 1, commandProcessor)
 
-            do {
+           // do {
                 try {
-                    laci.mozgas()
-                    kati.mozgas()
-                    Thread.sleep(3000)
+                   // laci.mozgas()
+                    //kati.mozgas()
+                    //Thread.sleep(3000)
 
-                    megjelenito.Megjelenites()
+                    //megjelenito.Megjelenites()
+                    //Megjelenites()
                 }
                 catch (e: MozgasHelyHianyMiattNemSikerultKivetel){
                     var args = ArrayList<Any>(2)
                     commandProcessor.Execute(CommandId.PlayBeep, args)
                 }
-            }while (!jatekVege)
+        //    } while (!jatekVege)
     }
 
      fun KincsFelvetelTortent(kincs: Kincs, jatekos: Jatekos){

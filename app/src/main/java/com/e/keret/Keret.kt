@@ -66,15 +66,17 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
         var iranyFal = fal
 
         // falIndex < falak.count() && maxFal++ < MAXFAL
-        while (falIndex < falak.count() ){
+        while (!falak.isEmpty() ){
 
             if (fal == null){
                 falIndex++
                 maxFal++
                 continue
             }
+
             var x = fal.x
             var y = fal.y
+            falak.remove(fal)
 
             do{
                 iranyok = GetRandomIranyok(iranyok)
@@ -118,7 +120,11 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
 //                falak.add(fal)
 //            }
 
-            fal = falak[falIndex++]
+            //fal = falak[falIndex++]
+            if (!falak.isEmpty()){
+                falIndex = Random.nextInt(0, falak.count())
+                fal = falak[falIndex]
+            }
         }
 
         for (i in 0 until KINCSEK_SZAMA) {

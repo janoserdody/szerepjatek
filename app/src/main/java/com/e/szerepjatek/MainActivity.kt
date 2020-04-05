@@ -10,8 +10,8 @@ import com.e.keret.*
 
 
 class MainActivity : AppCompatActivity(), ObserverKotlin {
-    private val PALYA_MERET_X: Int = 15
-    private val PALYA_MERET_Y: Int = 41 //11
+    private val PALYA_MERET_X: Int = 13  //15
+    private val PALYA_MERET_Y: Int = 19 //11
     private val KINCSEK_SZAMA: Int = 10
 
     val commandProcessor = CommandProcessor()

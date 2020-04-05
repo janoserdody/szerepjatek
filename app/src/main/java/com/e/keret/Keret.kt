@@ -15,7 +15,7 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
     private var jatekVege: Boolean = false
     private val PALYA_MERET_X: Int
     private val PALYA_MERET_Y: Int
-    private val MAXFAL = 100
+    //private val MAXFAL = 200
     private val FALMAXHOSSZ = 8
     var eletero = 10
 
@@ -30,16 +30,16 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
         var falak = ArrayList<Fal>((PALYA_MERET_X + 1) * (PALYA_MERET_Y + 1))
 
         for (x in 0 until PALYA_MERET_X){
-            var fal = Fal(x, 0, ter)
+            var f = Fal(x, 0, ter)
         }
         for (x in 0 until PALYA_MERET_X) {
-            var fal = Fal(x, PALYA_MERET_Y - 1, ter)
+            var f = Fal(x, PALYA_MERET_Y - 1, ter)
         }
         for (y in 1 until PALYA_MERET_Y - 1){
-            var fal = Fal(0, y, ter)
+            var f = Fal(0, y, ter)
         }
         for (y in 1 until PALYA_MERET_Y - 1){
-            var fal = Fal(PALYA_MERET_X - 1, y, ter)
+            var f = Fal(PALYA_MERET_X - 1, y, ter)
         }
 
         var iranyok = IntArray(4, {i -> i})
@@ -51,22 +51,28 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
         //var fal = Fal(Random.nextInt(1, PALYA_MERET_X / 2 - 2) * 2, Random.nextInt(1, PALYA_MERET_Y / 2 - 2) * 2, ter)
         //falak.add(fal)
 
-        var fal = Fal(2,2, ter)
-        falak.add(fal)
-
-        for (i in 0 until 3){
-            fal = RandomFal()
-            //falak.add(fal)
+        var fal: Fal? = Fal(2,2, ter)
+        if (fal != null){
+            falak.add(fal)
         }
 
-        fal = RandomFal()
-        falak.add(fal)
+        for (i in 0 until 2){
+            fal = RandomFal()
+            if (fal != null){
+                falak.add(fal)
+            }
+        }
 
         var iranyFal = fal
 
         // falIndex < falak.count() && maxFal++ < MAXFAL
-        while (falIndex < falak.count()){
+        while (falIndex < falak.count() ){
 
+            if (fal == null){
+                falIndex++
+                maxFal++
+                continue
+            }
             var x = fal.x
             var y = fal.y
 
@@ -74,7 +80,7 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
                 iranyok = GetRandomIranyok(iranyok)
 
                 nemZsakutca = 0
-                //var falMaxHossz = Random.nextInt(4, FALMAXHOSSZ)
+                var falMaxHossz = Random.nextInt(1, FALMAXHOSSZ)
 
                 for (i in 0 until 4){
                     elmozdulas = GetIranyKoordinata(iranyok[i])
@@ -95,18 +101,23 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
                             iranyFal = ujFal
                         }
                         nemZsakutca ++
-                        //falMaxHossz--
+                        falMaxHossz--
                     }
                 }
                 fal = iranyFal
+                if (fal == null){
+                    break
+                }
                 var x = fal.x
                 var y = fal.y
                 // ha a nemZsakutca = 0, akkor nem talált új irányt
-                // nemZsakutca > 0 && falMaxHossz > 0
-            } while(nemZsakutca > 0)
+            } while(nemZsakutca > 0 && falMaxHossz > 0)
 
-            //var fal = RandomFal()
-            //falak.add(fal)
+//            var fal: Fal? = RandomFal()
+//            if (fal != null){
+//                falak.add(fal)
+//            }
+
             fal = falak[falIndex++]
         }
 
@@ -135,14 +146,20 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
         }
     }
 
-    private fun RandomFal(): Fal {
+    private fun RandomFal(): Fal? {
         var x = 0
         var y = 0
+        var maxKereses = 30
 
         do{
-            var x = Random.nextInt(2, PALYA_MERET_X / 2 - 1) * 2
-            var y =Random.nextInt(2, PALYA_MERET_Y / 2 - 1) * 2
-        } while (ter.MegadottHelyenFal(x, y))
+            x = Random.nextInt(2, PALYA_MERET_X / 2 - 1) * 2
+            y =Random.nextInt(2, PALYA_MERET_Y / 2 - 1) * 2
+            maxKereses--
+        } while (ter.MegadottHelyenFal(x, y) && maxKereses > 0)
+
+        if (ter.MegadottHelyenFal(x, y)){
+            return null
+        }
 
         return Fal(x, y, ter)
     }

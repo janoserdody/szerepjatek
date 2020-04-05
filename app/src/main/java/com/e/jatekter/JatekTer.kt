@@ -2,11 +2,9 @@ package com.e.jatekter
 
 import com.e.megjelenites.IKirajzolhato
 import com.e.megjelenites.IMegjelenitheto
-import com.e.datalayer.Mezo
-import java.util.*
+import com.e.szabalyok.Fal
 import kotlin.collections.ArrayList
 import kotlin.math.sqrt
-import kotlin.reflect.typeOf
 
 // konstruktorban a var jelenti a publikus property-t
 // típust a kettőspont után adjuk meg
@@ -15,10 +13,9 @@ class JatekTer(val meretX: Int, val meretY: Int): IMegjelenitheto {
     private var elemN = 0
     private val elemek =
         ArrayList<JatekElem>(MAX_ELEMSZAM) //JatekElem[MAX_ELEMSZAM];
-    private var terkep = arrayOf<Array<MutableList<JatekElem>>>()
+    var terkep = arrayOf<Array<MutableList<JatekElem>>>()
 
     init{
-
         for (x in 0 until meretX + 1) {
             var array = arrayOf<MutableList<JatekElem>>()
             for (y in 0 until meretY + 1) {
@@ -27,7 +24,6 @@ class JatekTer(val meretX: Int, val meretY: Int): IMegjelenitheto {
             terkep += array
         }
     }
-
 
     fun Felvetel(jatekElem: JatekElem) {
         elemek.add(jatekElem)
@@ -38,20 +34,37 @@ class JatekTer(val meretX: Int, val meretY: Int): IMegjelenitheto {
     }
 
     fun Torles(jatekElem: JatekElem?) {
+        if (jatekElem == null){
+            return
+        }
+        var x = jatekElem.x
+        var y = jatekElem.y
+
         elemek.remove(jatekElem)
         elemN--
+
+        terkep[x][y].remove(jatekElem)
     }
 
     fun MegadottHelyenLevok(x: Int, y: Int, tavolsag: Int = 0): ArrayList<JatekElem> {
-        val JatekElemek = ArrayList<JatekElem>()
+        val jatekElemek = ArrayList<JatekElem>()
         for (jatekElem in elemek) {
             var mertTavolsag =
                 sqrt((jatekElem.x - x) * (jatekElem.x - x) + (jatekElem.y - y) * (jatekElem.y - y).toDouble())
             if (tavolsag >= mertTavolsag) {
-                JatekElemek.add(jatekElem)
+                jatekElemek.add(jatekElem)
             }
         }
-        return JatekElemek
+        return jatekElemek
+    }
+
+    fun MegadottHelyenFal(x: Int, y: Int): Boolean {
+        for (elem in terkep[x][y]){
+            if (elem is Fal){
+                return true
+            }
+        }
+        return false
     }
 
     override val megjelenitendoMeret: Array<Int>

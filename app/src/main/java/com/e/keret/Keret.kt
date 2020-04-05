@@ -15,7 +15,8 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
     private var jatekVege: Boolean = false
     private val PALYA_MERET_X: Int
     private val PALYA_MERET_Y: Int
-    private val MAXFAL = 10
+    private val MAXFAL = 100
+    private val FALMAXHOSSZ = 8
     var eletero = 10
 
 
@@ -26,9 +27,7 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
     }
 
     fun PalyaGeneralas(){
-        var falak = ArrayList<Fal>()
-
-        falak.add(Fal(2,2, ter))
+        var falak = ArrayList<Fal>((PALYA_MERET_X + 1) * (PALYA_MERET_Y + 1))
 
         for (x in 0 until PALYA_MERET_X){
             var fal = Fal(x, 0, ter)
@@ -47,11 +46,25 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
         var falIndex = 0
         var elmozdulas : Array<Int>
         var nemZsakutca = 1
+        var maxFal = 0
 
-        var fal = Fal(Random.nextInt(1, PALYA_MERET_X / 2 - 2) * 2, Random.nextInt(1, PALYA_MERET_Y / 2 - 2) * 2, ter)
+        //var fal = Fal(Random.nextInt(1, PALYA_MERET_X / 2 - 2) * 2, Random.nextInt(1, PALYA_MERET_Y / 2 - 2) * 2, ter)
+        //falak.add(fal)
+
+        var fal = Fal(2,2, ter)
         falak.add(fal)
+
+        for (i in 0 until 3){
+            fal = RandomFal()
+            //falak.add(fal)
+        }
+
+        fal = RandomFal()
+        falak.add(fal)
+
         var iranyFal = fal
 
+        // falIndex < falak.count() && maxFal++ < MAXFAL
         while (falIndex < falak.count()){
 
             var x = fal.x
@@ -61,6 +74,7 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
                 iranyok = GetRandomIranyok(iranyok)
 
                 nemZsakutca = 0
+                //var falMaxHossz = Random.nextInt(4, FALMAXHOSSZ)
 
                 for (i in 0 until 4){
                     elmozdulas = GetIranyKoordinata(iranyok[i])
@@ -81,14 +95,18 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
                             iranyFal = ujFal
                         }
                         nemZsakutca ++
+                        //falMaxHossz--
                     }
                 }
                 fal = iranyFal
                 var x = fal.x
                 var y = fal.y
                 // ha a nemZsakutca = 0, akkor nem talált új irányt
+                // nemZsakutca > 0 && falMaxHossz > 0
             } while(nemZsakutca > 0)
 
+            //var fal = RandomFal()
+            //falak.add(fal)
             fal = falak[falIndex++]
         }
 
@@ -104,32 +122,29 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
                 var kincs = Kincs(kincsX, kincsY, ter, commandProcessor)
             }
         }
-    }
 
-    private fun GetIranyKoordinata(e: Int): Array<Int> {
-        when (e){
-            1 -> return arrayOf(0, 2)
-            2 -> return arrayOf(2, 0)
-            3 -> return arrayOf(0, -2)
-            4 -> return arrayOf(-2, 0)
-        }
-        return arrayOf(0, 0)
-    }
-
-    private fun GetRandomIranyok(iranyok: IntArray): IntArray {
-        var halmaz = mutableSetOf<Int>(Random.nextInt(1,5))
-
-        for (i in 1 until 4){
-            do{
-                var szam = Random.nextInt(1,5)
-                var isContains = halmaz.contains(szam)
-                if (!isContains){
-                    halmaz.add(szam)
+        // vakfolt feltöltése
+        for(x in 2 until PALYA_MERET_X - 2 step 2)
+        {
+            for (y in 2 until PALYA_MERET_Y - 2 step 2){
+                if (ter.MegadottHelyenLevok(x, y).isEmpty()){
+                    var fal = Helykitolto(x, y, ter)
                 }
-            }while (isContains)
-        }
 
-        return halmaz.toIntArray()
+            }
+        }
+    }
+
+    private fun RandomFal(): Fal {
+        var x = 0
+        var y = 0
+
+        do{
+            var x = Random.nextInt(2, PALYA_MERET_X / 2 - 1) * 2
+            var y =Random.nextInt(2, PALYA_MERET_Y / 2 - 1) * 2
+        } while (ter.MegadottHelyenFal(x, y))
+
+        return Fal(x, y, ter)
     }
 
     fun Kattint(x: Int?, y: Int?){
@@ -184,5 +199,31 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
         if (eletero == 0 && (jatekos !is GepiJatekos)){
             jatekVege = true
         }
+    }
+
+    private fun GetIranyKoordinata(e: Int): Array<Int> {
+        when (e){
+            1 -> return arrayOf(0, 2)
+            2 -> return arrayOf(2, 0)
+            3 -> return arrayOf(0, -2)
+            4 -> return arrayOf(-2, 0)
+        }
+        return arrayOf(0, 0)
+    }
+
+    private fun GetRandomIranyok(iranyok: IntArray): IntArray {
+        var halmaz = mutableSetOf<Int>(Random.nextInt(1,5))
+
+        for (i in 1 until 4){
+            do{
+                var szam = Random.nextInt(1,5)
+                var isContains = halmaz.contains(szam)
+                if (!isContains){
+                    halmaz.add(szam)
+                }
+            }while (isContains)
+        }
+
+        return halmaz.toIntArray()
     }
 }

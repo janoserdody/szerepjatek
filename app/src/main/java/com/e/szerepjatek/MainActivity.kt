@@ -10,8 +10,8 @@ import com.e.keret.*
 
 
 class MainActivity : AppCompatActivity(), ObserverKotlin {
-    private val PALYA_MERET_X: Int = 21
-    private val PALYA_MERET_Y: Int = 11
+    private val PALYA_MERET_X: Int = 15
+    private val PALYA_MERET_Y: Int = 41 //11
     private val KINCSEK_SZAMA: Int = 10
 
     val commandProcessor = CommandProcessor()
@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity(), ObserverKotlin {
         var table = findViewById<TableLayout>(R.id.tableLayout1)
 
         //  6, 9 paraméterrel jól működik
-        viewModelMain = ViewModelMain(6, 9, this, table, commandProcessor)
+        viewModelMain = ViewModelMain(6, 9, this, table, commandProcessor, ter)
         keret.addObserver(viewModelMain)
         keret.addObserver(this)
 

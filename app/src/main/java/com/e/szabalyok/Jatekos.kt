@@ -39,7 +39,19 @@ open class Jatekos(_x: Int, _y: Int, _jatekTer: JatekTer,
     fun megy(rx: Int, ry: Int) {
         val ujX = x + rx
         val ujY = y + ry
-        AtHelyez(ujX, ujY)
+        var iranyX = 0
+        var iranyY = 0
+        if (rx > 0) { iranyX = 1}
+        if (rx < 0) { iranyX = -1}
+        if (ry > 0) { iranyY = 1}
+        if (ry < 0) { iranyY = -1}
+
+        while (ujX != x){
+            AtHelyez(x + iranyX, y)
+        }
+        while (ujY != y){
+            AtHelyez(x, y + iranyY)
+        }
     }
 
     fun pontotSzerez(pont: Int) {

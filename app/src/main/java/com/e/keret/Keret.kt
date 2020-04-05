@@ -167,10 +167,22 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
             return
         }
 
+        var elmozdulX = 0
+        var elmozdulY = 0
+
         var args = ArrayList<Int>(2)
 
+        if(x - jatekos.x > 0){ elmozdulX = 2}
+        else if(x - jatekos.x < 0){ elmozdulX = -2}
+        if(y - jatekos.y > 0){ elmozdulY = 2}
+        else if(y - jatekos.y < 0){ elmozdulY = -2}
 
-        jatekos.megy(0, 2)
+        try{
+            jatekos.megy(elmozdulX, elmozdulY)
+        }
+        catch (e: MozgasHelyHianyMiattNemSikerultKivetel){
+            beep()
+        }
 
         args.add(jatekos.x)
         args.add(jatekos.y)
@@ -209,13 +221,17 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
                     //Megjelenites()
                 }
                 catch (e: MozgasHelyHianyMiattNemSikerultKivetel){
-                    var args = ArrayList<Any>(2)
-                    commandProcessor.Execute(CommandId.PlayBeep, args)
+                    beep()
                 }
         //    } while (!jatekVege)
     }
 
-     fun KincsFelvetelTortent(kincs: Kincs, jatekos: Jatekos){
+    private fun beep() {
+        var args = ArrayList<Any>(2)
+        commandProcessor.Execute(CommandId.PlayBeep, args)
+    }
+
+    fun KincsFelvetelTortent(kincs: Kincs, jatekos: Jatekos){
         megtalaltKincsek++
 
         if (megtalaltKincsek == KINCSEK_SZAMA)

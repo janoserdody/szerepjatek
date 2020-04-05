@@ -70,10 +70,10 @@ class MainActivity : AppCompatActivity(), ObserverKotlin {
         val textView1 = findViewById<TextView>(R.id.textView1)
         textView1?.setText("életerő: " + keret.eletero.toString())
         val textView2 = findViewById<TextView>(R.id.textView2)
-        textView2?.setText("koordináták: " + x + y)
+        textView2?.setText("koordináták: " + x + " " + y)
         textView1?.invalidate()
         textView2?.invalidate()
-        audioPlayer.play(Music.Beep2)
+        //audioPlayer.play(Music.Beep2)
     }
 
     fun PlayBeep(){

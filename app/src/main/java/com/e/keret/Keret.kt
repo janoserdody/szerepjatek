@@ -18,10 +18,11 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
     private val PALYA_MERET_Y: Int
     //private val MAXFAL = 200
     private val FALMAXHOSSZ = 8
-    var eletero = 10
     private lateinit var jatekos: Jatekos
-    private var XP = 0
-    val pontMap = TapasztalatiPontok.pontok
+    private val pontMap = TapasztalatiPontok.pontok
+
+    var eletero = 0
+    var XP = 0
 
 
     init {
@@ -187,15 +188,14 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
             beep()
         }
         catch (e: MozgasHalalMiattNemSikerultKivetel){
-            beep()
-        }
+            playGameoverMusic()
+            createExitCommand()
 
+        }
 
         args.add(jatekos.x)
         args.add(jatekos.y)
         args.add(XP)
-
-        eletero--
 
         notifyObservers(args)
     }
@@ -204,6 +204,7 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
 
         var args = ArrayList<Int>(2)
 
+        args.add(0)
         args.add(0)
         args.add(0)
 
@@ -232,10 +233,8 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
                     beep()
                 }
                 catch(e: MozgasHalalMiattNemSikerultKivetel){
-
                     playGameoverMusic()
-
-
+                    createExitCommand()
                 }
         //    } while (!jatekVege)
     }
@@ -262,10 +261,14 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
         }
     }
 
-    fun JatekosValtozasTortent(jatekos: Jatekos, ujPontszam: Int, ujEletero: Int){
+    fun JatekosValtozasTortent(jatekos: Jatekos, ujXP: Int, ujEletero: Int){
         // emberjátékos volt?
+        eletero = ujEletero
+        XP = ujXP
         if (eletero == 0 && (jatekos !is GepiJatekos)){
             jatekVege = true
+            playGameoverMusic()
+            createExitCommand()
         }
     }
 
@@ -293,5 +296,11 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
         }
 
         return halmaz.toIntArray()
+    }
+
+    private fun createExitCommand() {
+            var args = ArrayList<Any>(2)
+            args.add(0)
+            commandProcessor.Execute(CommandId.Exit, args)
     }
 }

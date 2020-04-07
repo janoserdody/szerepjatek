@@ -14,13 +14,20 @@ open class Jatekos(_x: Int, _y: Int, _jatekTer: JatekTer,
     MozgoJatekElem(_x, _y, _jatekTer), IMegjelenitheto, IKirajzolhato, JatekosValtozasKezelo {
 
     val nev: String? = null
-    private var eletero = 100
-    private var pontszam = 0
+    var eletero = 100
+    //var pontszam = 0 pontszám helyett XP
+    var XP = 0
+    open var Sebzes = 10
+
 
     override val meret: Double
         get() = 0.2
 
-    override fun utkozes(jatekElem: JatekElem) {}
+    override fun utkozes(jatekElem: JatekElem) {
+        if (aktiv && jatekElem is Jatekos) {
+            jatekElem.serul(Sebzes)
+        }
+    }
 
     fun serul(sebzes: Int) {
         if (eletero == 0) return
@@ -31,8 +38,7 @@ open class Jatekos(_x: Int, _y: Int, _jatekTer: JatekTer,
 
         if (sebzes > 0){
 
-            JatekosValtozas(this, pontszam, eletero)
-
+            JatekosValtozas(this, XP, eletero)
         }
     }
 
@@ -55,7 +61,7 @@ open class Jatekos(_x: Int, _y: Int, _jatekTer: JatekTer,
     }
 
     fun pontotSzerez(pont: Int) {
-        pontszam += pont
+        XP += pont
     }
 
     override val megjelenitendoMeret: Array<Int>
@@ -85,10 +91,14 @@ open class Jatekos(_x: Int, _y: Int, _jatekTer: JatekTer,
             return R.drawable.fighter2
         }
 
-    override fun JatekosValtozas(jatekos: Jatekos, ujPontszam: Int, ujEletero: Int) {
-        var args = ArrayList<Any>(2)
+    override fun JatekosValtozas(jatekos: Jatekos, ujXp: Int, ujEletero: Int) {
+        if (this is GepiJatekos){
+            return
+        }
+
+        var args = ArrayList<Any>(5)
         args.add(jatekos)
-        args.add(ujPontszam)
+        args.add(ujXp)
         args.add(ujEletero)
         commandProcessor.Execute(CommandId.JatekosValtozas, args)
     }

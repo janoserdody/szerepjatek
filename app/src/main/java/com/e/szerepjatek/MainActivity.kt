@@ -6,6 +6,7 @@ import android.widget.TableLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AlertDialog.Builder
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.e.datalayer.Music
@@ -29,6 +30,7 @@ class MainActivity : AppCompatActivity(), ObserverKotlin {
     val playBeepCommand = PlayBeepCommand(this)
     val exitCommand = ExitCommand(this)
     lateinit var dialog: AlertDialog
+    lateinit var builder: Builder
 
     lateinit var audioPlayer: AudioPlayer
 
@@ -63,7 +65,7 @@ class MainActivity : AppCompatActivity(), ObserverKotlin {
         keret.addObserver(this)
 
         audioPlayer = AudioPlayer(this)
-        createAlertWindow()
+        //createAlertWindow()
 
         keret.Futtatas()
     }
@@ -91,22 +93,22 @@ class MainActivity : AppCompatActivity(), ObserverKotlin {
     }
 
     fun Exit() {
-       dialog.show()
+        createAlertWindow()
+        dialog.show()
     }
 
     fun createAlertWindow(){
-        val builder = AlertDialog.Builder(this@MainActivity)
+        builder = Builder(this)
         builder.setTitle("Game Over")
-        builder.setMessage("Game over")
+        builder.setMessage("A játék véget ért")
         builder.setPositiveButton("Kilépés") { dialog, which ->
             Toast.makeText(
                 applicationContext,
-                "Ok, we change the app background.",
+                "Game over",
                 Toast.LENGTH_SHORT
             ).show()
             exitProcess(1)
         }
-
         dialog = builder.create()
     }
 }

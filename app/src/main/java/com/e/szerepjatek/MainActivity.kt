@@ -28,6 +28,7 @@ class MainActivity : AppCompatActivity(), ObserverKotlin {
     val jatekosValtozasCommand = JatekosValtozasCommand(keret)
     val playBeepCommand = PlayBeepCommand(this)
     val exitCommand = ExitCommand(this)
+    lateinit var dialog: AlertDialog
 
     lateinit var audioPlayer: AudioPlayer
 
@@ -62,6 +63,7 @@ class MainActivity : AppCompatActivity(), ObserverKotlin {
         keret.addObserver(this)
 
         audioPlayer = AudioPlayer(this)
+        createAlertWindow()
 
         keret.Futtatas()
     }
@@ -89,32 +91,10 @@ class MainActivity : AppCompatActivity(), ObserverKotlin {
     }
 
     fun Exit() {
-        val builder = AlertDialog.Builder(this@MainActivity)
-
-        // Set the alert dialog title
-        builder.setTitle("Game Over")
-
-        // Display a message on alert dialog
-        builder.setMessage("Game over")
-
-        // Set a positive button and its click listener on alert dialog
-        builder.setPositiveButton("Kilépés") { dialog, which ->
-            // Do something when user press the positive button
-//            Toast.makeText(
-//                applicationContext,
-//                "Ok, we change the app background.",
-//                Toast.LENGTH_SHORT
-//            ).show()
-            exitProcess(1)
-        }
-
-        // Finally, make the alert dialog using builder
-        val dialog: AlertDialog = builder.create()
-        // Display the alert dialog on app interface
-        dialog.show()
+       dialog.show()
     }
 
-    fun ablakTeszt(){
+    fun createAlertWindow(){
         val builder = AlertDialog.Builder(this@MainActivity)
         builder.setTitle("Game Over")
         builder.setMessage("Game over")
@@ -127,8 +107,6 @@ class MainActivity : AppCompatActivity(), ObserverKotlin {
             exitProcess(1)
         }
 
-        val dialog: AlertDialog = builder.create()
-
-        dialog.show()
+        dialog = builder.create()
     }
 }

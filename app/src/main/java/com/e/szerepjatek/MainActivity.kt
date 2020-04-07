@@ -73,11 +73,12 @@ class MainActivity : AppCompatActivity(), ObserverKotlin {
         }
         val x = params[0]
         val y = params[1]
+        val xp = params[2]
 
         val textView1 = findViewById<TextView>(R.id.textView1)
         textView1?.setText("életerő: " + keret.eletero.toString())
         val textView2 = findViewById<TextView>(R.id.textView2)
-        textView2?.setText("koordináták: " + x + " " + y)
+        textView2?.setText("Tapasztalati pontok: " + xp)
         textView1?.invalidate()
         textView2?.invalidate()
         //audioPlayer.play(Music.Beep2)
@@ -99,17 +100,35 @@ class MainActivity : AppCompatActivity(), ObserverKotlin {
         // Set a positive button and its click listener on alert dialog
         builder.setPositiveButton("Kilépés") { dialog, which ->
             // Do something when user press the positive button
+//            Toast.makeText(
+//                applicationContext,
+//                "Ok, we change the app background.",
+//                Toast.LENGTH_SHORT
+//            ).show()
+            exitProcess(1)
+        }
+
+        // Finally, make the alert dialog using builder
+        val dialog: AlertDialog = builder.create()
+        // Display the alert dialog on app interface
+        dialog.show()
+    }
+
+    fun ablakTeszt(){
+        val builder = AlertDialog.Builder(this@MainActivity)
+        builder.setTitle("Game Over")
+        builder.setMessage("Game over")
+        builder.setPositiveButton("Kilépés") { dialog, which ->
             Toast.makeText(
                 applicationContext,
                 "Ok, we change the app background.",
                 Toast.LENGTH_SHORT
             ).show()
-
-            // Change the app background color
-            val root_layout = findViewById<ConstraintLayout>(R.id.constrainLayout1)
-            root_layout.setBackgroundColor(Color.RED)
-            Thread.sleep(5000L)
             exitProcess(1)
         }
+
+        val dialog: AlertDialog = builder.create()
+
+        dialog.show()
     }
 }

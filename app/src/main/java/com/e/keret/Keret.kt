@@ -2,6 +2,7 @@ package com.e.keret
 
 import android.content.Context
 import com.e.datalayer.Music
+import com.e.datalayer.TapasztalatiPontok
 import com.e.jatekter.JatekTer
 import com.e.szabalyok.*
 import java.util.*
@@ -19,6 +20,8 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
     private val FALMAXHOSSZ = 8
     var eletero = 10
     private lateinit var jatekos: Jatekos
+    private var XP = 0
+    val pontMap = TapasztalatiPontok.pontok
 
 
     init {
@@ -190,6 +193,7 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
 
         args.add(jatekos.x)
         args.add(jatekos.y)
+        args.add(XP)
 
         eletero--
 
@@ -250,6 +254,7 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
 
     fun KincsFelvetelTortent(kincs: Kincs, jatekos: Jatekos){
         megtalaltKincsek++
+        XP += pontMap["kincs"] as Int
 
         if (megtalaltKincsek == KINCSEK_SZAMA)
         {

@@ -1,12 +1,17 @@
 package com.e.szerepjatek
 
+import android.graphics.Color
 import android.os.Bundle
 import android.widget.TableLayout
 import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.e.datalayer.Music
 import com.e.jatekter.JatekTer
 import com.e.keret.*
+import kotlin.system.exitProcess
 
 
 class MainActivity : AppCompatActivity(), ObserverKotlin {
@@ -22,6 +27,7 @@ class MainActivity : AppCompatActivity(), ObserverKotlin {
     val kincsfelvetelCommand = KincsfelvetelCommand(keret)
     val jatekosValtozasCommand = JatekosValtozasCommand(keret)
     val playBeepCommand = PlayBeepCommand(this)
+    val exitCommand = ExitCommand(this)
 
     lateinit var audioPlayer: AudioPlayer
 
@@ -32,6 +38,7 @@ class MainActivity : AppCompatActivity(), ObserverKotlin {
         commandProcessor.SetCommand(CommandId.KincsFelvetel, kincsfelvetelCommand)
         commandProcessor.SetCommand(CommandId.JatekosValtozas, jatekosValtozasCommand)
         commandProcessor.SetCommand(CommandId.PlayBeep, playBeepCommand)
+        commandProcessor.SetCommand(CommandId.Exit, exitCommand)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,7 +68,7 @@ class MainActivity : AppCompatActivity(), ObserverKotlin {
 
     override fun update(o: ObservableKotlin?, arg: Any?) {
         var params = arg as ArrayList<Int>
-        if (params == null){
+        if (params == null) {
             return
         }
         val x = params[0]
@@ -76,7 +83,33 @@ class MainActivity : AppCompatActivity(), ObserverKotlin {
         //audioPlayer.play(Music.Beep2)
     }
 
-    fun PlayBeep(){
-        audioPlayer.play(Music.Beep2)
+    fun PlayBeep(music: Music) {
+        audioPlayer.play(music)
+    }
+
+    fun Exit() {
+        val builder = AlertDialog.Builder(this@MainActivity)
+
+        // Set the alert dialog title
+        builder.setTitle("Game Over")
+
+        // Display a message on alert dialog
+        builder.setMessage("Game over")
+
+        // Set a positive button and its click listener on alert dialog
+        builder.setPositiveButton("Kilépés") { dialog, which ->
+            // Do something when user press the positive button
+            Toast.makeText(
+                applicationContext,
+                "Ok, we change the app background.",
+                Toast.LENGTH_SHORT
+            ).show()
+
+            // Change the app background color
+            val root_layout = findViewById<ConstraintLayout>(R.id.constrainLayout1)
+            root_layout.setBackgroundColor(Color.RED)
+            Thread.sleep(5000L)
+            exitProcess(1)
+        }
     }
 }

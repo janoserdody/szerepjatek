@@ -4,5 +4,6 @@ enum class CommandId {
     Kattint,
     KincsFelvetel,
     JatekosValtozas,
-    PlayBeep
+    PlayBeep,
+    Exit
 }

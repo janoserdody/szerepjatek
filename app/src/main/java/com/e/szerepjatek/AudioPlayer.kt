@@ -70,6 +70,8 @@ class AudioPlayer(mainActivity: MainActivity) {
                 soundPool.play(soundIdBeep2, leftVolumn, rightVolumn, 1, 0, 1f)
                 Music.Beep3 -> streamId =
                     soundPool.play(soundIdBeep3, leftVolumn, rightVolumn, 1, 0, 1f)
+                Music.Gameover -> streamId =
+                    soundPool.play(soundIdBeep3, leftVolumn, rightVolumn, 1, 0, 1f)
             }
         }
     }

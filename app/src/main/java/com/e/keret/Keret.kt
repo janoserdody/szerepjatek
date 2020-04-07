@@ -1,8 +1,8 @@
 package com.e.keret
 
 import android.content.Context
+import com.e.datalayer.Music
 import com.e.jatekter.JatekTer
-import com.e.megjelenites.GrafikusMegjelenito
 import com.e.szabalyok.*
 import java.util.*
 import kotlin.random.Random
@@ -183,6 +183,10 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
         catch (e: MozgasHelyHianyMiattNemSikerultKivetel){
             beep()
         }
+        catch (e: MozgasHalalMiattNemSikerultKivetel){
+            beep()
+        }
+
 
         args.add(jatekos.x)
         args.add(jatekos.y)
@@ -223,11 +227,24 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
                 catch (e: MozgasHelyHianyMiattNemSikerultKivetel){
                     beep()
                 }
+                catch(e: MozgasHalalMiattNemSikerultKivetel){
+
+                    playGameoverMusic()
+
+
+                }
         //    } while (!jatekVege)
     }
 
     private fun beep() {
         var args = ArrayList<Any>(2)
+        args.add(Music.Beep2)
+        commandProcessor.Execute(CommandId.PlayBeep, args)
+    }
+
+    private fun playGameoverMusic() {
+        var args = ArrayList<Any>(2)
+        args.add(Music.Gameover)
         commandProcessor.Execute(CommandId.PlayBeep, args)
     }
 

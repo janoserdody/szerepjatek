@@ -1,0 +1,49 @@
+[
+  {
+    "type": "Jatekos",
+    "data": {
+      "nev": "ember",
+      "ero": 18,
+      "allokepesseg": 12,
+      "gyorsasag": 15,
+      "ugyesseg": 11,
+      "szepseg": 8,
+      "egeszseg": 9,
+      "akaratero": 16,
+      "asztral": 3,
+      "intelligencia": 14,
+      "muveltseg": 7
+    }
+  },
+{
+  "type": "GonoszGepiJatekos",
+  "data": {
+  "nev": "ork harcos",
+  "ero": 15,
+  "allokepesseg": 12,
+  "gyorsasag": 11,
+  "ugyesseg": 8,
+  "szepseg": 3,
+  "egeszseg": 7,
+  "akaratero": 5,
+  "asztral": 3,
+  "intelligencia": 2,
+  "muveltseg": 1
+}
+},
+{
+  "type": "GonoszGepiJatekos",
+  "data": {
+  "nev": "farkas",
+  "ero": 5,
+  "allokepesseg": 7,
+  "gyorsasag": 11,
+  "ugyesseg": 8,
+  "szepseg": 9,
+  "egeszseg": 7,
+  "akaratero": 12,
+  "asztral": 3,
+  "intelligencia": 5,
+  "muveltseg": 2
+}
+}]

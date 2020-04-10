@@ -8,13 +8,24 @@ import com.e.keret.CommandProcessor
 import com.e.megjelenites.IKirajzolhato
 import com.e.megjelenites.IMegjelenitheto
 import com.e.szerepjatek.R
+import org.json.simple.JSONObject
 
-open class Jatekos(_x: Int, _y: Int, _jatekTer: JatekTer,
-                   private val commandProcessor: CommandProcessor) :
+open class Jatekos(_x: Int, _y: Int, _jatekTer: JatekTer, open var nev: String,
+                   private val commandProcessor: CommandProcessor, tulajdonsagok: JSONObject) :
     MozgoJatekElem(_x, _y, _jatekTer), IMegjelenitheto, IKirajzolhato, JatekosValtozasKezelo {
 
-    val nev: String? = null
     var eletero = 100
+    var ero = 0
+    var allokepesseg = 0
+    var gyorsasag = 0
+    var ugyesseg = 0
+    var szepseg = 0
+    var egeszseg = 0
+    var akaratero = 0
+    var asztral = 0
+    var intelligencia = 0
+    var muveltseg = 0
+
     //var pontszam = 0 pontszám helyett XP
     var XP = 0
     open var Sebzes = 10
@@ -22,6 +33,23 @@ open class Jatekos(_x: Int, _y: Int, _jatekTer: JatekTer,
 
     override val meret: Double
         get() = 0.2
+
+    init{
+        setTulajdonsagok(tulajdonsagok)
+    }
+
+    fun setTulajdonsagok(obj: JSONObject){
+        ero = Integer.parseInt(obj["ero"].toString())
+        allokepesseg = Integer.parseInt(obj["allokepesseg"].toString())
+        gyorsasag = Integer.parseInt(obj["gyorsasag"].toString())
+        ugyesseg = Integer.parseInt(obj["ugyesseg"].toString())
+        szepseg = Integer.parseInt(obj["szepseg"].toString())
+        egeszseg = Integer.parseInt(obj["egeszseg"].toString())
+        akaratero = Integer.parseInt(obj["akaratero"].toString())
+        asztral = Integer.parseInt(obj["asztral"].toString())
+        intelligencia = Integer.parseInt(obj["intelligencia"].toString())
+        muveltseg = Integer.parseInt(obj["muveltseg"].toString())
+    }
 
     override fun utkozes(jatekElem: JatekElem) {
         if (aktiv && jatekElem is Jatekos) {

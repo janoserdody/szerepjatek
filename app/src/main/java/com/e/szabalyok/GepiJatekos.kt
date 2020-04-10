@@ -4,11 +4,13 @@ import com.e.automatizmus.IAutomatikusanMukodo
 import com.e.jatekter.JatekTer
 import com.e.keret.CommandProcessor
 import com.e.szerepjatek.R
+import org.json.simple.JSONObject
 import java.util.*
 
-open class GepiJatekos(_x: Int, _y: Int, _jatekTer: JatekTer,
-                       override val mukodesIntervallum: Int, commandProcessor: CommandProcessor) :
-    Jatekos(_x, _y, _jatekTer, commandProcessor), IAutomatikusanMukodo {
+open class GepiJatekos(_x: Int, _y: Int, _jatekTer: JatekTer, override var nev: String,
+                       override val mukodesIntervallum: Int, commandProcessor: CommandProcessor,
+                       tulajdonsagok: JSONObject
+) : Jatekos(_x, _y, _jatekTer, nev, commandProcessor, tulajdonsagok), IAutomatikusanMukodo {
 
     override val alak: Int
         get() = R.drawable.fighter2

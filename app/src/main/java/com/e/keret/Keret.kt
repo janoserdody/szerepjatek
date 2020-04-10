@@ -1,11 +1,15 @@
 package com.e.keret
 
 import android.content.Context
+import android.os.Build
+//import androidx.annotation.RequiresApi
+import com.e.datalayer.JatekosFactory
 import com.e.datalayer.Music
 import com.e.datalayer.TapasztalatiPontok
 import com.e.jatekter.JatekTer
 import com.e.szabalyok.*
 import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.random.Random
 
 
@@ -18,8 +22,9 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
     private val PALYA_MERET_Y: Int
     //private val MAXFAL = 200
     private val FALMAXHOSSZ = 8
-    private lateinit var jatekos: Jatekos
+    private var jatekos: Jatekos? = null
     private val pontMap = TapasztalatiPontok.pontok
+    private lateinit var jatekosFactory: JatekosFactory
 
     var eletero = 0
     var XP = 0
@@ -166,7 +171,7 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
     }
 
     fun Kattint(x: Int?, y: Int?){
-        if (x == null || y == null){
+        if (x == null || y == null || jatekos == null){
             //throw Exception("invalid type, fun Kattint in Keret class")
             return
         }
@@ -176,13 +181,13 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
 
         var args = ArrayList<Int>(2)
 
-        if(x - jatekos.x > 0){ elmozdulX = 2}
-        else if(x - jatekos.x < 0){ elmozdulX = -2}
-        if(y - jatekos.y > 0){ elmozdulY = 2}
-        else if(y - jatekos.y < 0){ elmozdulY = -2}
+        if(x - jatekos!!.x > 0){ elmozdulX = 2}
+        else if(x - jatekos!!.x < 0){ elmozdulX = -2}
+        if(y - jatekos!!.y > 0){ elmozdulY = 2}
+        else if(y - jatekos!!.y < 0){ elmozdulY = -2}
 
         try{
-            jatekos.megy(elmozdulX, elmozdulY)
+            jatekos!!.megy(elmozdulX, elmozdulY)
         }
         catch (e: MozgasHelyHianyMiattNemSikerultKivetel){
             beep()
@@ -193,8 +198,8 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
 
         }
 
-        args.add(jatekos.x)
-        args.add(jatekos.y)
+        args.add(jatekos!!.x)
+        args.add(jatekos!!.y)
         args.add(XP)
 
         notifyObservers(args)
@@ -215,10 +220,24 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
 
     fun Futtatas(){
 
-            //var megjelenito = GrafikusMegjelenito(ter, 0, 0)
-            jatekos = Jatekos(1, 1, ter, commandProcessor)
-            var kati = GepiJatekos(5,5, ter, 1, commandProcessor)
-            var laci = GonoszGepiJatekos(3,3, ter, 1, commandProcessor)
+        jatekosFactory = JatekosFactory(context)
+
+        //var megjelenito = GrafikusMegjelenito(ter, 0, 0)
+        var jatekosNevLista = jatekosFactory.getNevLista()
+        var koordinatak = ArrayList<Int>()
+
+        for (nev in jatekosNevLista){
+            do{
+                koordinatak = getFreePozition()
+            } while (koordinatak.isEmpty())
+
+            if (nev == "ember"){
+                jatekos = jatekosFactory.createJatekos(1, 1, ter, "ember", commandProcessor)
+            }
+            else {
+                var jatekosUj = jatekosFactory.createJatekos(koordinatak[0], koordinatak[1], ter, nev, commandProcessor)
+            }
+        }
 
            // do {
                 try {
@@ -238,6 +257,36 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
                 }
         //    } while (!jatekVege)
     }
+
+    private fun getFreePozition(): ArrayList<Int> {
+        var koordinatak = ArrayList<Int>(2)
+
+        for (x in 1 until PALYA_MERET_X ){
+            var koordinataX = Random.nextInt(2, PALYA_MERET_X - 1)
+            koordinataX -=  koordinataX % 2 - 1
+                for (y in 1 until PALYA_MERET_Y){
+                    var koordinataY = Random.nextInt(2, PALYA_MERET_X - 1)
+                    koordinataY -= koordinataY % 2 -1
+                    if (isFreePosition(koordinataX, koordinataY)){
+                        koordinatak.add(koordinataX)
+                        koordinatak.add(koordinataY)
+                        return koordinatak
+                    }
+                }
+            }
+        return koordinatak
+        }
+
+    private fun isFreePosition(koordinataX: Int, koordinataY: Int): Boolean {
+        var isFree = false
+        var megadottHelyenLevok = ter.MegadottHelyenLevok(koordinataX, koordinataY)
+
+        if (megadottHelyenLevok.isEmpty())
+        { isFree = true}
+
+        return isFree
+    }
+
 
     private fun beep() {
         var args = ArrayList<Any>(2)

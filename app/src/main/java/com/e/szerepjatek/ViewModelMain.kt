@@ -8,6 +8,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.e.jatekter.JatekTer
 import com.e.keret.*
 import com.e.szabalyok.Jatekos
+import com.e.szabalyok.Kincs
 import kotlin.collections.ArrayList
 
 class ViewModelMain (
@@ -66,6 +67,10 @@ class ViewModelMain (
                 {
                     if (elem is Jatekos){
                         alak = elem.alak
+                        break
+                    }
+                    else if (elem is Kincs){
+                        alak = elem.alak
                     }
                 }
                 mezokKarakter[x][y]?.invalidate()
@@ -73,8 +78,9 @@ class ViewModelMain (
             }
         }
 
-        UIReady = true
+        (context as MainActivity).update()
 
+        UIReady = true
     }
 
     private fun MakeTableLayout() {
@@ -147,6 +153,10 @@ class ViewModelMain (
         var alak = R.drawable.background_1
         for (elem in ter.MegadottHelyenLevok(terkepX, terkepY)){
             if (elem is Jatekos){
+                alak = elem.alak
+                break
+            }
+            else if (elem is Kincs){
                 alak = elem.alak
             }
         }

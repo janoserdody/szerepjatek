@@ -13,9 +13,13 @@ import java.lang.ref.WeakReference
 class UIUpdate() {
 
     private val handler: Handler = object : Handler(Looper.getMainLooper()) {
+        var firstRun = 0
 
         override fun handleMessage(inputMessage: Message) {
             // Gets the image task from the incoming Message object.
+            if (firstRun++ < 4){
+                return
+            }
             var refreshTask = inputMessage.obj as RefreshTask
             if (refreshTask == null){return}
             var mViewModelMainWeakRef: WeakReference<ViewModelMain>? = refreshTask.getViewModelMain()
@@ -60,7 +64,7 @@ class UIUpdateRunnable(private val refreshTask: RefreshTask,
 
         var now = SystemClock.uptimeMillis();
 
-        var next = now + 500;
+        var next = now + 600;
 
         mHandler.postAtTime(this, next);
     }

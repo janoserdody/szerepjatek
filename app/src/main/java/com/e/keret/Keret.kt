@@ -13,7 +13,7 @@ import com.e.szabalyok.*
 import kotlin.random.Random
 
 class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: CommandProcessor, val context: Context)
-    : ObservableKotlin() {
+     {
 
     private var megtalaltKincsek: Int = 0
     private var jatekVege: Boolean = false
@@ -210,7 +210,7 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
         args.add(jatekos!!.y)
         args.add(XP)
 
-        notifyObservers(args)
+        //notifyObservers(args)
     }
 
     fun Futtatas(){
@@ -227,6 +227,9 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
 
             if (nev == "ember"){
                 jatekos = jatekosFactory.createJatekos(1, 1, ter, "ember", commandProcessor)
+                if (jatekos != null){
+                    eletero = (jatekos as Jatekos).eletero
+                }
             }
             else {
                 var gep = jatekosFactory.createJatekos(koordinatak[0], koordinatak[1], ter, nev, commandProcessor)

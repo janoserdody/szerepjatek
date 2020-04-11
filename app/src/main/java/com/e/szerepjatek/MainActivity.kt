@@ -15,7 +15,7 @@ import java.util.*
 import kotlin.system.exitProcess
 
 
-class MainActivity : AppCompatActivity(), ObserverKotlin {
+class MainActivity : AppCompatActivity() {
     private val PALYA_MERET_X: Int = 13  //15
     private val PALYA_MERET_Y: Int = 19 //11
     private val KINCSEK_SZAMA: Int = 10
@@ -65,7 +65,7 @@ class MainActivity : AppCompatActivity(), ObserverKotlin {
         //  6, 9 paraméterrel jól működik
         viewModelMain = ViewModelMain(6, 9, this, table, commandProcessor, ter)
         //keret.addObserver(viewModelMain)
-        keret.addObserver(this)
+        //keret.addObserver(this)
 
         audioPlayer = AudioPlayer(this)
         //createAlertWindow()
@@ -92,19 +92,11 @@ class MainActivity : AppCompatActivity(), ObserverKotlin {
         //timer.scheduleAtFixedRate(uiUpdateRunnable, 1000, 1000);
     }
 
-    override fun update(o: ObservableKotlin?, arg: Any?) {
-        var params = arg as ArrayList<Int>
-        if (params == null) {
-            return
-        }
-        val x = params[0]
-        val y = params[1]
-        val xp = params[2]
-
+    fun update() {
         val textView1 = findViewById<TextView>(R.id.textView1)
         textView1?.setText("életerő: " + keret.eletero.toString())
         val textView2 = findViewById<TextView>(R.id.textView2)
-        textView2?.setText("Tapasztalati pontok: " + xp)
+        textView2?.setText("Tapasztalati pontok: " + keret.XP.toString())
         textView1?.invalidate()
         textView2?.invalidate()
         //audioPlayer.play(Music.Beep2)

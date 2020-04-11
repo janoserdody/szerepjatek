@@ -16,8 +16,8 @@ class UIUpdate() {
         var firstRun = 0
 
         override fun handleMessage(inputMessage: Message) {
-            // Gets the image task from the incoming Message object.
-            if (firstRun < 2){
+
+            if (firstRun < 3){
                 firstRun++
                 return
             }
@@ -25,9 +25,8 @@ class UIUpdate() {
             if (refreshTask == null){return}
             var mViewModelMainWeakRef: WeakReference<ViewModelMain>? = refreshTask.getViewModelMain()
             var view = mViewModelMainWeakRef?.get()
-            if (view != null && view.UIReady){
-                view.RefreshLayout()
-            }
+
+                view?.RefreshLayout()
         }
     }
 
@@ -65,7 +64,7 @@ class UIUpdateRunnable(private val refreshTask: RefreshTask,
 
         var now = SystemClock.uptimeMillis();
 
-        var next = now + 600;
+        var next = now + 500;
 
         mHandler.postAtTime(this, next);
     }

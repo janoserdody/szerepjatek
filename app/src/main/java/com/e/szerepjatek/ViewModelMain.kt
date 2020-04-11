@@ -14,6 +14,8 @@ import kotlin.collections.ArrayList
 class ViewModelMain (
     val mezokX: Int,
     val mezokY: Int,
+    val palyameretX: Int,
+    val palyameretY: Int,
     var context: Context,
     var table: TableLayout,
     val commandProcessor: CommandProcessor,
@@ -33,8 +35,6 @@ class ViewModelMain (
 
     private var mezokKarakter = arrayOf<Array<ImageView?>>()
 
-    var UIReady = false
-
     init{
 
         var imageView = ImageView(context)
@@ -48,7 +48,6 @@ class ViewModelMain (
 
         MakeTableLayout()
     }
-
 
     fun RefreshLayout(){
 
@@ -79,43 +78,40 @@ class ViewModelMain (
         }
 
         (context as MainActivity).update()
-
-        UIReady = true
     }
 
     private fun MakeTableLayout() {
         var mezoMaxX = mezoPixelX * mezoFalArany
         var mezoMaxY = mezoPixelY * mezoFalArany
-        var terkepX = 0
-        var terkepY = 0
+        var terkepX = palyameretX - 1
+        var terkepY = palyameretY - 1
 
         AddFalRow(mezoMaxX, mezoMaxY, terkepX, terkepY)
-        terkepY++
+        terkepY--
 
         for (i in 0 until mezokY) {
             val tr = GetTableRow()
 
-            var fal2 = GetFalVertikalis(mezoPixelX, mezoMaxY, terkepX++, terkepY)
+            var fal2 = GetFalVertikalis(mezoPixelX, mezoMaxY, terkepX--, terkepY)
            mezokKarakter[terkepX][terkepY] = fal2
             tr.addView(fal2, TableRow.LayoutParams(mezoPixelX, mezoMaxY))
 
             for (j in 0 until mezokX) {
                 var mezo = GetMezo(mezoMaxX, mezoMaxY, terkepX, terkepY)
-                mezokKarakter[terkepX++][terkepY] = mezo
+                mezokKarakter[terkepX--][terkepY] = mezo
                 tr.addView(mezo, TableRow.LayoutParams(mezoMaxX, mezoMaxY))
                 var fal = GetFalVertikalis(mezoPixelX, mezoMaxY, terkepX, terkepY)
-                mezokKarakter[terkepX++][terkepY] = fal2
+                mezokKarakter[terkepX--][terkepY] = fal2
                 tr.addView(fal, TableRow.LayoutParams(mezoPixelX, mezoMaxY))
             }
             table.addView(tr)
 
-            terkepX = 0
+            terkepX = palyameretX - 1
 
-            AddFalRow(mezoMaxX, mezoMaxY, terkepX, ++terkepY)
-            terkepY++
+            AddFalRow(mezoMaxX, mezoMaxY, terkepX, --terkepY)
+            terkepY--
         }
         table.invalidate()
-        UIReady = true
     }
 
     private fun AddFalRow(mezoMaxX: Int, mezoMaxY: Int, _terkepX: Int, terkepY: Int) {
@@ -124,16 +120,16 @@ class ViewModelMain (
         var trFal = GetTableRow()
 
         var falHorizontalisRovid2 = GetFalNegyzet(mezoPixelX , mezoPixelY, terkepX, terkepY)
-        mezokKarakter[terkepX++][terkepY] = falHorizontalisRovid2
+        mezokKarakter[terkepX--][terkepY] = falHorizontalisRovid2
 
         trFal.addView(falHorizontalisRovid2, TableRow.LayoutParams(mezoPixelX , mezoPixelY))
 
         for (j in 0 until mezokX) {
             var falHorizontalis = GetFalHorizontalis(mezoMaxX , mezoPixelY, terkepX, terkepY)
-            mezokKarakter[terkepX++][terkepY] = falHorizontalis
+            mezokKarakter[terkepX--][terkepY] = falHorizontalis
             trFal.addView(falHorizontalis, TableRow.LayoutParams(mezoMaxX , mezoPixelY))
             var falHorizontalisRovid = GetFalNegyzet(mezoPixelX , mezoPixelY, terkepX, terkepY)
-            mezokKarakter[terkepX++][terkepY] = falHorizontalisRovid
+            mezokKarakter[terkepX--][terkepY] = falHorizontalisRovid
             trFal.addView(falHorizontalisRovid, TableRow.LayoutParams(mezoPixelX , mezoPixelY))
         }
         table.addView(trFal)

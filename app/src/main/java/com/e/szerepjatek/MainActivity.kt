@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity() {
         var table = findViewById<TableLayout>(R.id.tableLayout1)
 
         //  6, 9 paraméterrel jól működik
-        viewModelMain = ViewModelMain(6, 9, this, table, commandProcessor, ter)
+        viewModelMain = ViewModelMain(6, 9, PALYA_MERET_X, PALYA_MERET_Y,this, table, commandProcessor, ter)
 
         audioPlayer = AudioPlayer(this)
 

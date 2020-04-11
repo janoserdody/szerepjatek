@@ -46,7 +46,7 @@ class JatekTer(val meretX: Int, val meretY: Int): IMegjelenitheto, Runnable {
         //resource.doLogging()
     }
 
-    fun terkepRemove(x: Int, y: Int, jatekElem: MozgoJatekElem) {
+    fun terkepRemove(x: Int, y: Int, jatekElem: JatekElem) {
         try {
             if (lock.tryLock(3, TimeUnit.SECONDS)) {
                 terkep[x][y].remove(jatekElem)
@@ -106,7 +106,7 @@ class JatekTer(val meretX: Int, val meretY: Int): IMegjelenitheto, Runnable {
         elemek.remove(jatekElem)
         elemN--
 
-        terkep[x][y].remove(jatekElem)
+        terkepRemove(x, y, jatekElem)
     }
 
     fun MegadottHelyenLevok(x: Int, y: Int, tavolsag: Int = 0): ArrayList<JatekElem> {

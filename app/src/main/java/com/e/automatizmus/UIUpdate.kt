@@ -17,7 +17,8 @@ class UIUpdate() {
 
         override fun handleMessage(inputMessage: Message) {
             // Gets the image task from the incoming Message object.
-            if (firstRun++ < 4){
+            if (firstRun < 2){
+                firstRun++
                 return
             }
             var refreshTask = inputMessage.obj as RefreshTask

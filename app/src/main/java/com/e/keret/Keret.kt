@@ -1,15 +1,11 @@
 package com.e.keret
 
-//import androidx.annotation.RequiresApi
-import android.R.attr.resource
 import android.content.Context
 import com.e.datalayer.JatekosFactory
 import com.e.datalayer.Music
 import com.e.datalayer.TapasztalatiPontok
 import com.e.jatekter.JatekTer
 import com.e.szabalyok.*
-//import java.util.concurrent.locks.Lock
-//import java.util.concurrent.locks.ReentrantLock
 import kotlin.random.Random
 
 class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: CommandProcessor, val context: Context)
@@ -129,16 +125,10 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
         }
 
         for (i in 0 until KINCSEK_SZAMA) {
-            var kincsX = Random.nextInt(1, PALYA_MERET_X - 2)
-            var kincsY = Random.nextInt(1, PALYA_MERET_Y - 2)
-            var megadottHelyenLevo: Double = 0.0
 
-            for (elem in ter.MegadottHelyenLevok(kincsX, kincsY)){
-                megadottHelyenLevo += elem.meret
-            }
-            if (!(kincsX == 1 && kincsY == 1) && megadottHelyenLevo < 1) {
-                var kincs = Kincs(kincsX, kincsY, ter, commandProcessor)
-            }
+            var freePosition = getFreePozition()
+
+            var kincs = Kincs(freePosition[0], freePosition[1], ter, commandProcessor)
         }
 
         // vakfolt feltöltése
@@ -196,21 +186,7 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
         catch (e: MozgasHalalMiattNemSikerultKivetel){
             playGameoverMusic()
             createExitCommand()
-
         }
-
-        //Megjelenites()
-    }
-
-    fun Megjelenites(){
-
-        var args = ArrayList<Int>(3)
-
-        args.add(jatekos!!.x)
-        args.add(jatekos!!.y)
-        args.add(XP)
-
-        //notifyObservers(args)
     }
 
     fun Futtatas(){
@@ -236,25 +212,6 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
                 gepiJatekosok.add(gep)
             }
         }
-
-           // do {
-                try {
-                   // laci.mozgas()
-                    //kati.mozgas()
-                    //Thread.sleep(3000)
-
-                    //megjelenito.Megjelenites()
-                    //Megjelenites()
-                }
-                catch (e: MozgasHelyHianyMiattNemSikerultKivetel){
-                    beep()
-                }
-                catch(e: MozgasHalalMiattNemSikerultKivetel){
-                    playGameoverMusic()
-                    createExitCommand()
-                }
-        //    } while (!jatekVege)
-        //Megjelenites()
     }
 
     private fun getFreePozition(): ArrayList<Int> {
@@ -286,7 +243,6 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
         return isFree
     }
 
-
     private fun beep() {
         var args = ArrayList<Any>(2)
         args.add(Music.Beep2)
@@ -310,7 +266,6 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
     }
 
     fun JatekosValtozasTortent(jatekos: Jatekos, ujXP: Int, ujEletero: Int){
-        // emberjátékos volt?
         eletero = ujEletero
         XP = ujXP
         if (eletero == 0 && (jatekos !is GepiJatekos)){

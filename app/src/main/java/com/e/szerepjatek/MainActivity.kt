@@ -14,7 +14,6 @@ import com.e.keret.*
 import java.util.*
 import kotlin.system.exitProcess
 
-
 class MainActivity : AppCompatActivity() {
     private val PALYA_MERET_X: Int = 13  //15
     private val PALYA_MERET_Y: Int = 19 //11
@@ -59,16 +58,12 @@ class MainActivity : AppCompatActivity() {
         //imageMonsterView.invalidate()
         //  }
 
-
         var table = findViewById<TableLayout>(R.id.tableLayout1)
 
         //  6, 9 paraméterrel jól működik
         viewModelMain = ViewModelMain(6, 9, this, table, commandProcessor, ter)
-        //keret.addObserver(viewModelMain)
-        //keret.addObserver(this)
 
         audioPlayer = AudioPlayer(this)
-        //createAlertWindow()
 
         keret.Futtatas()
 
@@ -79,17 +74,6 @@ class MainActivity : AppCompatActivity() {
         uiUpdateRunnable = UIUpdateRunnable(refreshTask, keret)
 
         uiUpdateRunnable.run()
-
-    }
-
-    override fun onStart() {
-        super.onStart()
-
-
-
-        //timer = Timer(false)
-
-        //timer.scheduleAtFixedRate(uiUpdateRunnable, 1000, 1000);
     }
 
     fun update() {

@@ -1,6 +1,5 @@
 package com.e.szerepjatek
 
-import android.graphics.Color
 import android.os.Bundle
 import android.widget.TableLayout
 import android.widget.TextView
@@ -8,10 +7,11 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AlertDialog.Builder
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
+import com.e.automatizmus.UIUpdateRunnable
 import com.e.datalayer.Music
 import com.e.jatekter.JatekTer
 import com.e.keret.*
+import java.util.*
 import kotlin.system.exitProcess
 
 
@@ -23,6 +23,9 @@ class MainActivity : AppCompatActivity(), ObserverKotlin {
     val commandProcessor = CommandProcessor()
     val ter = JatekTer(PALYA_MERET_X, PALYA_MERET_Y)
     private val keret = Keret(ter, KINCSEK_SZAMA, commandProcessor, this)
+    lateinit private var timer: Timer
+    lateinit private var refreshTask: RefreshTask
+    lateinit private var uiUpdateRunnable: UIUpdateRunnable
 
     val kattintCommand = KattintCommand(keret)
     val kincsfelvetelCommand = KincsfelvetelCommand(keret)
@@ -61,13 +64,32 @@ class MainActivity : AppCompatActivity(), ObserverKotlin {
 
         //  6, 9 paraméterrel jól működik
         viewModelMain = ViewModelMain(6, 9, this, table, commandProcessor, ter)
-        keret.addObserver(viewModelMain)
+        //keret.addObserver(viewModelMain)
         keret.addObserver(this)
 
         audioPlayer = AudioPlayer(this)
         //createAlertWindow()
 
         keret.Futtatas()
+
+        refreshTask = RefreshTask(viewModelMain)
+
+        refreshTask.setCurrentThread(Thread.currentThread())
+
+        uiUpdateRunnable = UIUpdateRunnable(refreshTask, keret)
+
+        uiUpdateRunnable.run()
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+
+
+        //timer = Timer(false)
+
+        //timer.scheduleAtFixedRate(uiUpdateRunnable, 1000, 1000);
     }
 
     override fun update(o: ObservableKotlin?, arg: Any?) {

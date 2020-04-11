@@ -1,17 +1,16 @@
 package com.e.keret
 
-import android.content.Context
-import android.os.Build
 //import androidx.annotation.RequiresApi
+import android.R.attr.resource
+import android.content.Context
 import com.e.datalayer.JatekosFactory
 import com.e.datalayer.Music
 import com.e.datalayer.TapasztalatiPontok
 import com.e.jatekter.JatekTer
 import com.e.szabalyok.*
-import java.util.*
-import kotlin.collections.ArrayList
+//import java.util.concurrent.locks.Lock
+//import java.util.concurrent.locks.ReentrantLock
 import kotlin.random.Random
-
 
 class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: CommandProcessor, val context: Context)
     : ObservableKotlin() {
@@ -22,9 +21,11 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
     private val PALYA_MERET_Y: Int
     //private val MAXFAL = 200
     private val FALMAXHOSSZ = 8
+    private val MAX_JATEKOS = 10
     private var jatekos: Jatekos? = null
     private val pontMap = TapasztalatiPontok.pontok
     private lateinit var jatekosFactory: JatekosFactory
+    var gepiJatekosok = ArrayList<Jatekos?>(MAX_JATEKOS)
 
     var eletero = 0
     var XP = 0
@@ -198,7 +199,7 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
 
         }
 
-        Megjelenites()
+        //Megjelenites()
     }
 
     fun Megjelenites(){
@@ -216,7 +217,6 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
 
         jatekosFactory = JatekosFactory(context)
 
-        //var megjelenito = GrafikusMegjelenito(ter, 0, 0)
         var jatekosNevLista = jatekosFactory.getNevLista()
         var koordinatak = ArrayList<Int>()
 
@@ -229,7 +229,8 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
                 jatekos = jatekosFactory.createJatekos(1, 1, ter, "ember", commandProcessor)
             }
             else {
-                var jatekosUj = jatekosFactory.createJatekos(koordinatak[0], koordinatak[1], ter, nev, commandProcessor)
+                var gep = jatekosFactory.createJatekos(koordinatak[0], koordinatak[1], ter, nev, commandProcessor)
+                gepiJatekosok.add(gep)
             }
         }
 
@@ -250,7 +251,7 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
                     createExitCommand()
                 }
         //    } while (!jatekVege)
-        Megjelenites()
+        //Megjelenites()
     }
 
     private fun getFreePozition(): ArrayList<Int> {

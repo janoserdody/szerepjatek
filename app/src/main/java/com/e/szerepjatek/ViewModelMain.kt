@@ -16,7 +16,7 @@ class ViewModelMain (
     var context: Context,
     var table: TableLayout,
     val commandProcessor: CommandProcessor,
-    val ter: JatekTer): ObserverKotlin {
+    val ter: JatekTer) {
 
     private val mezoFalArany = 4
     private val mezoFalAranySzorzo = 4 + 1
@@ -30,18 +30,11 @@ class ViewModelMain (
     private var offsetX = 0
     private var offsetY = 0
 
-    //private var mezokReszecske = arrayOf<Array<Mezo>>()
     private var mezokKarakter = arrayOf<Array<ImageView?>>()
-    //private var mezokFal = arrayOf<Array<ImageView?>>()
+
+    var UIReady = false
 
     init{
-      //  for (i in 0..maxX) {
-      //      var array = arrayOf<Mezo>()
-      //      for (j in 0..maxY){
-     //           array += Mezo.Ures
-      //      }
-      //      mezokReszecske += array
-      //////  }
 
         var imageView = ImageView(context)
         for (i in 0..mezokX * 4) {
@@ -52,19 +45,12 @@ class ViewModelMain (
             mezokKarakter += array
         }
 
-//        for (i in 0 until (maxFalX * 3)) {
-//            var array = arrayOf<ImageView?>()
-//            for (j in 0 until (maxFalY * 3)){
-//                array += imageView
-//            }
-//            mezokFal += array
-//        }
-
         MakeTableLayout()
     }
 
 
-    private fun RefreshLayout(){
+    fun RefreshLayout(){
+
         var mezoMaxX = mezoPixelX * mezoFalArany
         var mezoMaxY = mezoPixelY * mezoFalArany
         var palyaX = mezokX * 2 + 1
@@ -75,16 +61,19 @@ class ViewModelMain (
         for (x in 1 until palyaX step 2){
             for(y in 1 until palyaY step 2){
                 alak = R.drawable.background_1
-                for (elem in ter.terkep[x][y])
+                var jatekElemek = ter.terkepRead(x, y)
+                for (elem in jatekElemek)
                 {
                     if (elem is Jatekos){
                         alak = elem.alak
                     }
                 }
+                mezokKarakter[x][y]?.invalidate()
                 mezokKarakter[x][y]?.setImageResource(alak)
             }
         }
 
+        UIReady = true
 
     }
 
@@ -120,6 +109,7 @@ class ViewModelMain (
             terkepY++
         }
         table.invalidate()
+        UIReady = true
     }
 
     private fun AddFalRow(mezoMaxX: Int, mezoMaxY: Int, _terkepX: Int, terkepY: Int) {
@@ -208,21 +198,5 @@ class ViewModelMain (
         view.bottom = 0;
         view.top = 0;
         return view
-    }
-
-    override fun update(o: ObservableKotlin?, arg: Any?) {
-        var params = arg as ArrayList<Int>
-        if (params == null){
-            return
-        }
-        val x = params[0]
-        val y = params[1]
-        var keret = o as Keret
-        if (keret == null){
-            return
-        }
-
-        //mezokKarakter[x][y]?.setImageResource(R.drawable.monster2)
-        RefreshLayout()
     }
 }

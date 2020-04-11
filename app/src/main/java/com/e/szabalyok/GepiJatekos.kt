@@ -32,7 +32,7 @@ open class GepiJatekos(_x: Int, _y: Int, _jatekTer: JatekTer, override var nev: 
                     iranyokOsszeg += i
                 }
                 do {
-                    var random = rnd.nextInt(3)
+                    random = rnd.nextInt(3)
                 } while (iranyok[random] == 1 && iranyokOsszeg < 4)
                 iranyok[random] = 1
             }

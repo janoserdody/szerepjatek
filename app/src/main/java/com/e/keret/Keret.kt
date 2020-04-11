@@ -198,22 +198,16 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
 
         }
 
-        args.add(jatekos!!.x)
-        args.add(jatekos!!.y)
-        args.add(XP)
-
-        notifyObservers(args)
+        Megjelenites()
     }
 
     fun Megjelenites(){
 
-        var args = ArrayList<Int>(2)
+        var args = ArrayList<Int>(3)
 
-        args.add(0)
-        args.add(0)
-        args.add(0)
-
-        //eletero--
+        args.add(jatekos!!.x)
+        args.add(jatekos!!.y)
+        args.add(XP)
 
         notifyObservers(args)
     }
@@ -256,6 +250,7 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
                     createExitCommand()
                 }
         //    } while (!jatekVege)
+        Megjelenites()
     }
 
     private fun getFreePozition(): ArrayList<Int> {

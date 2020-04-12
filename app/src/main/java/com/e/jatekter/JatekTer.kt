@@ -29,8 +29,17 @@ class JatekTer(val meretX: Int, val meretY: Int): IMegjelenitheto, Runnable {
         }
     }
 
-    fun removeElemFromElemek(elem: JatekElem){
-        elemek.remove(elem)
+    fun removeElemFromElemek(jatekElem: JatekElem) {
+        try {
+            if (lock.tryLock(3, TimeUnit.SECONDS)) {
+                elemek.remove(jatekElem)
+            }
+        } catch (e: InterruptedException) {
+            e.printStackTrace()
+        } finally {
+            //release lock
+            lock.unlock()
+        }
     }
 
     override fun run() {
@@ -45,6 +54,20 @@ class JatekTer(val meretX: Int, val meretY: Int): IMegjelenitheto, Runnable {
             lock.unlock()
         }
         //resource.doLogging()
+    }
+
+    fun terkepRemoveAndAdd(x: Int, y: Int, ujX: Int, ujY: Int, jatekElem: JatekElem) {
+        try {
+            if (lock.tryLock(3, TimeUnit.SECONDS)) {
+                terkep[x][y].remove(jatekElem)
+                terkep[ujX][ujY].add(jatekElem)
+            }
+        } catch (e: InterruptedException) {
+            e.printStackTrace()
+        } finally {
+            //release lock
+            lock.unlock()
+        }
     }
 
     fun terkepRemove(x: Int, y: Int, jatekElem: JatekElem) {
@@ -104,10 +127,11 @@ class JatekTer(val meretX: Int, val meretY: Int): IMegjelenitheto, Runnable {
         var x = jatekElem.x
         var y = jatekElem.y
 
-        elemek.remove(jatekElem)
-        elemN--
-
         terkepRemove(x, y, jatekElem)
+
+        removeElemFromElemek(jatekElem)
+
+        elemN--
     }
 
     fun MegadottHelyenLevok(x: Int, y: Int, tavolsag: Int = 0): ArrayList<JatekElem> {

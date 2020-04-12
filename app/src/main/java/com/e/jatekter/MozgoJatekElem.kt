@@ -30,10 +30,7 @@ abstract class MozgoJatekElem(_x: Int, _y: Int, _jatekTer: JatekTer)
 
             // átmozgatja az új koordináta alapján az új mezőre
             if (osszesMeret <= 1){
-                ter.terkepRemove(x, y, this)
-                //ter.terkep[x][y].remove(this)
-                ter.terkepAdd(ujX, ujY, this)
-                //ter.terkep[ujX][ujY].add(this)
+                ter.terkepRemoveAndAdd(x, y, ujX, ujY, this)
                 x = ujX
                 y = ujY
             }

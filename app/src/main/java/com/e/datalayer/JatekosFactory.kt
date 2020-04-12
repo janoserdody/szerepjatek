@@ -28,8 +28,6 @@ class JatekosFactory(val context: Context) {
 
         val file_name = "karakterek.json"
 
-        //var c = context as MainActivity
-
 try {
     var json_string = context.assets.open("karakterek.json").bufferedReader(Charsets.UTF_8).use {
         it.readText()

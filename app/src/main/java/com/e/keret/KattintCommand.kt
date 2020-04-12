@@ -7,7 +7,4 @@ class KattintCommand(val keret: Keret) : Command {
         val y = arg[1] as Int
         keret.Kattint(x, y)
     }
-
-
-
 }

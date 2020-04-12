@@ -12,7 +12,5 @@ class JatekosValtozasCommand(val keret: Keret) : Command {
 
             keret.JatekosValtozasTortent(params[0] as Jatekos, params[1] as Int, params[2] as Int)
         }
-
-
     }
 }

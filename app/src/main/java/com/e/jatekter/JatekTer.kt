@@ -1,6 +1,5 @@
 package com.e.jatekter
 
-import android.R.attr.resource
 import com.e.megjelenites.IKirajzolhato
 import com.e.megjelenites.IMegjelenitheto
 import com.e.szabalyok.Fal
@@ -9,18 +8,16 @@ import java.util.concurrent.locks.Lock
 import java.util.concurrent.locks.ReentrantLock
 import kotlin.math.sqrt
 
-
 // konstruktorban a var jelenti a publikus property-t
 // típust a kettőspont után adjuk meg
 class JatekTer(val meretX: Int, val meretY: Int): IMegjelenitheto, Runnable {
     val MAX_ELEMSZAM = 1000
     private var elemN = 0
     private val elemek =
-        ArrayList<JatekElem>(MAX_ELEMSZAM) //JatekElem[MAX_ELEMSZAM];
+        ArrayList<JatekElem>(MAX_ELEMSZAM)
     private val lock: Lock = ReentrantLock()
 
     var terkep = arrayOf<Array<MutableList<JatekElem>>>()
-
 
     init{
         for (x in 0 until meretX + 1) {

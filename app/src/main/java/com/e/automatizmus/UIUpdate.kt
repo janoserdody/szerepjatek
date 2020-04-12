@@ -18,7 +18,7 @@ class UIUpdate() {
 
         override fun handleMessage(inputMessage: Message) {
 
-            if (firstRun < 3){
+            if (firstRun < 4){
                 firstRun++
                 return
             }
@@ -65,7 +65,7 @@ class UIUpdateRunnable(private val refreshTask: RefreshTask,
 
         var now = SystemClock.uptimeMillis();
 
-        var next = now + 700;
+        var next = now + 500;
 
         mHandler.postAtTime(this, next);
     }

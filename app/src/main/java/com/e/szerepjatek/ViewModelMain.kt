@@ -72,7 +72,6 @@ class ViewModelMain (
                         alak = elem.alak
                     }
                 }
-                mezokKarakter[x][y]?.invalidate()
                 mezokKarakter[x][y]?.setImageResource(alak)
             }
         }

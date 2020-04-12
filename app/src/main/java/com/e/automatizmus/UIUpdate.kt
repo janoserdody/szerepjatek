@@ -18,7 +18,7 @@ class UIUpdate() {
 
         override fun handleMessage(inputMessage: Message) {
 
-            if (firstRun < 4){
+            if (firstRun < 6){
                 firstRun++
                 return
             }
@@ -27,8 +27,8 @@ class UIUpdate() {
             var mViewModelMainWeakRef: WeakReference<ViewModelMain>? = refreshTask.getViewModelMain()
             var view = mViewModelMainWeakRef?.get()
 
-                view?.RefreshLayout()
-        }
+            view?.RefreshLayout()
+            }
     }
 
     fun handleState(refreshTask: RefreshTask, state: Int) {
@@ -58,14 +58,14 @@ class UIUpdateRunnable(private val refreshTask: RefreshTask,
     override fun run() {
         refreshTask.handleUIState(1)
 
-        if (szamlalo++ >= 3){
+        if (szamlalo++ >= 4){
             szamlalo = 0
             mozgas()
         }
 
         var now = SystemClock.uptimeMillis();
 
-        var next = now + 500;
+        var next = now + 300;
 
         mHandler.postAtTime(this, next);
     }

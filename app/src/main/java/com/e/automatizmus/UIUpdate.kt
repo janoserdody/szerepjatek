@@ -7,6 +7,7 @@ import android.os.SystemClock
 import com.e.keret.Keret
 import com.e.keret.RefreshTask
 import com.e.szabalyok.GepiJatekos
+import com.e.szabalyok.MozgasHalalMiattNemSikerultKivetel
 import com.e.szerepjatek.ViewModelMain
 import java.lang.ref.WeakReference
 
@@ -64,14 +65,22 @@ class UIUpdateRunnable(private val refreshTask: RefreshTask,
 
         var now = SystemClock.uptimeMillis();
 
-        var next = now + 500;
+        var next = now + 700;
 
         mHandler.postAtTime(this, next);
     }
 
     private fun mozgas(){
-        for (jatekos in keret.gepiJatekosok){
-            (jatekos as GepiJatekos)?.mozgas()
-        }
+            var gepiJatekosok = keret.getGepiJatekosok()
+            for (jatekos in gepiJatekosok){
+                try {
+                    (jatekos as GepiJatekos)?.mozgas()
+                }
+                catch (e: MozgasHalalMiattNemSikerultKivetel){
+                    if (jatekos != null) {
+                        keret.jatekosRemove(jatekos)
+                    }
+                }
+            }
     }
 }

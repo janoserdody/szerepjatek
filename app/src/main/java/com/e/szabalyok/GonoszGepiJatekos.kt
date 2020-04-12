@@ -12,6 +12,5 @@ class GonoszGepiJatekos(_x: Int, _y: Int, _jatekTer: JatekTer, override var nev:
 ) : GepiJatekos(_x, _y, _jatekTer, nev, mukodesIntervallum, commandProcessor, tulajdonsagok), IAutomatikusanMukodo {
     override val alak: Int
         get() = R.drawable.monster2
-    override var Sebzes = 20
-
+    override var Sebzes = 1
 }

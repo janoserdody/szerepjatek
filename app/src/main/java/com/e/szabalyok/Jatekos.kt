@@ -28,7 +28,7 @@ open class Jatekos(_x: Int, _y: Int, _jatekTer: JatekTer, open var nev: String,
 
     //var pontszam = 0 pontszám helyett XP
     var XP = 0
-    open var Sebzes = 10
+    open var Sebzes = 90
 
 
     override val meret: Double
@@ -55,18 +55,29 @@ open class Jatekos(_x: Int, _y: Int, _jatekTer: JatekTer, open var nev: String,
         if (aktiv && jatekElem is Jatekos) {
             jatekElem.serul(Sebzes)
         }
+
     }
 
     fun serul(sebzes: Int) {
         if (eletero == 0) return
+
+
         if (eletero - sebzes < 0) {
             eletero = 0
             aktiv = false
+            jatekosTorles()
         } else eletero -= sebzes
 
         if (sebzes > 0){
 
             JatekosValtozas(this, XP, eletero)
+        }
+    }
+
+    private fun jatekosTorles() {
+        if (this is GepiJatekos){
+            ter.terkepRemove(x, y, this)
+            ter.removeElemFromElemek(this)
         }
     }
 

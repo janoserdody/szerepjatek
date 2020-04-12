@@ -29,6 +29,10 @@ class JatekTer(val meretX: Int, val meretY: Int): IMegjelenitheto, Runnable {
         }
     }
 
+    fun removeElemFromElemek(elem: JatekElem){
+        elemek.remove(elem)
+    }
+
     override fun run() {
         try {
             if (lock.tryLock(3, TimeUnit.SECONDS)) {

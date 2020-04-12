@@ -4,8 +4,12 @@ import android.content.Context
 import com.e.datalayer.JatekosFactory
 import com.e.datalayer.Music
 import com.e.datalayer.TapasztalatiPontok
+import com.e.jatekter.JatekElem
 import com.e.jatekter.JatekTer
 import com.e.szabalyok.*
+import java.util.concurrent.TimeUnit
+import java.util.concurrent.locks.Lock
+import java.util.concurrent.locks.ReentrantLock
 import kotlin.random.Random
 
 class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: CommandProcessor, val context: Context)
@@ -21,7 +25,8 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
     private var jatekos: Jatekos? = null
     private val pontMap = TapasztalatiPontok.pontok
     private lateinit var jatekosFactory: JatekosFactory
-    var gepiJatekosok = ArrayList<Jatekos?>(MAX_JATEKOS)
+    private var gepiJatekosok = ArrayList<Jatekos?>(MAX_JATEKOS)
+    private val lock: Lock = ReentrantLock()
 
     var eletero = 0
     var XP = 0
@@ -305,5 +310,33 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
             var args = ArrayList<Any>(2)
             args.add(0)
             commandProcessor.Execute(CommandId.Exit, args)
+    }
+
+    fun jatekosRemove(jatekos: Jatekos) {
+         try {
+             if (lock.tryLock(3, TimeUnit.SECONDS)) {
+                 gepiJatekosok.remove(jatekos)
+             }
+         } catch (e: InterruptedException) {
+             e.printStackTrace()
+         } finally {
+             //release lock
+             lock.unlock()
+         }
+    }
+
+    fun getGepiJatekosok(): List<Jatekos?> {
+        var result= mutableListOf<Jatekos?>()
+        try {
+            if (lock.tryLock(3, TimeUnit.SECONDS)) {
+                result.addAll(gepiJatekosok)
+            }
+        } catch (e: InterruptedException) {
+            e.printStackTrace()
+        } finally {
+            //release lock
+            lock.unlock()
+            return result
+        }
     }
 }

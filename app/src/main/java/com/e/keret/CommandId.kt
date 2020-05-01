@@ -5,5 +5,6 @@ enum class CommandId {
     KincsFelvetel,
     JatekosValtozas,
     PlayBeep,
-    Exit
+    Exit,
+    Fight
 }

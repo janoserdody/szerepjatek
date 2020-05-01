@@ -12,7 +12,7 @@ import org.json.simple.JSONObject
 
 open class Jatekos(_x: Int, _y: Int, _jatekTer: JatekTer, open var nev: String,
                    private val commandProcessor: CommandProcessor, tulajdonsagok: JSONObject) :
-    MozgoJatekElem(_x, _y, _jatekTer), IMegjelenitheto, IKirajzolhato, JatekosValtozasKezelo {
+    MozgoJatekElem(_x, _y, _jatekTer, commandProcessor), IMegjelenitheto, IKirajzolhato, JatekosValtozasKezelo {
 
     var eletero = 100
     var ero = 0

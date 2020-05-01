@@ -1,9 +1,11 @@
 package com.e.jatekter
 
+import com.e.keret.CommandId
+import com.e.keret.CommandProcessor
 import com.e.szabalyok.MozgasHalalMiattNemSikerultKivetel
 import com.e.szabalyok.MozgasHelyHianyMiattNemSikerultKivetel
 
-abstract class MozgoJatekElem(_x: Int, _y: Int, _jatekTer: JatekTer)
+abstract class MozgoJatekElem(_x: Int, _y: Int, _jatekTer: JatekTer, private val commandProcessor: CommandProcessor)
     : JatekElem(_x, _y, _jatekTer) {
 
     var aktiv: Boolean = true
@@ -14,6 +16,8 @@ abstract class MozgoJatekElem(_x: Int, _y: Int, _jatekTer: JatekTer)
         for (elem in jatekElemek){
             elem.utkozes(this)
             if (this.aktiv) {
+                fight(elem)
+
                 utkozes(elem)
             }
             if(!this.aktiv){
@@ -39,4 +43,11 @@ abstract class MozgoJatekElem(_x: Int, _y: Int, _jatekTer: JatekTer)
             }
           }
         }
+
+    fun fight(vedoJatekos: JatekElem){
+        var args = ArrayList<Any>(5)
+        args.add(this)
+        args.add(vedoJatekos)
+        commandProcessor.Execute(CommandId.Fight, args)
+    }
 }

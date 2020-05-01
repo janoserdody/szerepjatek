@@ -1,5 +1,7 @@
 package com.e.szerepjatek
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.animation.AnimationUtils
@@ -8,6 +10,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import java.util.*
+
 
 class HarcActivity2 : AppCompatActivity() {
     var viewPlayer: ImageView? = null
@@ -19,6 +22,10 @@ class HarcActivity2 : AppCompatActivity() {
     var playerPoints = 30
     var monsterPoints = 15
     var r: Random? = null
+
+    companion object {
+        val EXTRA_REPLY = "com.example.android.harcactivity.extra.REPLY"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,6 +67,8 @@ class HarcActivity2 : AppCompatActivity() {
                     "Vége a játéknak: Nyetrél",
                     Toast.LENGTH_LONG
                 ).show()
+                Thread.sleep(2_000)
+                finish()
             }
             if (playerPoints <= 0) {
                 imageViewPlayer!!.setImageResource(R.drawable.halottfighter1)
@@ -69,6 +78,8 @@ class HarcActivity2 : AppCompatActivity() {
                     "Vége a játéknak: Vesztettél",
                     Toast.LENGTH_LONG
                 ).show()
+                Thread.sleep(2_000)
+                finish()
             }
         }
     }
@@ -93,5 +104,15 @@ class HarcActivity2 : AppCompatActivity() {
             5 -> viewPlayer!!.setImageResource(R.drawable.ot)
             6 -> viewPlayer!!.setImageResource(R.drawable.hat)
         }
+    }
+
+    override fun finish() {
+        // Prepare data intent
+        val data = Intent()
+        data.putExtra(EXTRA_REPLY, 5)
+        //data.putExtra("returnKey2", "You could be better then you are. ")
+        // Activity finished ok, return the data
+        setResult(Activity.RESULT_OK, data)
+        super.finish()
     }
 }

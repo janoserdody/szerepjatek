@@ -1,12 +1,14 @@
 package com.e.keret
 
 import android.content.Context
+import android.content.Intent
 import com.e.datalayer.JatekosFactory
 import com.e.datalayer.Music
 import com.e.datalayer.TapasztalatiPontok
 import com.e.jatekter.JatekElem
 import com.e.jatekter.JatekTer
 import com.e.szabalyok.*
+import com.e.szerepjatek.MainActivity
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.locks.Lock
 import java.util.concurrent.locks.ReentrantLock
@@ -339,4 +341,5 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
             return result
         }
     }
+
 }

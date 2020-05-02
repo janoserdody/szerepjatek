@@ -7,6 +7,7 @@ import android.os.SystemClock
 import com.e.keret.Keret
 import com.e.keret.RefreshTask
 import com.e.szabalyok.GepiJatekos
+import com.e.szabalyok.Jatekos
 import com.e.szabalyok.MozgasHalalMiattNemSikerultKivetel
 import com.e.szerepjatek.ViewModelMain
 import java.lang.ref.WeakReference
@@ -71,16 +72,17 @@ class UIUpdateRunnable(private val refreshTask: RefreshTask,
     }
 
     private fun mozgas(){
+        if (keret.getHarcallapot() == true){
+            return
+        }
             var gepiJatekosok = keret.getGepiJatekosok()
+
+        if (gepiJatekosok.count() < 1){
+            return
+        }
+
             for (jatekos in gepiJatekosok){
-                try {
                     (jatekos as GepiJatekos)?.mozgas()
-                }
-                catch (e: MozgasHalalMiattNemSikerultKivetel){
-                    if (jatekos != null) {
-                        keret.jatekosRemove(jatekos)
-                    }
-                }
             }
     }
 }

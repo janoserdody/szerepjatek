@@ -2,68 +2,36 @@
 	{
 		"type": "Jatekos",
 		"data": {
-			"nev": "varazslo",
-			"ero": 12,
-			"allokepesseg": 10,
-			"gyorsasag": 16,
-			"ugyesseg": 14,
-			"szepseg": 4,
-			"egeszseg": 10,
-			"akaratero": 18,
-			"asztral": 20,
-			"intelligencia": 20,
-			"muveltseg": 20
-        }
-    },
-	{
-		"type": "Jatekos",
-		"data": {
-			"nev": "harcos",
-			"ero": 21,
-			"allokepesseg": 20,
-			"gyorsasag": 16,
-			"ugyesseg": 15,
-			"szepseg": 10,
-			"egeszseg": 18,
-			"akaratero": 12,
-			"asztral": 18,
-			"intelligencia": 12,
-			"muveltseg": 12
-        }
-    },
-	{
-		"type": "Jatekos",
-		"data": {
-			"nev": "pap",
-			"ero": 14,
+			"nev": "ember",
+			"ero": 18,
 			"allokepesseg": 12,
-			"gyorsasag": 14,
-			"ugyesseg": 14,
-			"szepseg": 10,
-			"egeszseg": 16,
-			"akaratero": 18,
-			"asztral": 18,
-			"intelligencia": 21,
-			"muveltseg": 21
-        }
-    },
-	{
-		"type": "Jatekos",
-		"data": {
-			"nev": "vandor",
-			"ero": 12,
-			"allokepesseg": 16,
 			"gyorsasag": 15,
-			"ugyesseg": 14,
-			"szepseg": 18,
-			"egeszseg": 21,
-			"akaratero": 15,
-			"asztral": 10,
-			"intelligencia": 15,
-			"muveltseg": 14
-        }
-    },
-    {
+			"ugyesseg": 11,
+			"szepseg": 8,
+			"egeszseg": 9,
+			"akaratero": 16,
+			"asztral": 3,
+			"intelligencia": 14,
+			"muveltseg": 7
+		}
+	},
+	{
+		"type": "GonoszGepiJatekos",
+		"data": {
+			"nev": "ork harcos",
+			"ero": 15,
+			"allokepesseg": 12,
+			"gyorsasag": 11,
+			"ugyesseg": 8,
+			"szepseg": 3,
+			"egeszseg": 7,
+			"akaratero": 5,
+			"asztral": 3,
+			"intelligencia": 2,
+			"muveltseg": 1
+		}
+	},
+	{
 		"type": "GonoszGepiJatekos",
 		"data": {
 			"nev": "farkas",
@@ -368,7 +336,7 @@
 		}
     },	
 	{
-		"type": "EgyebLenyek",
+		"type": "Jatekos",
 		"data": {
 			"nev": "egyebvarazslo",
 			"ero": 12,
@@ -384,7 +352,7 @@
 		}
     },
 	{
-		"type": "EgyebLenyek",
+		"type": "Jatekos",
 		"data": {
 			"nev": "kereskedo",
 			"ero": 12,
@@ -400,7 +368,7 @@
 		}
     },
 	{
-		"type": "EgyebLenyek",
+		"type": "Jatekos",
 		"data": {
 			"nev": "kocsmaros",
 			"ero": 18,
@@ -416,7 +384,7 @@
 		}
     },
 	{
-		"type": "EgyebLenyek",
+		"type": "Jatekos",
 		"data": {
 			"nev": "egyebharcos",
 			"ero": 20,
@@ -430,5 +398,69 @@
 			"intelligencia": 6,
 			"muveltseg": 5
 		}
-    }
+    },
+	{
+		"type": "Jatekos",
+		"data": {
+			"nev": "varazslo",
+			"ero": 12,
+			"allokepesseg": 10,
+			"gyorsasag": 16,
+			"ugyesseg": 14,
+			"szepseg": 4,
+			"egeszseg": 10,
+			"akaratero": 18,
+			"asztral": 20,
+			"intelligencia": 20,
+			"muveltseg": 20
+		}
+	},
+	{
+		"type": "Jatekos",
+		"data": {
+			"nev": "harcos",
+			"ero": 21,
+			"allokepesseg": 20,
+			"gyorsasag": 16,
+			"ugyesseg": 15,
+			"szepseg": 10,
+			"egeszseg": 18,
+			"akaratero": 12,
+			"asztral": 18,
+			"intelligencia": 12,
+			"muveltseg": 12
+		}
+	},
+	{
+		"type": "Jatekos",
+		"data": {
+			"nev": "pap",
+			"ero": 14,
+			"allokepesseg": 12,
+			"gyorsasag": 14,
+			"ugyesseg": 14,
+			"szepseg": 10,
+			"egeszseg": 16,
+			"akaratero": 18,
+			"asztral": 18,
+			"intelligencia": 21,
+			"muveltseg": 21
+		}
+	},
+	{
+		"type": "Jatekos",
+		"data": {
+			"nev": "vandor",
+			"ero": 12,
+			"allokepesseg": 16,
+			"gyorsasag": 15,
+			"ugyesseg": 14,
+			"szepseg": 18,
+			"egeszseg": 21,
+			"akaratero": 15,
+			"asztral": 10,
+			"intelligencia": 15,
+			"muveltseg": 14
+		}
+	}
 ]

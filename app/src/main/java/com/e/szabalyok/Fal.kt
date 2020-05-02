@@ -10,7 +10,7 @@ class Fal(x: Int, y: Int, jatekTer: JatekTer) : RogzitettJatekElem(x, y, jatekTe
     override val meret: Double
         get() = 1.0
 
-    override fun utkozes(jatekElem: JatekElem) {}
+    override fun utkozes(jatekElem: JatekElem, serul: Int) {}
     override val alak: Int
         get() = R.drawable.wall_h
 }

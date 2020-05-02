@@ -15,7 +15,7 @@ class Kincs(x: Int, y: Int, jatekTer: JatekTer, private val commandProcessor: Co
     override val meret: Double
         get() = 1.0
 
-   override fun utkozes(jatekElem: JatekElem) {
+   override fun utkozes(jatekElem: JatekElem, serul: Int) {
         if (jatekElem is Jatekos) {
             jatekElem.pontotSzerez(50)
         }

@@ -14,7 +14,7 @@ open class Jatekos(_x: Int, _y: Int, _jatekTer: JatekTer, open var nev: String,
                    private val commandProcessor: CommandProcessor, tulajdonsagok: JSONObject) :
     MozgoJatekElem(_x, _y, _jatekTer, commandProcessor), IMegjelenitheto, IKirajzolhato, JatekosValtozasKezelo {
 
-    var eletero = 100
+    var eletero = 20
     var ero = 0
     var allokepesseg = 0
     var gyorsasag = 0
@@ -26,7 +26,6 @@ open class Jatekos(_x: Int, _y: Int, _jatekTer: JatekTer, open var nev: String,
     var intelligencia = 0
     var muveltseg = 0
 
-    //var pontszam = 0 pontszám helyett XP
     var XP = 0
     open var Sebzes = 90
 
@@ -51,23 +50,24 @@ open class Jatekos(_x: Int, _y: Int, _jatekTer: JatekTer, open var nev: String,
         muveltseg = Integer.parseInt(obj["muveltseg"].toString())
     }
 
-    override fun utkozes(jatekElem: JatekElem) {
+    override fun utkozes(jatekElem: JatekElem, sebzes: Int) {
         if (aktiv && jatekElem is Jatekos) {
-            jatekElem.serul(Sebzes)
+            jatekElem.serul(sebzes)
         }
     }
 
     fun serul(sebzes: Int) {
         if (eletero == 0) return
 
-        if (eletero - sebzes < 0) {
+        if (eletero - sebzes <= 0) {
 
             eletero = 0
 
             aktiv = false
 
-            ter.Torles(this)
-
+            if (this is GepiJatekos){
+                ter.Torles(this)
+            }
         } else eletero -= sebzes
 
         if (sebzes > 0){

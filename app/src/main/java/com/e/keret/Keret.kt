@@ -1,17 +1,15 @@
 package com.e.keret
 
 import android.content.Context
-import android.content.Intent
 import com.e.datalayer.JatekosFactory
 import com.e.datalayer.Music
 import com.e.datalayer.TapasztalatiPontok
-import com.e.jatekter.JatekElem
 import com.e.jatekter.JatekTer
 import com.e.szabalyok.*
-import com.e.szerepjatek.MainActivity
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.locks.Lock
 import java.util.concurrent.locks.ReentrantLock
+import kotlin.math.exp
 import kotlin.random.Random
 
 class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: CommandProcessor, val context: Context)
@@ -23,7 +21,8 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
     private val PALYA_MERET_Y: Int
     //private val MAXFAL = 200
     private val FALMAXHOSSZ = 8
-    private val MAX_JATEKOS = 10
+    private val MAX_JATEKOS = 3
+    private var szornyekSzama = MAX_JATEKOS - 1
     private var jatekos: Jatekos? = null
     private val pontMap = TapasztalatiPontok.pontok
     private lateinit var jatekosFactory: JatekosFactory
@@ -32,6 +31,7 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
 
     var eletero = 0
     var XP = 0
+    private var harcAllapot = false
 
 
     init {
@@ -170,7 +170,6 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
 
     fun Kattint(x: Int?, y: Int?){
         if (x == null || y == null || jatekos == null){
-            //throw Exception("invalid type, fun Kattint in Keret class")
             return
         }
 
@@ -190,16 +189,13 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
         catch (e: MozgasHelyHianyMiattNemSikerultKivetel){
             beep()
         }
-        catch (e: MozgasHalalMiattNemSikerultKivetel){
-            playGameoverMusic()
-            createExitCommand()
-        }
     }
 
     fun Futtatas(){
 
         jatekosFactory = JatekosFactory(context)
 
+        var jatekosokSzama = 0
         var jatekosNevLista = jatekosFactory.getNevLista()
         var koordinatak = ArrayList<Int>()
 
@@ -208,9 +204,15 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
                 koordinatak = getFreePozition()
             } while (koordinatak.isEmpty())
 
+            if (jatekosokSzama >= 3){
+                break
+            }
+            jatekosokSzama++
+
             if (nev == "ember"){
                 jatekos = jatekosFactory.createJatekos(1, 1, ter, "ember", commandProcessor)
                 if (jatekos != null){
+                    (jatekos as Jatekos).eletero = 100
                     eletero = (jatekos as Jatekos).eletero
                 }
             }
@@ -275,7 +277,7 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
     fun JatekosValtozasTortent(jatekos: Jatekos, ujXP: Int, ujEletero: Int){
         eletero = ujEletero
         XP = ujXP
-        if (eletero == 0 && (jatekos !is GepiJatekos)){
+        if (eletero == 0){
             jatekVege = true
             playGameoverMusic()
             createExitCommand()
@@ -314,6 +316,12 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
             commandProcessor.Execute(CommandId.Exit, args)
     }
 
+    private fun createGyozelemCommand() {
+        var args = ArrayList<Any>(2)
+        args.add(0)
+        commandProcessor.Execute(CommandId.Gyozelem, args)
+    }
+
     fun jatekosRemove(jatekos: Jatekos) {
          try {
              if (lock.tryLock(3, TimeUnit.SECONDS)) {
@@ -342,4 +350,68 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
         }
     }
 
+    fun sebzes(jatekos1: String, jatekos2: String, sebzes1: Int, sebzes2: Int){
+        var j1 = nevFeloldas(jatekos1)
+
+        var j2 = nevFeloldas(jatekos2)
+
+        if (j1 == null || j2 == null){
+            return
+        }
+
+        j2.utkozes(j1, sebzes1)
+
+        j1.utkozes(j2, sebzes2)
+        if (!j2.aktiv){
+            jatekosRemove(j2)
+            szornyekSzama--
+            if (szornyekSzama <= 0){
+                createGyozelemCommand()
+            }
+        }
+        JatekosValtozasTortent(j1, j1.XP + sebzes2 / 5, j1.eletero)
+    }
+
+    fun nevFeloldas(nev: String): Jatekos?{
+
+        if (nev == "ember"){
+            return jatekos
+        }
+
+        for (j in gepiJatekosok){
+            if (j?.nev == nev){
+                return j
+            }
+        }
+
+        return null
+    }
+
+    fun getHarcallapot(): Boolean{
+        var result = harcAllapot
+        try {
+            if (lock.tryLock(3, TimeUnit.SECONDS)) {
+                result = harcAllapot
+            }
+        } catch (e: InterruptedException) {
+            e.printStackTrace()
+        } finally {
+            //release lock
+            lock.unlock()
+        }
+        return result
+     }
+
+         fun setHarcallapot(value: Boolean) {
+             try {
+                 if (lock.tryLock(3, TimeUnit.SECONDS)) {
+                     harcAllapot = value
+                 }
+             } catch (e: InterruptedException) {
+                 e.printStackTrace()
+             } finally {
+                 //release lock
+                 lock.unlock()
+             }
+         }
 }

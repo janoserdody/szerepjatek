@@ -2,6 +2,8 @@ package com.e.jatekter
 
 import com.e.keret.CommandId
 import com.e.keret.CommandProcessor
+import com.e.szabalyok.GepiJatekos
+import com.e.szabalyok.Jatekos
 import com.e.szabalyok.MozgasHalalMiattNemSikerultKivetel
 import com.e.szabalyok.MozgasHelyHianyMiattNemSikerultKivetel
 
@@ -14,14 +16,14 @@ abstract class MozgoJatekElem(_x: Int, _y: Int, _jatekTer: JatekTer, private val
         var jatekElemek = ter.MegadottHelyenLevok(ujX, ujY)
 
         for (elem in jatekElemek){
-            elem.utkozes(this)
-            if (this.aktiv) {
-                fight(elem)
-
-                utkozes(elem)
+            if (elem !is Jatekos){
+                elem.utkozes(this, 0)
             }
-            if(!this.aktiv){
-                throw MozgasHalalMiattNemSikerultKivetel(this, x, y)
+            if (this.aktiv) {
+                if (elem is Jatekos)
+                {
+                    fight(elem)
+                }
             }
         }
         if (this.aktiv) {
@@ -44,10 +46,22 @@ abstract class MozgoJatekElem(_x: Int, _y: Int, _jatekTer: JatekTer, private val
           }
         }
 
-    fun fight(vedoJatekos: JatekElem){
+    fun fight(jatekos1: JatekElem){
+        if (this is GepiJatekos && jatekos1 is GepiJatekos){
+            return
+        }
+
         var args = ArrayList<Any>(5)
-        args.add(this)
-        args.add(vedoJatekos)
+
+        if (jatekos1 is GepiJatekos){
+            args.add(this)
+            args.add(jatekos1)
+        }
+        else{
+            args.add(jatekos1)
+            args.add(this)
+        }
+
         commandProcessor.Execute(CommandId.Fight, args)
     }
 }

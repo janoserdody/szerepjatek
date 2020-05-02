@@ -6,5 +6,7 @@ enum class CommandId {
     JatekosValtozas,
     PlayBeep,
     Exit,
-    Fight
+    Fight,
+    Sebzes,
+    Gyozelem
 }

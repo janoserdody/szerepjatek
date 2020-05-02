@@ -13,6 +13,7 @@ import com.e.datalayer.Music
 import com.e.jatekter.JatekElem
 import com.e.jatekter.JatekTer
 import com.e.keret.*
+import com.e.szabalyok.GepiJatekos
 import com.e.szabalyok.Jatekos
 import java.util.*
 import kotlin.system.exitProcess
@@ -37,6 +38,8 @@ class MainActivity : AppCompatActivity() {
     val playBeepCommand = PlayBeepCommand(this)
     val exitCommand = ExitCommand(this)
     val fightCommand = FightCommand(this)
+    val sebzesCommand = SebzesCommand(keret)
+    val gyozelemCommand = GyozelemCommand(this)
     lateinit var dialog: AlertDialog
     lateinit var builder: Builder
 
@@ -51,6 +54,8 @@ class MainActivity : AppCompatActivity() {
         commandProcessor.SetCommand(CommandId.PlayBeep, playBeepCommand)
         commandProcessor.SetCommand(CommandId.Exit, exitCommand)
         commandProcessor.SetCommand(CommandId.Fight, fightCommand)
+        commandProcessor.SetCommand(CommandId.Sebzes, sebzesCommand)
+        commandProcessor.SetCommand(CommandId.Gyozelem, gyozelemCommand)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -118,53 +123,89 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun Fight(jatekosTamado: JatekElem, jatekosVedo: JatekElem){
-        if (jatekosTamado !is Jatekos && jatekosVedo !is Jatekos){
+        if (jatekosTamado !is Jatekos && jatekosVedo !is Jatekos || keret.getHarcallapot() == true){
             return
         }
+
+        keret.setHarcallapot(true)
 
         val intent = Intent(this, HarcActivity2::class.java)
 
         val j = jatekosTamado as Jatekos
 
-        intent.putExtra("eletero1", j.eletero.toString())
-        intent.putExtra("ero1", j.ero.toString())
-        intent.putExtra("allokepesseg1", j.allokepesseg.toString())
-        intent.putExtra("gyorsasag1", j.gyorsasag.toString())
-        intent.putExtra("ugyesseg1", j.ugyesseg.toString())
-        intent.putExtra("szepseg1", j.szepseg.toString())
-        intent.putExtra("egeszseg1", j.egeszseg.toString())
-        intent.putExtra("akaratero1", j.akaratero.toString())
-        intent.putExtra("asztral1", j.asztral.toString())
-        intent.putExtra("intelligencia1", j.intelligencia.toString())
-        intent.putExtra("muveltseg1", j.muveltseg.toString())
+        intent.putExtra("nev1", j.nev)
+        intent.putExtra("eletero1", j.eletero)
+        intent.putExtra("ero1", j.ero)
+        intent.putExtra("allokepesseg1", j.allokepesseg)
+        intent.putExtra("gyorsasag1", j.gyorsasag)
+        intent.putExtra("ugyesseg1", j.ugyesseg)
+        intent.putExtra("szepseg1", j.szepseg)
+        intent.putExtra("egeszseg1", j.egeszseg)
+        intent.putExtra("akaratero1", j.akaratero)
+        intent.putExtra("asztral1", j.asztral)
+        intent.putExtra("intelligencia1", j.intelligencia)
+        intent.putExtra("muveltseg1", j.muveltseg)
 
         val v = jatekosVedo as Jatekos
 
-        intent.putExtra("eletero2", v.eletero.toString())
-        intent.putExtra("ero2", v.ero.toString())
-        intent.putExtra("allokepesseg2", v.allokepesseg.toString())
-        intent.putExtra("gyorsasag2", v.gyorsasag.toString())
-        intent.putExtra("ugyesseg2", v.ugyesseg.toString())
-        intent.putExtra("szepseg2", v.szepseg.toString())
-        intent.putExtra("egeszseg2", v.egeszseg.toString())
-        intent.putExtra("akaratero2", v.akaratero.toString())
-        intent.putExtra("asztral2", v.asztral.toString())
-        intent.putExtra("intelligencia2", v.intelligencia.toString())
-        intent.putExtra("muveltseg2", v.muveltseg.toString())
+        intent.putExtra("nev2", v.nev)
+        intent.putExtra("eletero2", v.eletero)
+        intent.putExtra("ero2", v.ero)
+        intent.putExtra("allokepesseg2", v.allokepesseg)
+        intent.putExtra("gyorsasag2", v.gyorsasag)
+        intent.putExtra("ugyesseg2", v.ugyesseg)
+        intent.putExtra("szepseg2", v.szepseg)
+        intent.putExtra("egeszseg2", v.egeszseg)
+        intent.putExtra("akaratero2", v.akaratero)
+        intent.putExtra("asztral2", v.asztral)
+        intent.putExtra("intelligencia2", v.intelligencia)
+        intent.putExtra("muveltseg2", v.muveltseg)
 
         startActivityForResult(intent, INT_REQUEST)
     }
 
-//    override fun onActivityResult(
-//        requestCode: Int, resultCode: Int, data: Intent?
-//    ) {
-//        super.onActivityResult(requestCode, resultCode, data)
-//
-//        if (requestCode == INT_REQUEST) {
-//            if (resultCode == RESULT_OK) {
-//                val reply = data!!.getIntExtra(HarcActivity2.EXTRA_REPLY, 0)
-//                Toast.makeText(this@MainActivity, reply, Toast.LENGTH_SHORT).show();
-//            }
-//        }
-//    }
+    override fun onActivityResult(
+        requestCode: Int, resultCode: Int, data: Intent?
+    ) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == INT_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                val jatekos1 = data!!.getStringExtra(HarcActivity2.EXTRA_REPLY1)
+                val jatekos2 = data!!.getStringExtra(HarcActivity2.EXTRA_REPLY2)
+                val sebzes1 = data!!.getIntExtra(HarcActivity2.EXTRA_REPLY3, 0)
+                val sebzes2 = data!!.getIntExtra(HarcActivity2.EXTRA_REPLY4, 0)
+                Toast.makeText(this@MainActivity, "Sebzés: " + sebzes2,
+                    Toast.LENGTH_SHORT).show();
+
+                var args = ArrayList<Any>(5)
+                args.add(jatekos1)
+                args.add(jatekos2)
+                args.add(sebzes1)
+                args.add(sebzes2)
+                commandProcessor.Execute(CommandId.Sebzes, args)
+                keret.setHarcallapot(false)
+            }
+        }
+    }
+
+    fun gyozelem() {
+        createGyozelemWindow()
+        dialog.show()
+    }
+
+    fun createGyozelemWindow(){
+        builder = Builder(this)
+        builder.setTitle("Győzelem")
+        builder.setMessage("Nyertél!")
+        builder.setPositiveButton("Kilépés") { dialog, which ->
+            Toast.makeText(
+                applicationContext,
+                "Győzelem",
+                Toast.LENGTH_SHORT
+            ).show()
+            exitProcess(1)
+        }
+        dialog = builder.create()
+    }
 }

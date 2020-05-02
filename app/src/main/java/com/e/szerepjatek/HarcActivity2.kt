@@ -7,7 +7,6 @@ import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import java.util.*
 
@@ -22,14 +21,51 @@ class HarcActivity2 : AppCompatActivity() {
     var playerPoints = 30
     var monsterPoints = 15
     var r: Random? = null
+    lateinit var nev1: String
+    lateinit var nev2: String
+    var originalPlayerPoints = 0
+    var originalMonsterPoints = 0
 
     companion object {
-        val EXTRA_REPLY = "com.example.android.harcactivity.extra.REPLY"
+        val EXTRA_REPLY1 = "com.example.android.harcactivity.jatekos1"
+        val EXTRA_REPLY2 = "com.example.android.harcactivity.jatekos2"
+        val EXTRA_REPLY3 = "com.example.android.harcactivity.sebzes1"
+        val EXTRA_REPLY4 = "com.example.android.harcactivity.sebzes2"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_harc2)
+
+        nev1 = intent.getStringExtra("nev1")
+        playerPoints = intent.getIntExtra("eletero1", 0)
+        val ero1 = intent.getIntExtra("ero1", 0)
+        val allokepesseg1 = intent.getIntExtra("allokepesseg1", 0)
+        val gyorsasag1 = intent.getIntExtra("gyorsasag1", 0)
+        val ugyesseg1 = intent.getIntExtra("ugyesseg1", 0)
+        val szepseg1 = intent.getIntExtra("szepseg1",0)
+        val egeszseg1 = intent.getIntExtra("egeszseg1",0)
+        val akaratero1 = intent.getIntExtra("akaratero1",0)
+        val asztral1 = intent.getIntExtra("asztral1",0)
+        val intelligencia1 = intent.getIntExtra("intelligencia1",0)
+        val muveltseg1 = intent.getIntExtra("muveltseg1",0)
+
+        nev2 = intent.getStringExtra("nev2")
+        monsterPoints = intent.getIntExtra("eletero2", 0)
+        val ero2 = intent.getIntExtra("ero2",0)
+        val allokepesseg2 = intent.getIntExtra("allokepesseg2",0)
+        val gyorsasag2 = intent.getIntExtra("gyorsasag2",0)
+        val ugyesseg2 = intent.getIntExtra("ugyesseg2",0)
+        val szepseg2 = intent.getIntExtra("szepseg2",0)
+        val egeszseg2 = intent.getIntExtra("egeszseg2",0)
+        val akaratero2 = intent.getIntExtra("akaratero2",0)
+        val asztral2 = intent.getIntExtra("asztral2",0)
+        val intelligencia2 = intent.getIntExtra("intelligencia2",0)
+        val muveltseg2 = intent.getIntExtra("muveltseg2",0)
+
+        originalPlayerPoints = playerPoints
+        originalMonsterPoints = monsterPoints
+
         viewPlayer = findViewById<View>(R.id.viewPlayer) as ImageView
         viewMonster = findViewById<View>(R.id.viewMonster) as ImageView
         textPlayer = findViewById<View>(R.id.textPlayer) as TextView
@@ -38,9 +74,17 @@ class HarcActivity2 : AppCompatActivity() {
             findViewById<View>(R.id.imageViewMonster) as ImageView
         imageViewPlayer =
             findViewById<View>(R.id.imageViewPlayer) as ImageView
+
+        textMonster!!.text = "Monster: $monsterPoints"
+        textPlayer!!.text = "Player: $playerPoints"
+
         r = Random()
 
         viewPlayer!!.setOnClickListener {
+            if (monsterPoints <= 0 || playerPoints <= 0){
+                return@setOnClickListener
+            }
+
             val monsterProba = r!!.nextInt(6) + 1
             val playerProba = r!!.nextInt(6) + 1
             setImageMonster(monsterProba)
@@ -62,23 +106,11 @@ class HarcActivity2 : AppCompatActivity() {
             if (monsterPoints <= 0) {
                 imageViewMonster!!.setImageResource(R.drawable.halottmonster2)
                 imageViewMonster!!.startAnimation(rotate)
-                Toast.makeText(
-                    this@HarcActivity2,
-                    "Vége a játéknak: Nyetrél",
-                    Toast.LENGTH_LONG
-                ).show()
-                Thread.sleep(2_000)
                 finish()
             }
             if (playerPoints <= 0) {
                 imageViewPlayer!!.setImageResource(R.drawable.halottfighter1)
                 imageViewPlayer!!.startAnimation(rotate)
-                Toast.makeText(
-                    this@HarcActivity2,
-                    "Vége a játéknak: Vesztettél",
-                    Toast.LENGTH_LONG
-                ).show()
-                Thread.sleep(2_000)
                 finish()
             }
         }
@@ -109,8 +141,13 @@ class HarcActivity2 : AppCompatActivity() {
     override fun finish() {
         // Prepare data intent
         val data = Intent()
-        data.putExtra(EXTRA_REPLY, 5)
-        //data.putExtra("returnKey2", "You could be better then you are. ")
+
+        val sebzes1 = originalPlayerPoints - playerPoints
+        val sebzes2 = originalMonsterPoints - monsterPoints
+        data.putExtra(EXTRA_REPLY1, nev1)
+        data.putExtra(EXTRA_REPLY2, nev2)
+        data.putExtra(EXTRA_REPLY3, sebzes1)
+        data.putExtra(EXTRA_REPLY4, sebzes2)
         // Activity finished ok, return the data
         setResult(Activity.RESULT_OK, data)
         super.finish()

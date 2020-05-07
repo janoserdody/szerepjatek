@@ -11,8 +11,8 @@ abstract class MozgoJatekElem(_x: Int, _y: Int, _jatekTer: JatekTer, private val
 
     var aktiv: Boolean = true
 
-    fun AtHelyez(ujX: Int, ujY: Int){
-        var jatekElemek = ter.MegadottHelyenLevok(ujX, ujY)
+    fun atHelyez(ujX: Int, ujY: Int){
+        var jatekElemek = ter.megadottHelyenLevok(ujX, ujY)
 
         for (elem in jatekElemek){
             if (elem !is Jatekos){
@@ -26,7 +26,7 @@ abstract class MozgoJatekElem(_x: Int, _y: Int, _jatekTer: JatekTer, private val
             }
         }
         if (this.aktiv) {
-            var jatekElemek = ter.MegadottHelyenLevok(ujX, ujY)
+            var jatekElemek = ter.megadottHelyenLevok(ujX, ujY)
             var osszesMeret: Double = 0.0;
             for (elem in jatekElemek) {
                 osszesMeret += elem.meret
@@ -61,6 +61,6 @@ abstract class MozgoJatekElem(_x: Int, _y: Int, _jatekTer: JatekTer, private val
             args.add(this)
         }
 
-        commandProcessor.Execute(CommandId.Fight, args)
+        commandProcessor.execute(CommandId.Fight, args)
     }
 }

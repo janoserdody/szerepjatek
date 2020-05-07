@@ -18,9 +18,9 @@ class Kincs(x: Int, y: Int, jatekTer: JatekTer, private val commandProcessor: Co
         if (jatekElem is Jatekos) {
             jatekElem.pontotSzerez(50)
         }
-        ter.Torles(this)
+        ter.torles(this)
 
-        KincsFelvetel(this, jatekElem as Jatekos)
+        kincsFelvetel(this, jatekElem as Jatekos)
     }
 
     override val alak: Int
@@ -28,10 +28,10 @@ class Kincs(x: Int, y: Int, jatekTer: JatekTer, private val commandProcessor: Co
 
     // a CommandProcessorra kell feliratkozni, ha valamelyik osztály
     // akar értesülni a kincsfelvételről
-    override fun KincsFelvetel(kincs: Kincs, jatekos: Jatekos) {
+    override fun kincsFelvetel(kincs: Kincs, jatekos: Jatekos) {
         var args = ArrayList<Any>(2)
         args.add(kincs)
         args.add(jatekos)
-        commandProcessor.Execute(CommandId.KincsFelvetel, args)
+        commandProcessor.execute(CommandId.KincsFelvetel, args)
     }
 }

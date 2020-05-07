@@ -29,7 +29,7 @@ class JatekosFactory(val context: Context) {
         val file_name = "karakterek.json"
 
 try {
-    var json_string = context.assets.open("karakterek.json").bufferedReader(Charsets.UTF_8).use {
+    var json_string = context.assets.open(file_name).bufferedReader(Charsets.UTF_8).use {
         it.readText()
     }
             var obj =  jsonParser.parse(json_string)

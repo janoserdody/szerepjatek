@@ -103,7 +103,7 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
                     }
 
                     var megadottHelyen =
-                        ter.MegadottHelyenLevok(x + elmozdulas[0], y + elmozdulas[1], 1)
+                        ter.megadottHelyenLevok(x + elmozdulas[0], y + elmozdulas[1], 1)
 
                     if (megadottHelyen.count() == 0){
                         var ujFal = Fal(x + elmozdulas[0], y + elmozdulas[1], ter)
@@ -142,7 +142,7 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
         for(x in 2 until PALYA_MERET_X - 2 step 2)
         {
             for (y in 2 until PALYA_MERET_Y - 2 step 2){
-                if (ter.MegadottHelyenLevok(x, y).isEmpty()){
+                if (ter.megadottHelyenLevok(x, y).isEmpty()){
                     var fal = Helykitolto(x, y, ter)
                 }
 
@@ -159,9 +159,9 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
             x = Random.nextInt(2, PALYA_MERET_X / 2 - 1) * 2
             y =Random.nextInt(2, PALYA_MERET_Y / 2 - 1) * 2
             maxKereses--
-        } while (ter.MegadottHelyenFal(x, y) && maxKereses > 0)
+        } while (ter.megadottHelyenFal(x, y) && maxKereses > 0)
 
-        if (ter.MegadottHelyenFal(x, y)){
+        if (ter.megadottHelyenFal(x, y)){
             return null
         }
 
@@ -244,7 +244,7 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
 
     private fun isFreePosition(koordinataX: Int, koordinataY: Int): Boolean {
         var isFree = false
-        var megadottHelyenLevok = ter.MegadottHelyenLevok(koordinataX, koordinataY)
+        var megadottHelyenLevok = ter.megadottHelyenLevok(koordinataX, koordinataY)
 
         if (megadottHelyenLevok.isEmpty())
         { isFree = true}
@@ -255,13 +255,13 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
     private fun beep() {
         var args = ArrayList<Any>(2)
         args.add(Music.Beep2)
-        commandProcessor.Execute(CommandId.PlayBeep, args)
+        commandProcessor.execute(CommandId.PlayBeep, args)
     }
 
     private fun playGameoverMusic() {
         var args = ArrayList<Any>(2)
         args.add(Music.Gameover)
-        commandProcessor.Execute(CommandId.PlayBeep, args)
+        commandProcessor.execute(CommandId.PlayBeep, args)
     }
 
     fun KincsFelvetelTortent(kincs: Kincs, jatekos: Jatekos){
@@ -313,13 +313,13 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
     private fun createExitCommand() {
             var args = ArrayList<Any>(2)
             args.add(0)
-            commandProcessor.Execute(CommandId.Exit, args)
+            commandProcessor.execute(CommandId.Exit, args)
     }
 
     private fun createGyozelemCommand() {
         var args = ArrayList<Any>(2)
         args.add(0)
-        commandProcessor.Execute(CommandId.Gyozelem, args)
+        commandProcessor.execute(CommandId.Gyozelem, args)
     }
 
     fun jatekosRemove(jatekos: AutomatikusanMukodo) {

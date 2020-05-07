@@ -9,6 +9,6 @@ abstract class JatekElem(var x: Int, var y: Int, ter: JatekTer) {
 
     init {
         this.ter = ter
-        ter.Felvetel(this)
+        ter.felvetel(this)
     }
 }

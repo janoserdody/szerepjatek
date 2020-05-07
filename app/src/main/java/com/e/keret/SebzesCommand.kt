@@ -3,7 +3,7 @@ package com.e.keret
 import com.e.jatekter.JatekElem
 
 class SebzesCommand(val keret: Keret): Command {
-    override fun Execute(arg: ArrayList<Any>) {
+    override fun execute(arg: ArrayList<Any>) {
         val jatekos1 = arg[0] as String
         val jatekos2 = arg[1] as String
         val sebzes1 = arg[2] as Int

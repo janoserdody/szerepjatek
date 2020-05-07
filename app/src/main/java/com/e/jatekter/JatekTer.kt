@@ -110,7 +110,7 @@ class JatekTer(val meretX: Int, val meretY: Int): Runnable {
             return result
         }
 
-    fun Felvetel(jatekElem: JatekElem) {
+    fun felvetel(jatekElem: JatekElem) {
         elemek.add(jatekElem)
 
         elemN++
@@ -118,7 +118,7 @@ class JatekTer(val meretX: Int, val meretY: Int): Runnable {
         terkep[jatekElem.x][jatekElem.y].add(jatekElem)
     }
 
-    fun Torles(jatekElem: JatekElem?) {
+    fun torles(jatekElem: JatekElem?) {
         if (jatekElem == null){
             return
         }
@@ -132,7 +132,7 @@ class JatekTer(val meretX: Int, val meretY: Int): Runnable {
         elemN--
     }
 
-    fun MegadottHelyenLevok(x: Int, y: Int, tavolsag: Int = 0): ArrayList<JatekElem> {
+    fun megadottHelyenLevok(x: Int, y: Int, tavolsag: Int = 0): ArrayList<JatekElem> {
         val jatekElemek = ArrayList<JatekElem>()
         for (jatekElem in elemek) {
             var mertTavolsag =
@@ -144,7 +144,7 @@ class JatekTer(val meretX: Int, val meretY: Int): Runnable {
         return jatekElemek
     }
 
-    fun MegadottHelyenFal(x: Int, y: Int): Boolean {
+    fun megadottHelyenFal(x: Int, y: Int): Boolean {
         for (elem in terkep[x][y]){
             if (elem is Fal){
                 return true
@@ -152,21 +152,4 @@ class JatekTer(val meretX: Int, val meretY: Int): Runnable {
         }
         return false
     }
-
-//    val megjelenitendoMeret: Array<Int>
-//        get() {
-//            return arrayOf(meretX, meretY)
-//        }
-
-//    override fun MegjelenitendoElemek(): ArrayList<IKirajzolhato> {
-//        var count: Int = 0
-//        val vissza = ArrayList<IKirajzolhato>()
-//        for (elem in elemek){
-//            if (elem is IKirajzolhato){
-//                count++
-//                vissza.add(elem)
-//            }
-//        }
-//        return vissza
-//    }
 }

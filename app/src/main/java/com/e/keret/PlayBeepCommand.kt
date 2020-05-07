@@ -6,12 +6,12 @@ import com.e.szerepjatek.MainActivity
 
 class PlayBeepCommand(val context: Context) : Command {
 
-    override fun Execute(arg: ArrayList<Any>) {
+    override fun execute(arg: ArrayList<Any>) {
         if (arg == null) {
             return
         }
         var mainActivity = context as MainActivity
         var music = arg[0]
-        mainActivity.PlayBeep(music as Music)
+        mainActivity.playBeep(music as Music)
     }
 }

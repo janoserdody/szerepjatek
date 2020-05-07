@@ -6,7 +6,6 @@ import android.os.Message
 import android.os.SystemClock
 import com.e.keret.Keret
 import com.e.keret.RefreshTask
-import com.e.szabalyok.GepiJatekos
 import com.e.szerepjatek.ViewModelMain
 import java.lang.ref.WeakReference
 
@@ -26,7 +25,7 @@ class UIUpdate() {
             var mViewModelMainWeakRef: WeakReference<ViewModelMain>? = refreshTask.getViewModelMain()
             var view = mViewModelMainWeakRef?.get()
 
-            view?.RefreshLayout()
+            view?.refreshLayout()
             }
     }
 

@@ -5,7 +5,7 @@ import com.e.szabalyok.Kincs
 
 class KincsfelvetelCommand(val keret: Keret) : Command {
 
-    override fun Execute(arg: ArrayList<Any>) {
+    override fun execute(arg: ArrayList<Any>) {
         if (arg == null) return
         var params = arg as ArrayList<Any>
         if (params.count() >= 2 && params[0] is Kincs && params[1] is Jatekos) {

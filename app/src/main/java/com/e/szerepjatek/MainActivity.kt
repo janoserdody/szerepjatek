@@ -13,7 +13,6 @@ import com.e.datalayer.Music
 import com.e.jatekter.JatekElem
 import com.e.jatekter.JatekTer
 import com.e.keret.*
-import com.e.szabalyok.GepiJatekos
 import com.e.szabalyok.Jatekos
 import java.util.*
 import kotlin.system.exitProcess
@@ -48,14 +47,14 @@ class MainActivity : AppCompatActivity() {
     private lateinit var viewModelMain: ViewModelMain
 
     init {
-        commandProcessor.SetCommand(CommandId.Kattint, kattintCommand)
-        commandProcessor.SetCommand(CommandId.KincsFelvetel, kincsfelvetelCommand)
-        commandProcessor.SetCommand(CommandId.JatekosValtozas, jatekosValtozasCommand)
-        commandProcessor.SetCommand(CommandId.PlayBeep, playBeepCommand)
-        commandProcessor.SetCommand(CommandId.Exit, exitCommand)
-        commandProcessor.SetCommand(CommandId.Fight, fightCommand)
-        commandProcessor.SetCommand(CommandId.Sebzes, sebzesCommand)
-        commandProcessor.SetCommand(CommandId.Gyozelem, gyozelemCommand)
+        commandProcessor.setCommand(CommandId.Kattint, kattintCommand)
+        commandProcessor.setCommand(CommandId.KincsFelvetel, kincsfelvetelCommand)
+        commandProcessor.setCommand(CommandId.JatekosValtozas, jatekosValtozasCommand)
+        commandProcessor.setCommand(CommandId.PlayBeep, playBeepCommand)
+        commandProcessor.setCommand(CommandId.Exit, exitCommand)
+        commandProcessor.setCommand(CommandId.Fight, fightCommand)
+        commandProcessor.setCommand(CommandId.Sebzes, sebzesCommand)
+        commandProcessor.setCommand(CommandId.Gyozelem, gyozelemCommand)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -90,11 +89,11 @@ class MainActivity : AppCompatActivity() {
         //audioPlayer.play(Music.Beep2)
     }
 
-    fun PlayBeep(music: Music) {
+    fun playBeep(music: Music) {
         audioPlayer.play(music)
     }
 
-    fun Exit() {
+    fun exit() {
         createAlertWindow()
         dialog.show()
     }
@@ -114,7 +113,7 @@ class MainActivity : AppCompatActivity() {
         dialog = builder.create()
     }
 
-    fun Fight(jatekosTamado: JatekElem, jatekosVedo: JatekElem){
+    fun fight(jatekosTamado: JatekElem, jatekosVedo: JatekElem){
         if (jatekosTamado !is Jatekos && jatekosVedo !is Jatekos || keret.getHarcallapot() == true){
             return
         }
@@ -175,7 +174,7 @@ class MainActivity : AppCompatActivity() {
                 args.add(jatekos2)
                 args.add(sebzes1)
                 args.add(sebzes2)
-                commandProcessor.Execute(CommandId.Sebzes, args)
+                commandProcessor.execute(CommandId.Sebzes, args)
                 keret.setHarcallapot(false)
             }
         }

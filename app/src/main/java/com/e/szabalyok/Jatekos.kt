@@ -65,13 +65,13 @@ open class Jatekos(_x: Int, _y: Int, _jatekTer: JatekTer, open var nev: String,
             aktiv = false
 
             if (this is GepiJatekos){
-                ter.Torles(this)
+                ter.torles(this)
             }
         } else eletero -= sebzes
 
         if (sebzes > 0){
 
-            JatekosValtozas(this, XP, eletero)
+            jatekosValtozas(this, XP, eletero)
         }
     }
 
@@ -86,35 +86,16 @@ open class Jatekos(_x: Int, _y: Int, _jatekTer: JatekTer, open var nev: String,
         if (ry < 0) { iranyY = -1}
 
         while (ujX != x){
-            AtHelyez(x + iranyX, y)
+            atHelyez(x + iranyX, y)
         }
         while (ujY != y){
-            AtHelyez(x, y + iranyY)
+            atHelyez(x, y + iranyY)
         }
     }
 
     fun pontotSzerez(pont: Int) {
         XP += pont
     }
-
-//    val megjelenitendoMeret: Array<Int>
-//        get() {
-//            if (megjelenitendoMeret == null){
-//                return arrayOf(ter.meretX, ter.meretY)
-//            }
-//            return megjelenitendoMeret
-//        }
-
-//    override fun MegjelenitendoElemek(): ArrayList<IKirajzolhato> {
-//        val vissza = ArrayList<IKirajzolhato>()
-//        val jatekElemek = ter.MegadottHelyenLevok(x, y, 5)
-//        for (elem in jatekElemek){
-//            if (elem is IKirajzolhato){
-//                vissza.add(elem)
-//            }
-//        }
-//        return vissza
-//    }
 
     override val alak: Int
         get() {
@@ -124,7 +105,7 @@ open class Jatekos(_x: Int, _y: Int, _jatekTer: JatekTer, open var nev: String,
             return R.drawable.fighter2
         }
 
-    override fun JatekosValtozas(jatekos: Jatekos, ujXp: Int, ujEletero: Int) {
+    override fun jatekosValtozas(jatekos: Jatekos, ujXp: Int, ujEletero: Int) {
         if (this is GepiJatekos){
             return
         }
@@ -133,6 +114,6 @@ open class Jatekos(_x: Int, _y: Int, _jatekTer: JatekTer, open var nev: String,
         args.add(jatekos)
         args.add(ujXp)
         args.add(ujEletero)
-        commandProcessor.Execute(CommandId.JatekosValtozas, args)
+        commandProcessor.execute(CommandId.JatekosValtozas, args)
     }
 }

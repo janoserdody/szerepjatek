@@ -4,7 +4,6 @@ import android.content.Context
 import android.widget.TableLayout
 import android.widget.TableRow
 import android.widget.ImageView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.e.jatekter.JatekTer
 import com.e.keret.*
 import com.e.szabalyok.Jatekos
@@ -46,10 +45,10 @@ class ViewModelMain (
             mezokKarakter += array
         }
 
-        MakeTableLayout()
+        makeTableLayout()
     }
 
-    fun RefreshLayout(){
+    fun refreshLayout(){
 
         var mezoMaxX = mezoPixelX * mezoFalArany
         var mezoMaxY = mezoPixelY * mezoFalArany
@@ -79,27 +78,27 @@ class ViewModelMain (
         (context as MainActivity).update()
     }
 
-    private fun MakeTableLayout() {
+    private fun makeTableLayout() {
         var mezoMaxX = mezoPixelX * mezoFalArany
         var mezoMaxY = mezoPixelY * mezoFalArany
         var terkepX = palyameretX - 1
         var terkepY = palyameretY - 1
 
-        AddFalRow(mezoMaxX, mezoMaxY, terkepX, terkepY)
+        addFalRow(mezoMaxX, mezoMaxY, terkepX, terkepY)
         terkepY--
 
         for (i in 0 until mezokY) {
-            val tr = GetTableRow()
+            val tr = getTableRow()
 
-            var fal2 = GetFalVertikalis(mezoPixelX, mezoMaxY, terkepX--, terkepY)
+            var fal2 = getFalVertikalis(mezoPixelX, mezoMaxY, terkepX--, terkepY)
            mezokKarakter[terkepX][terkepY] = fal2
             tr.addView(fal2, TableRow.LayoutParams(mezoPixelX, mezoMaxY))
 
             for (j in 0 until mezokX) {
-                var mezo = GetMezo(mezoMaxX, mezoMaxY, terkepX, terkepY)
+                var mezo = getMezo(mezoMaxX, mezoMaxY, terkepX, terkepY)
                 mezokKarakter[terkepX--][terkepY] = mezo
                 tr.addView(mezo, TableRow.LayoutParams(mezoMaxX, mezoMaxY))
-                var fal = GetFalVertikalis(mezoPixelX, mezoMaxY, terkepX, terkepY)
+                var fal = getFalVertikalis(mezoPixelX, mezoMaxY, terkepX, terkepY)
                 mezokKarakter[terkepX--][terkepY] = fal2
                 tr.addView(fal, TableRow.LayoutParams(mezoPixelX, mezoMaxY))
             }
@@ -107,34 +106,34 @@ class ViewModelMain (
 
             terkepX = palyameretX - 1
 
-            AddFalRow(mezoMaxX, mezoMaxY, terkepX, --terkepY)
+            addFalRow(mezoMaxX, mezoMaxY, terkepX, --terkepY)
             terkepY--
         }
         table.invalidate()
     }
 
-    private fun AddFalRow(mezoMaxX: Int, mezoMaxY: Int, _terkepX: Int, terkepY: Int) {
+    private fun addFalRow(mezoMaxX: Int, mezoMaxY: Int, _terkepX: Int, terkepY: Int) {
         var terkepX = _terkepX
 
-        var trFal = GetTableRow()
+        var trFal = getTableRow()
 
-        var falHorizontalisRovid2 = GetFalNegyzet(mezoPixelX , mezoPixelY, terkepX, terkepY)
+        var falHorizontalisRovid2 = getFalNegyzet(mezoPixelX , mezoPixelY, terkepX, terkepY)
         mezokKarakter[terkepX--][terkepY] = falHorizontalisRovid2
 
         trFal.addView(falHorizontalisRovid2, TableRow.LayoutParams(mezoPixelX , mezoPixelY))
 
         for (j in 0 until mezokX) {
-            var falHorizontalis = GetFalHorizontalis(mezoMaxX , mezoPixelY, terkepX, terkepY)
+            var falHorizontalis = getFalHorizontalis(mezoMaxX , mezoPixelY, terkepX, terkepY)
             mezokKarakter[terkepX--][terkepY] = falHorizontalis
             trFal.addView(falHorizontalis, TableRow.LayoutParams(mezoMaxX , mezoPixelY))
-            var falHorizontalisRovid = GetFalNegyzet(mezoPixelX , mezoPixelY, terkepX, terkepY)
+            var falHorizontalisRovid = getFalNegyzet(mezoPixelX , mezoPixelY, terkepX, terkepY)
             mezokKarakter[terkepX--][terkepY] = falHorizontalisRovid
             trFal.addView(falHorizontalisRovid, TableRow.LayoutParams(mezoPixelX , mezoPixelY))
         }
         table.addView(trFal)
     }
 
-    private fun GetTableRow(): TableRow {
+    private fun getTableRow(): TableRow {
         var tr = TableRow(context)
         tr.setLayoutParams(TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT))
         tr.setPadding(0,0,0,0)
@@ -143,10 +142,10 @@ class ViewModelMain (
         return tr
     }
 
-    private fun GetMezo(mezoMaxX: Int, mezoMaxY: Int, terkepX: Int, terkepY: Int)
+    private fun getMezo(mezoMaxX: Int, mezoMaxY: Int, terkepX: Int, terkepY: Int)
             : ImageView {
         var alak = R.drawable.background_1
-        for (elem in ter.MegadottHelyenLevok(terkepX, terkepY)){
+        for (elem in ter.megadottHelyenLevok(terkepX, terkepY)){
             if (elem is Jatekos){
                 alak = elem.alak
                 break
@@ -156,44 +155,39 @@ class ViewModelMain (
             }
         }
 
-        var mezo = GetMezoAltalanos(alak, mezoMaxX, mezoMaxY)
-
-           // mezo.setOnClickListener(){
-           //     mezo.setImageResource(R.drawable.monster2)
-          //      mezo.invalidate()
-           // }
+        var mezo = getMezoAltalanos(alak, mezoMaxX, mezoMaxY)
 
          mezo.setOnClickListener(){
              var args = ArrayList<Any>(2)
              args.add(terkepX)
              args.add(terkepY)
-             commandProcessor.Execute(CommandId.Kattint, args)
+             commandProcessor.execute(CommandId.Kattint, args)
          }
         return mezo
     }
 
-    private fun GetFalVertikalis(mezoMaxX: Int, mezoMaxY: Int, terkepX: Int, terkepY: Int): ImageView {
-        if (!ter.MegadottHelyenFal(terkepX, terkepY)) {
-            return GetMezoAltalanos(R.drawable.background_v, mezoMaxX, mezoMaxY)
+    private fun getFalVertikalis(mezoMaxX: Int, mezoMaxY: Int, terkepX: Int, terkepY: Int): ImageView {
+        if (!ter.megadottHelyenFal(terkepX, terkepY)) {
+            return getMezoAltalanos(R.drawable.background_v, mezoMaxX, mezoMaxY)
         }
-        return GetMezoAltalanos(R.drawable.wall_v, mezoMaxX, mezoMaxY)
+        return getMezoAltalanos(R.drawable.wall_v, mezoMaxX, mezoMaxY)
     }
 
-    private fun GetFalHorizontalis(mezoMaxX: Int, mezoMaxY: Int, terkepX: Int, terkepY: Int): ImageView {
-        if (!ter.MegadottHelyenFal(terkepX, terkepY)){
-            return GetMezoAltalanos(R.drawable.background_h, mezoMaxX, mezoMaxY)
+    private fun getFalHorizontalis(mezoMaxX: Int, mezoMaxY: Int, terkepX: Int, terkepY: Int): ImageView {
+        if (!ter.megadottHelyenFal(terkepX, terkepY)){
+            return getMezoAltalanos(R.drawable.background_h, mezoMaxX, mezoMaxY)
         }
-        return GetMezoAltalanos(R.drawable.wall_h, mezoMaxX, mezoMaxY)
+        return getMezoAltalanos(R.drawable.wall_h, mezoMaxX, mezoMaxY)
     }
 
-    private fun GetFalNegyzet(mezoMaxX: Int, mezoMaxY: Int, terkepX: Int, terkepY: Int): ImageView {
-        if (!ter.MegadottHelyenFal(terkepX, terkepY)){
-            return GetMezoAltalanos(R.drawable.background_negyzet, mezoMaxX, mezoMaxY)
+    private fun getFalNegyzet(mezoMaxX: Int, mezoMaxY: Int, terkepX: Int, terkepY: Int): ImageView {
+        if (!ter.megadottHelyenFal(terkepX, terkepY)){
+            return getMezoAltalanos(R.drawable.background_negyzet, mezoMaxX, mezoMaxY)
         }
-        return GetMezoAltalanos(R.drawable.wall_negyzet, mezoMaxX, mezoMaxY)
+        return getMezoAltalanos(R.drawable.wall_negyzet, mezoMaxX, mezoMaxY)
     }
 
-    private fun GetMezoAltalanos(kepId: Int, mezoMaxX: Int, mezoMaxY: Int): ImageView {
+    private fun getMezoAltalanos(kepId: Int, mezoMaxX: Int, mezoMaxY: Int): ImageView {
         val view = ImageView(context)
         view.scaleType = ImageView.ScaleType.CENTER_INSIDE
         view.setImageResource(kepId)

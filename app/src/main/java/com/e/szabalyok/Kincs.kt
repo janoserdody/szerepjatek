@@ -6,12 +6,11 @@ import com.e.jatekter.JatekTer
 import com.e.jatekter.RogzitettJatekElem
 import com.e.keret.CommandId
 import com.e.keret.CommandProcessor
-import com.e.keret.ObservableKotlin
-import com.e.megjelenites.IKirajzolhato
+import com.e.megjelenites.Kirajzolhato
 import com.e.szerepjatek.R
 
 class Kincs(x: Int, y: Int, jatekTer: JatekTer, private val commandProcessor: CommandProcessor) :
-    RogzitettJatekElem(x, y, jatekTer), IKirajzolhato, KincsFelvetelKezelo {
+    RogzitettJatekElem(x, y, jatekTer), Kirajzolhato, KincsFelvetelKezelo {
     override val meret: Double
         get() = 1.0
 
@@ -35,7 +34,4 @@ class Kincs(x: Int, y: Int, jatekTer: JatekTer, private val commandProcessor: Co
         args.add(jatekos)
         commandProcessor.Execute(CommandId.KincsFelvetel, args)
     }
-    //• Új publikus esemény: KincsFelvetel – legyen egy KincsFelvetelKezelo típusú eseménykezelő.
-    //• Meglévő metódus módosítása: Utkozes – amennyiben egy játékos felvette a kincset, és
-    //valaki feliratkozott a fenti eseménykezelőre, akkor küldjön az eseményről egy értesítést.
 }

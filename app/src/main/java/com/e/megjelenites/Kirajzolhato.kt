@@ -1,6 +1,6 @@
 package com.e.megjelenites
 
-interface IKirajzolhato {
+interface Kirajzolhato {
     val x: Int
     val y: Int
     // id of Res image

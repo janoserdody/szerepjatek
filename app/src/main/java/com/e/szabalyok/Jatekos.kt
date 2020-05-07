@@ -5,14 +5,13 @@ import com.e.jatekter.JatekTer
 import com.e.jatekter.MozgoJatekElem
 import com.e.keret.CommandId
 import com.e.keret.CommandProcessor
-import com.e.megjelenites.IKirajzolhato
-import com.e.megjelenites.IMegjelenitheto
+import com.e.megjelenites.Kirajzolhato
 import com.e.szerepjatek.R
 import org.json.simple.JSONObject
 
 open class Jatekos(_x: Int, _y: Int, _jatekTer: JatekTer, open var nev: String,
                    private val commandProcessor: CommandProcessor, tulajdonsagok: JSONObject) :
-    MozgoJatekElem(_x, _y, _jatekTer, commandProcessor), IMegjelenitheto, IKirajzolhato, JatekosValtozasKezelo {
+    MozgoJatekElem(_x, _y, _jatekTer, commandProcessor), Kirajzolhato, JatekosValtozasKezelo {
 
     var eletero = 20
     var ero = 0
@@ -98,24 +97,24 @@ open class Jatekos(_x: Int, _y: Int, _jatekTer: JatekTer, open var nev: String,
         XP += pont
     }
 
-    override val megjelenitendoMeret: Array<Int>
-        get() {
-            if (megjelenitendoMeret == null){
-                return arrayOf(ter.meretX, ter.meretY)
-            }
-            return megjelenitendoMeret
-        }
+//    val megjelenitendoMeret: Array<Int>
+//        get() {
+//            if (megjelenitendoMeret == null){
+//                return arrayOf(ter.meretX, ter.meretY)
+//            }
+//            return megjelenitendoMeret
+//        }
 
-    override fun MegjelenitendoElemek(): ArrayList<IKirajzolhato> {
-        val vissza = ArrayList<IKirajzolhato>()
-        val jatekElemek = ter.MegadottHelyenLevok(x, y, 5)
-        for (elem in jatekElemek){
-            if (elem is IKirajzolhato){
-                vissza.add(elem)
-            }
-        }
-        return vissza
-    }
+//    override fun MegjelenitendoElemek(): ArrayList<IKirajzolhato> {
+//        val vissza = ArrayList<IKirajzolhato>()
+//        val jatekElemek = ter.MegadottHelyenLevok(x, y, 5)
+//        for (elem in jatekElemek){
+//            if (elem is IKirajzolhato){
+//                vissza.add(elem)
+//            }
+//        }
+//        return vissza
+//    }
 
     override val alak: Int
         get() {

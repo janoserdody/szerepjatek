@@ -7,8 +7,6 @@ import android.os.SystemClock
 import com.e.keret.Keret
 import com.e.keret.RefreshTask
 import com.e.szabalyok.GepiJatekos
-import com.e.szabalyok.Jatekos
-import com.e.szabalyok.MozgasHalalMiattNemSikerultKivetel
 import com.e.szerepjatek.ViewModelMain
 import java.lang.ref.WeakReference
 
@@ -82,7 +80,7 @@ class UIUpdateRunnable(private val refreshTask: RefreshTask,
         }
 
             for (jatekos in gepiJatekosok){
-                    (jatekos as GepiJatekos)?.mozgas()
+                    jatekos?.mukodik()
             }
     }
 }

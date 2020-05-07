@@ -4,7 +4,6 @@ import com.e.keret.CommandId
 import com.e.keret.CommandProcessor
 import com.e.szabalyok.GepiJatekos
 import com.e.szabalyok.Jatekos
-import com.e.szabalyok.MozgasHalalMiattNemSikerultKivetel
 import com.e.szabalyok.MozgasHelyHianyMiattNemSikerultKivetel
 
 abstract class MozgoJatekElem(_x: Int, _y: Int, _jatekTer: JatekTer, private val commandProcessor: CommandProcessor)

@@ -1,6 +1,7 @@
 package com.e.keret
 
 import android.content.Context
+import com.e.automatizmus.IAutomatikusanMukodo
 import com.e.datalayer.JatekosFactory
 import com.e.datalayer.Music
 import com.e.datalayer.TapasztalatiPontok
@@ -26,7 +27,7 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
     private var jatekos: Jatekos? = null
     private val pontMap = TapasztalatiPontok.pontok
     private lateinit var jatekosFactory: JatekosFactory
-    private var gepiJatekosok = ArrayList<Jatekos?>(MAX_JATEKOS)
+    private var gepiJatekosok = ArrayList<IAutomatikusanMukodo?>(MAX_JATEKOS)
     private val lock: Lock = ReentrantLock()
 
     var eletero = 0
@@ -218,7 +219,7 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
             }
             else {
                 var gep = jatekosFactory.createJatekos(koordinatak[0], koordinatak[1], ter, nev, commandProcessor)
-                gepiJatekosok.add(gep)
+                gepiJatekosok.add(gep as IAutomatikusanMukodo)
             }
         }
     }
@@ -322,7 +323,7 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
         commandProcessor.Execute(CommandId.Gyozelem, args)
     }
 
-    fun jatekosRemove(jatekos: Jatekos) {
+    fun jatekosRemove(jatekos: IAutomatikusanMukodo) {
          try {
              if (lock.tryLock(3, TimeUnit.SECONDS)) {
                  gepiJatekosok.remove(jatekos)
@@ -335,8 +336,8 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
          }
     }
 
-    fun getGepiJatekosok(): List<Jatekos?> {
-        var result= mutableListOf<Jatekos?>()
+    fun getGepiJatekosok(): List<IAutomatikusanMukodo?> {
+        var result= mutableListOf<IAutomatikusanMukodo?>()
         try {
             if (lock.tryLock(3, TimeUnit.SECONDS)) {
                 result.addAll(gepiJatekosok)
@@ -363,7 +364,7 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
 
         j1.utkozes(j2, sebzes2)
         if (!j2.aktiv){
-            jatekosRemove(j2)
+            jatekosRemove(j2 as IAutomatikusanMukodo)
             szornyekSzama--
             if (szornyekSzama <= 0){
                 createGyozelemCommand()
@@ -379,7 +380,7 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
         }
 
         for (j in gepiJatekosok){
-            if (j?.nev == nev){
+            if ((j as Jatekos)?.nev == nev){
                 return j
             }
         }

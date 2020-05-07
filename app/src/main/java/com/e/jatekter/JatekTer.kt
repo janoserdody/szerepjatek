@@ -1,7 +1,5 @@
 package com.e.jatekter
 
-import com.e.megjelenites.IKirajzolhato
-import com.e.megjelenites.IMegjelenitheto
 import com.e.szabalyok.Fal
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.locks.Lock
@@ -10,7 +8,7 @@ import kotlin.math.sqrt
 
 // konstruktorban a var jelenti a publikus property-t
 // típust a kettőspont után adjuk meg
-class JatekTer(val meretX: Int, val meretY: Int): IMegjelenitheto, Runnable {
+class JatekTer(val meretX: Int, val meretY: Int): Runnable {
     val MAX_ELEMSZAM = 1000
     private var elemN = 0
     private val elemek =
@@ -155,20 +153,20 @@ class JatekTer(val meretX: Int, val meretY: Int): IMegjelenitheto, Runnable {
         return false
     }
 
-    override val megjelenitendoMeret: Array<Int>
-        get() {
-            return arrayOf(meretX, meretY)
-        }
+//    val megjelenitendoMeret: Array<Int>
+//        get() {
+//            return arrayOf(meretX, meretY)
+//        }
 
-    override fun MegjelenitendoElemek(): ArrayList<IKirajzolhato> {
-        var count: Int = 0
-        val vissza = ArrayList<IKirajzolhato>()
-        for (elem in elemek){
-            if (elem is IKirajzolhato){
-                count++
-                vissza.add(elem)
-            }
-        }
-        return vissza
-    }
+//    override fun MegjelenitendoElemek(): ArrayList<IKirajzolhato> {
+//        var count: Int = 0
+//        val vissza = ArrayList<IKirajzolhato>()
+//        for (elem in elemek){
+//            if (elem is IKirajzolhato){
+//                count++
+//                vissza.add(elem)
+//            }
+//        }
+//        return vissza
+//    }
 }

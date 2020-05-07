@@ -62,14 +62,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //val button = findViewById<Button>(R.id.button1)
-        //button?.setOnClickListener()
-        //  {
-        //val imageMonsterView = findViewById<ImageView>(R.id.imageView1)
-        //imageMonsterView.setImageResource(R.drawable.monster2);
-        //imageMonsterView.invalidate()
-        //  }
-
         var table = findViewById<TableLayout>(R.id.tableLayout1)
 
         //  6, 9 paraméterrel jól működik

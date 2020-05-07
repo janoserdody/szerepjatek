@@ -1,6 +1,6 @@
 package com.e.szabalyok
 
-import com.e.automatizmus.IAutomatikusanMukodo
+import com.e.automatizmus.AutomatikusanMukodo
 import com.e.jatekter.JatekTer
 import com.e.keret.CommandProcessor
 import com.e.szerepjatek.R
@@ -10,7 +10,7 @@ import java.util.*
 open class GepiJatekos(_x: Int, _y: Int, _jatekTer: JatekTer, override var nev: String,
                        override val mukodesIntervallum: Int, commandProcessor: CommandProcessor,
                        tulajdonsagok: JSONObject
-) : Jatekos(_x, _y, _jatekTer, nev, commandProcessor, tulajdonsagok), IAutomatikusanMukodo {
+) : Jatekos(_x, _y, _jatekTer, nev, commandProcessor, tulajdonsagok), AutomatikusanMukodo {
 
     override val alak: Int
         get() = R.drawable.fighter2

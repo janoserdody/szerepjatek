@@ -1,7 +1,7 @@
 package com.e.keret
 
 import android.content.Context
-import com.e.automatizmus.IAutomatikusanMukodo
+import com.e.automatizmus.AutomatikusanMukodo
 import com.e.datalayer.JatekosFactory
 import com.e.datalayer.Music
 import com.e.datalayer.TapasztalatiPontok
@@ -10,7 +10,6 @@ import com.e.szabalyok.*
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.locks.Lock
 import java.util.concurrent.locks.ReentrantLock
-import kotlin.math.exp
 import kotlin.random.Random
 
 class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: CommandProcessor, val context: Context)
@@ -27,7 +26,7 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
     private var jatekos: Jatekos? = null
     private val pontMap = TapasztalatiPontok.pontok
     private lateinit var jatekosFactory: JatekosFactory
-    private var gepiJatekosok = ArrayList<IAutomatikusanMukodo?>(MAX_JATEKOS)
+    private var gepiJatekosok = ArrayList<AutomatikusanMukodo?>(MAX_JATEKOS)
     private val lock: Lock = ReentrantLock()
 
     var eletero = 0
@@ -219,7 +218,7 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
             }
             else {
                 var gep = jatekosFactory.createJatekos(koordinatak[0], koordinatak[1], ter, nev, commandProcessor)
-                gepiJatekosok.add(gep as IAutomatikusanMukodo)
+                gepiJatekosok.add(gep as AutomatikusanMukodo)
             }
         }
     }
@@ -323,7 +322,7 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
         commandProcessor.Execute(CommandId.Gyozelem, args)
     }
 
-    fun jatekosRemove(jatekos: IAutomatikusanMukodo) {
+    fun jatekosRemove(jatekos: AutomatikusanMukodo) {
          try {
              if (lock.tryLock(3, TimeUnit.SECONDS)) {
                  gepiJatekosok.remove(jatekos)
@@ -336,8 +335,8 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
          }
     }
 
-    fun getGepiJatekosok(): List<IAutomatikusanMukodo?> {
-        var result= mutableListOf<IAutomatikusanMukodo?>()
+    fun getGepiJatekosok(): List<AutomatikusanMukodo?> {
+        var result= mutableListOf<AutomatikusanMukodo?>()
         try {
             if (lock.tryLock(3, TimeUnit.SECONDS)) {
                 result.addAll(gepiJatekosok)
@@ -364,7 +363,7 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
 
         j1.utkozes(j2, sebzes2)
         if (!j2.aktiv){
-            jatekosRemove(j2 as IAutomatikusanMukodo)
+            jatekosRemove(j2 as AutomatikusanMukodo)
             szornyekSzama--
             if (szornyekSzama <= 0){
                 createGyozelemCommand()

@@ -1,6 +1,6 @@
 package com.e.automatizmus
 
-interface IAutomatikusanMukodo {
+interface AutomatikusanMukodo {
     fun mukodik()
     val mukodesIntervallum: Int
 }

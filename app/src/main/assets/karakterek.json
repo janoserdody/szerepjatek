@@ -6,12 +6,12 @@
 			"ero": 18,
 			"allokepesseg": 12,
 			"gyorsasag": 15,
-			"ugyesseg": 11,
+			"ugyesseg": 16,
 			"szepseg": 8,
-			"egeszseg": 9,
+			"egeszseg": 14,
 			"akaratero": 16,
-			"asztral": 3,
-			"intelligencia": 14,
+			"asztral": 12,
+			"intelligencia": 19,
 			"muveltseg": 7
 		}
 	},
@@ -36,12 +36,12 @@
 		"data": {
 			"nev": "farkas",
 			"ero": 15,
-			"allokepesseg": 18,
+			"allokepesseg": 11,
 			"gyorsasag": 12,
-			"ugyesseg": 15,
+			"ugyesseg": 13,
 			"szepseg": 9,
-			"egeszseg": 17,
-			"akaratero": 17,
+			"egeszseg": 14,
+			"akaratero": 8,
 			"asztral": 3,
 			"intelligencia": 15,
 			"muveltseg": 1

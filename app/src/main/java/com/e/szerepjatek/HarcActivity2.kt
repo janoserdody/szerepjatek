@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.TextView
@@ -66,6 +67,18 @@ class HarcActivity2 : AppCompatActivity() {
         originalPlayerPoints = playerPoints
         originalMonsterPoints = monsterPoints
 
+        val kezdemenyezoErtek1 = calculateKezdemenyezoErtek(ero1, gyorsasag1, ugyesseg1, egeszseg1, intelligencia1)
+        val kezdemenyezoErtek2 = calculateKezdemenyezoErtek(ero2, gyorsasag2, ugyesseg2, egeszseg2, intelligencia2)
+
+        val tamadoErtek1 = calculateTamadoErtek(ero1, ugyesseg1, egeszseg1, intelligencia1)
+        val tamadoErtek2 = calculateTamadoErtek(ero2, ugyesseg2, egeszseg2, intelligencia2)
+
+        val vedoErtek1 = calculateVedoErtek(gyorsasag1, ugyesseg1, egeszseg1, asztral1, intelligencia1)
+        val vedoErtek2 = calculateVedoErtek(gyorsasag2, ugyesseg2, egeszseg2, asztral2, intelligencia2)
+
+        val fajdalomTures1 = calculateFajdalomTures(allokepesseg1, ugyesseg1, egeszseg1, akaratero1, intelligencia1)
+        val fajdalomTures2 = calculateFajdalomTures(allokepesseg2, ugyesseg2, egeszseg2, akaratero2, intelligencia2)
+
         viewPlayer = findViewById<View>(R.id.viewPlayer) as ImageView
         viewMonster = findViewById<View>(R.id.viewMonster) as ImageView
         textPlayer = findViewById<View>(R.id.textPlayer) as TextView
@@ -84,25 +97,49 @@ class HarcActivity2 : AppCompatActivity() {
             if (monsterPoints <= 0 || playerPoints <= 0){
                 return@setOnClickListener
             }
+            val rotate =
+                AnimationUtils.loadAnimation(applicationContext, R.anim.rotate)
 
             val monsterProba = r!!.nextInt(6) + 1
             val playerProba = r!!.nextInt(6) + 1
             setImageMonster(monsterProba)
             setImagePlayer(playerProba)
-            if (playerProba > monsterProba) {
-                val i = playerProba - monsterProba
-                monsterPoints -= i
+
+            if (kezdemenyezoErtek1 * playerProba > kezdemenyezoErtek2 * monsterProba){
+                val sebzes = tamadas(
+                    tamadoErtek1,
+                    tamadoErtek2,
+                    vedoErtek1,
+                    vedoErtek2,
+                    fajdalomTures1,
+                    fajdalomTures2,
+                    playerProba,
+                    monsterProba)
+
+                monsterPoints -= sebzes[1]
+                if (monsterPoints > 0){
+                    playerPoints -= sebzes[0]
+                }
             }
-            if (monsterProba > playerProba) {
-                val i = monsterProba - playerProba
-                playerPoints -= i
+            else {
+                val sebzes = tamadas(
+                    tamadoErtek2,
+                    tamadoErtek1,
+                    vedoErtek2,
+                    vedoErtek1,
+                    fajdalomTures2,
+                    fajdalomTures1,
+                    monsterProba,
+                    playerProba)
+
+                playerPoints -= sebzes[1]
+                if (playerPoints > 0){
+                    monsterPoints -= sebzes[0]
+                }
             }
-            textMonster!!.text = "Monster: $monsterPoints"
-            textPlayer!!.text = "Player: $playerPoints"
-            val rotate =
-                AnimationUtils.loadAnimation(applicationContext, R.anim.rotate)
-            viewMonster!!.startAnimation(rotate)
-            viewPlayer!!.startAnimation(rotate)
+
+            megjelenites(rotate)
+
             if (monsterPoints <= 0) {
                 imageViewMonster!!.setImageResource(R.drawable.halottmonster2)
                 imageViewMonster!!.startAnimation(rotate)
@@ -114,6 +151,111 @@ class HarcActivity2 : AppCompatActivity() {
                 finish()
             }
         }
+    }
+
+    private fun tamadas(
+        tamadoErtek1: Int,
+        tamadoErtek2: Int,
+        vedoErtek1: Int,
+        vedoErtek2: Int,
+        fajdalomTures1: Int,
+        fajdalomTures2: Int,
+        proba1: Int,
+        proba2: Int
+    ): Array<Int> {
+
+        var sebzes = arrayOf(0, 0)
+
+        var tamadas1 = proba1 * tamadoErtek1 / 8
+        var tamadas2 = proba2 * tamadoErtek2 / 8
+        var vedes1 = proba1 * vedoErtek1 / 12
+        var vedes2 = proba2 * vedoErtek2 / 12
+        var fajdalom1 = proba1 * fajdalomTures1 / 12
+        var fajdalom2 = proba2 * fajdalomTures2 / 12
+        // fájdalom csak pozitív egész szám lehet
+        if (fajdalom1 < 1 ){ fajdalom1 = 1}
+        if (fajdalom2 < 1 ){ fajdalom2 = 1}
+
+
+        if (tamadas1 > vedes2){
+            sebzes[1] = tamadas1 / fajdalom2
+        }
+
+        if (tamadas2 > vedes1){
+            sebzes[0] = tamadas2 / fajdalom1
+        }
+
+        return sebzes
+    }
+
+    private fun megjelenites(rotate: Animation) {
+        textMonster!!.text = "Monster: $monsterPoints"
+        textPlayer!!.text = "Player: $playerPoints"
+
+        viewMonster!!.startAnimation(rotate)
+        viewPlayer!!.startAnimation(rotate)
+    }
+
+    private fun calculateFajdalomTures(
+        allokepesseg: Int,
+        ugyesseg: Int,
+        egeszseg: Int,
+        akaratero: Int,
+        intelligencia: Int): Int {
+
+        val allokepessegD = allokepesseg - 10
+        val ugyessegD = ugyesseg - 10
+        val egeszsegD = egeszseg - 10
+        val akarateroD = akaratero - 10
+        val intelligenciaD = intelligencia - 10
+
+        return allokepessegD + ugyessegD + egeszsegD + akarateroD + intelligenciaD
+    }
+
+    private fun calculateVedoErtek(
+        gyorsasag: Int,
+        ugyesseg: Int,
+        egeszseg: Int,
+        asztral: Int,
+        intelligencia: Int): Int {
+
+        val gyorsasagD = gyorsasag - 10
+        val ugyessegD = ugyesseg - 10
+        val egeszsegD = egeszseg - 10
+        val asztralD = asztral - 10
+        val intelligenciaD = intelligencia - 10
+
+        return gyorsasagD + ugyessegD + egeszsegD + asztralD + intelligenciaD
+    }
+
+    private fun calculateTamadoErtek(
+        ero: Int,
+        ugyesseg: Int,
+        egeszseg: Int,
+        intelligencia: Int): Int {
+
+        val eroD = ero - 10
+        val ugyessegD = ugyesseg - 10
+        val egeszsegD = egeszseg - 10
+        val intelligenciaD = intelligencia - 10
+
+        return eroD + ugyessegD + egeszsegD + intelligenciaD
+    }
+
+    private fun calculateKezdemenyezoErtek(
+        ero: Int,
+        gyorsasag: Int,
+        ugyesseg: Int,
+        egeszseg: Int,
+        intelligencia: Int): Int {
+
+        val eroD = ero - 10
+        val gyorsasagD = gyorsasag - 10
+        val ugyessegD = ugyesseg - 10
+        val egeszsegD = egeszseg - 10
+        val intelligenciaD = intelligencia - 10
+
+        return eroD + gyorsasagD + ugyessegD + egeszsegD + intelligenciaD
     }
 
     fun setImageMonster(number: Int) {

@@ -21,7 +21,7 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
     private val PALYA_MERET_Y: Int
     //private val MAXFAL = 200
     private val FALMAXHOSSZ = 8
-    private val MAX_JATEKOS = 3
+    private val MAX_JATEKOS = 5
     private var szornyekSzama = MAX_JATEKOS - 1
     private var jatekos: Jatekos? = null
     private val pontMap = TapasztalatiPontok.pontok
@@ -204,7 +204,7 @@ class Keret(val ter: JatekTer, val KINCSEK_SZAMA: Int, val commandProcessor: Com
                 koordinatak = getFreePozition()
             } while (koordinatak.isEmpty())
 
-            if (jatekosokSzama >= 3){
+            if (jatekosokSzama >= MAX_JATEKOS){
                 break
             }
             jatekosokSzama++

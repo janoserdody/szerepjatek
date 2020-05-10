@@ -11,8 +11,7 @@ class Helykitolto(x: Int, y: Int, jatekTer: JatekTer) : RogzitettJatekElem(x, y,
         get() = 2.0
 
     override fun utkozes(jatekElem: JatekElem, serul: Int) {}
-    override val alak: Int
-        get() = R.drawable.background_negyzet
+    override var alak: Int = R.drawable.background_negyzet
 }
 
 

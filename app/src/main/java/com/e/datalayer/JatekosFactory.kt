@@ -7,6 +7,7 @@ import com.e.szabalyok.GepiJatekos
 import com.e.szabalyok.GonoszGepiJatekos
 import com.e.szabalyok.Jatekos
 import com.e.szerepjatek.MainActivity
+import com.e.szerepjatek.R
 import java.io.*
 import org.json.simple.JSONArray as JSONArray1
 import org.json.simple.JSONObject as JSONObject1

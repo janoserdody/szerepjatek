@@ -23,8 +23,7 @@ class Kincs(x: Int, y: Int, jatekTer: JatekTer, private val commandProcessor: Co
         kincsFelvetel(this, jatekElem as Jatekos)
     }
 
-    override val alak: Int
-        get() = R.drawable.treasure1
+    override var alak: Int = R.drawable.treasure1
 
     // a CommandProcessorra kell feliratkozni, ha valamelyik osztály
     // akar értesülni a kincsfelvételről

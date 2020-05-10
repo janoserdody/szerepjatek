@@ -9,7 +9,7 @@ import org.json.simple.JSONObject
 class GonoszGepiJatekos(_x: Int, _y: Int, _jatekTer: JatekTer, override var nev: String, mukodesIntervallum: Int,
                         commandProcessor: CommandProcessor, tulajdonsagok: JSONObject
 ) : GepiJatekos(_x, _y, _jatekTer, nev, mukodesIntervallum, commandProcessor, tulajdonsagok), AutomatikusanMukodo {
-    override val alak: Int
-        get() = R.drawable.monster2
+    override var alak: Int = 0
+
     override var Sebzes = 1
 }

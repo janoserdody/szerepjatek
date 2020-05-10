@@ -12,8 +12,7 @@ open class GepiJatekos(_x: Int, _y: Int, _jatekTer: JatekTer, override var nev: 
                        tulajdonsagok: JSONObject
 ) : Jatekos(_x, _y, _jatekTer, nev, commandProcessor, tulajdonsagok), AutomatikusanMukodo {
 
-    override val alak: Int
-        get() = R.drawable.fighter2
+    override var alak: Int = 0
 
     fun mozgas() {
         val iranyok = arrayOf(0, 0, 0, 0)

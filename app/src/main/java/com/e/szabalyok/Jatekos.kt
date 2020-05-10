@@ -13,6 +13,8 @@ open class Jatekos(_x: Int, _y: Int, _jatekTer: JatekTer, open var nev: String,
                    private val commandProcessor: CommandProcessor, tulajdonsagok: JSONObject) :
     MozgoJatekElem(_x, _y, _jatekTer, commandProcessor), Kirajzolhato, JatekosValtozasKezelo {
 
+    override var alak: Int = 0
+
     var eletero = 20
     var ero = 0
     var allokepesseg = 0
@@ -32,6 +34,34 @@ open class Jatekos(_x: Int, _y: Int, _jatekTer: JatekTer, open var nev: String,
     override val meret: Double
         get() = 0.2
 
+    private val kepek = mapOf("fighter1" to R.drawable.fighter1,
+        "orkharcos" to R.drawable.okrharcos,
+        "farkas" to R.drawable.farkas,
+        "medve" to R.drawable.medve ,
+        "tigris" to R.drawable.tigris ,
+        "patkany" to R.drawable.patkany ,
+        "pok" to R.drawable.pok ,
+        "solyom" to R.drawable.solyom ,
+        "anatyda" to R.drawable.anatyda ,
+        "arnyjaro" to R.drawable.arnyjaro ,
+        "demon" to R.drawable.demon ,
+        "sytix" to R.drawable.sytix ,
+        "shereb" to R.drawable.shereb ,
+        "morquor" to R.drawable.morquor ,
+        "xing" to R.drawable.xing ,
+        "molamoth" to R.drawable.molamoth ,
+        "golem" to R.drawable.golem ,
+        "kaoszleny" to R.drawable.kaoszleny ,
+        "pegazus" to R.drawable.pegazus ,
+        "sarkany" to R.drawable.sarkany ,
+        "zombi" to R.drawable.zombi ,
+        "varazslo" to R.drawable.varazslo ,
+        "kereskedo" to R.drawable.kereskedo ,
+        "kocsmaros" to R.drawable.kocsmaros ,
+        "fighter2" to R.drawable.fighter2 ,
+        "pap" to R.drawable.pap ,
+        "vandor" to R.drawable.vandor)
+
     init{
         setTulajdonsagok(tulajdonsagok)
     }
@@ -47,6 +77,7 @@ open class Jatekos(_x: Int, _y: Int, _jatekTer: JatekTer, open var nev: String,
         asztral = Integer.parseInt(obj["asztral"].toString())
         intelligencia = Integer.parseInt(obj["intelligencia"].toString())
         muveltseg = Integer.parseInt(obj["muveltseg"].toString())
+        alak = kepek[obj["kep"].toString()] as Int
     }
 
     override fun utkozes(jatekElem: JatekElem, sebzes: Int) {
@@ -96,14 +127,6 @@ open class Jatekos(_x: Int, _y: Int, _jatekTer: JatekTer, open var nev: String,
     fun pontotSzerez(pont: Int) {
         XP += pont
     }
-
-    override val alak: Int
-        get() {
-            if (aktiv){
-                return R.drawable.fighter1
-            }
-            return R.drawable.fighter2
-        }
 
     override fun jatekosValtozas(jatekos: Jatekos, ujXp: Int, ujEletero: Int) {
         if (this is GepiJatekos){
